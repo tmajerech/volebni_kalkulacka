@@ -1,0 +1,6 @@
+#these need to be installed first before running local due to unknown reasons
+
+#psycopg2
+psycopg2-binary==2.8.6 # https://pypi.org/project/psycopg2-binary/
+cryptography==3.3.1 # https://pypi.org/project/cryptography/
+Pillow==8.1.0
