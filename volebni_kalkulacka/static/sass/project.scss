@@ -1,6 +1,6 @@
 
 
-
+@import "_account.scss";
 
 // project specific CSS goes here
 
@@ -35,3 +35,150 @@ $red: #b94a48;
   border-color: $dark-pink;
   color: $red;
 }
+
+
+
+
+///////////////////////
+// GLOBAL VARIABLES 
+///////////////////////
+$blue_standard: #11457E;
+$red_standard: #D7141A;
+$black_standard: #202020;
+
+
+.btn-primary {
+  background-color: $blue_standard;
+  border-color: $blue_standard;
+  border-radius: 0;
+}
+.btn-secondary {
+  background-color: white;
+  color: $blue_standard;
+  border-radius: 0;
+
+  &:hover{
+
+  }
+}
+
+
+
+
+
+
+#page{
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+}
+
+
+
+/*HEADER*/
+header{
+  background-color: $blue_standard;
+
+  a{
+    font-weight: 500;
+  }
+
+  .navbar-expand-md{
+
+    @media (min-width: 768px){
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    #navbarSupportedContent{
+      flex-grow: initial;
+      margin-left: auto;
+    }
+
+  }
+}
+
+/*END HEADER*/
+
+
+/*FOOTER*/
+footer{
+  padding: 20px 0;
+  background-color: black;
+  color: white;
+  opacity: 0.5;
+  font-size: 14px;
+  margin-top: auto;
+
+  a{
+    color: white;
+    
+    &:not(:last-child){
+      margin-right: 15px;
+    }
+
+    &:hover{
+      color: lightgrey;
+    }
+  }
+}
+/*END FOOTER*/
+
+
+
+
+/*HOMEPAGE*/
+.home #page{
+  background-image: url('/static/images/frontpage-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  justify-content: space-between;
+
+  h1{
+    font-size: 50px;
+    font-weight: bold;
+    text-shadow: 0px 3px 6px black;
+  }
+  h2{
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 0px 3px 6px black;
+  }
+
+  .btn{
+    margin-top: 40px;
+    width: 390px;
+    max-width: 100%;
+    line-height: 63px;
+    font-weight: bold;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.7);
+  }
+
+  footer{
+    margin-top: 0;
+  }
+}
+/*END HOMEPAGE*/
+
+
+
+
+
+
+/*HOMEPAGE*/
+.account #page{
+  background-image: url('/static/images/frontpage-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  justify-content: space-between;
+
+
+
+  footer{
+    margin-top: 0;
+  }
+}
+/*END HOMEPAGE*/
