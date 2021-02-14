@@ -9,7 +9,7 @@
 <h1>Registrace</h1>
 
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" enctype="multipart/form-data" >
   {% csrf_token %}
   {{ form|crispy }}
   {% if redirect_field_value %}
