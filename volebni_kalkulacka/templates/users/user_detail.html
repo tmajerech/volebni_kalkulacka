@@ -1,28 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}User: {{ object.username }}{% endblock %}
+{% block title %}Uživatel: {{ object.username }}{% endblock %}
 
 {% block content %}
 <div class="container">
 
   <div class="row">
     <div class="col-sm-12">
+      <h2>Profil uživatele {{ object.username }}</h2>
+    </div>
+  </div>
 
-      <h2>{{ object.username }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
+
+<!-- PUBLIC -->
+  <div class="row">
+    <div class="col-12 col-md-2">
+      {% if object.profile_image %}
+      <img src="{{object.profile_image.url}}" alt="user profile image" class="img-fluid" >
       {% endif %}
     </div>
   </div>
 
+<!-- PROFILE OWNER -->
 {% if object == request.user %}
 <!-- Action buttons -->
 <div class="row">
 
   <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
+    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Upravit profil</a>
+    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">Upravit email</a>
     <!-- Your Stuff: Custom user template urls -->
   </div>
 

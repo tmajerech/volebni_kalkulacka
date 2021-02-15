@@ -19,7 +19,8 @@ class UserCreationForm(admin_forms.UserCreationForm):
         model = User
 
         error_messages = {
-            "username": {"unique": _("This username has already been taken.")}
+            "username": {"unique": _("This username has already been taken.")},
+            "email": {"unique": _("This email has already been taken.")}
         }
 
 
@@ -38,3 +39,9 @@ class SignupForm(forms.Form):
         user.last_name = self.cleaned_data['last_name']
         user.profile_image = self.cleaned_data['profile_image']
         user.save()
+
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['first_name', 'last_name', 'profile_image']

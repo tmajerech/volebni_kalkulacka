@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField, ImageField, DateTimeField
+from django.db.models import CharField, ImageField, DateTimeField, BooleanField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -13,6 +13,7 @@ class User(AbstractUser):
     last_name = CharField("Surname", blank=True, max_length=255)
     profile_image = ImageField(null=True, blank=True)
 
+    show_results_publicly = BooleanField(default=False)
 
     def get_absolute_url(self):
         """Get url for user's detail view.
