@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "volebni_kalkulacka.users.apps.UsersConfig",
+    "volebni_kalkulacka.kalkulacka"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -272,7 +273,7 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_SIGNUP_FORM_CLASS = 'users.forms.SignupForm'
-
+ACCOUNT_LOGOUT_REDIRECT_URL ="/accounts/login"
 
 # django-compressor
 # ------------------------------------------------------------------------------
