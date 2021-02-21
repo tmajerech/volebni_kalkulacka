@@ -42,9 +42,13 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres://localhost/volebni_kalkulacka")
+    "data_db": env.db("DATA_DATABASE_URL", default="postgres://localhost/volebnikalkulacka_data"),
+    "default": env.db("DATABASE_URL", default="postgres://localhost/volebnikalkulacka")
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
+DATABASES["data_db"]["ATOMIC_REQUESTS"] = True
+
+DATABASE_ROUTERS = ['volebni_kalkulacka.utils.dataRouter.DataRouter']
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -73,11 +77,13 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
 
     'django_activeurl',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 LOCAL_APPS = [
     "volebni_kalkulacka.users.apps.UsersConfig",
-    "volebni_kalkulacka.kalkulacka"
+    "volebni_kalkulacka.kalkulacka",
+    "volebni_kalkulacka.psp_data"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
