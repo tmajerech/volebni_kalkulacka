@@ -95,3 +95,12 @@ FILE_NAMES = {
 
 
 SELF_REFFERENCED = [ORGANY, ZARAZENI, POSLANEC,]
+
+PSP_FILES_TO_DOWNLOAD = [
+    'https://www.psp.cz/eknih/cdrom/opendata/poslanci.zip',
+    'https://www.psp.cz/eknih/cdrom/opendata/hl-2017ps.zip',
+    'https://www.psp.cz/eknih/cdrom/opendata/interp.zip',
+    'https://www.psp.cz/eknih/cdrom/opendata/steno.zip',
+    'https://www.psp.cz/eknih/cdrom/opendata/schuze.zip',
+    'https://www.psp.cz/eknih/cdrom/opendata/tisky.zip'
+]

@@ -5,7 +5,9 @@ import sys
 from decouple import config
 import logging
 from Logic.consts import *
+import logging
 
+logger = logging.getLogger(__name__)
 
 
 class DbManager(object):
@@ -29,8 +31,7 @@ class DbManager(object):
                 )
 
         except Exception as e:
-            print("Error while connecting to MySQL")
-            print(e)
+            logger.exception("Error while connecting to DB")
             sys.exit()
 
         return connection
@@ -75,13 +76,12 @@ class DbManager(object):
             return rowcount
 
         except Exception as e:
-            print('error batch inserting data')
-            print(e)
+            logger.exception('error batch inserting data')
             sys.exit()
 
     def close_db_connection(self):
         self.connection.close()
-        logger.info("MySQL connection is closed")
+        logger.info("DB connection is closed")
 
     def truncateTable(self, tablename):
         """
@@ -93,7 +93,6 @@ class DbManager(object):
             self.connection.commit()
             cursor.close()
         except Exception as e:
-            print("Error truncating table")
-            print(e)
+            logger.exception("Error truncating table")
             sys.exit()
-        print(f"table {tablename} truncated")
+        logger.info(f"table {tablename} truncated")
