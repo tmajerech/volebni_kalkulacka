@@ -83,7 +83,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "volebni_kalkulacka.users.apps.UsersConfig",
     "volebni_kalkulacka.kalkulacka",
-    "volebni_kalkulacka.psp_data"
+    "volebni_kalkulacka.psp_data",
+    "volebni_kalkulacka.schuze"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

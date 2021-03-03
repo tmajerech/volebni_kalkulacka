@@ -70,6 +70,9 @@ def main(argv):
         logger.info(f"Files inserted {count}")
 
 
+    #remove zmatecne hlasovani
+    dbmanager.removeZmatecneHlasovani()
+
     # close connection to database
     dbmanager.close_db_connection()
 

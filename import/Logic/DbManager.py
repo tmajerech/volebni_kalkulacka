@@ -96,3 +96,28 @@ class DbManager(object):
             logger.exception("Error truncating table")
             sys.exit()
         logger.info(f"table {tablename} truncated")
+
+    def removeZmatecneHlasovani(self):
+        """
+        Completely removes zmatecne hlasovani from hlasovani
+        """
+
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(f"""
+			DELETE FROM {APP_PREFIX}{HL_POSLANEC}
+            WHERE id_hlasovani IN(
+                SELECT id_hlasovani
+                FROM {APP_PREFIX}{ZMATECNE}
+            );
+			
+			DELETE FROM {APP_PREFIX}{HL_HLASOVANI}
+            WHERE id_hlasovani IN(
+                SELECT id_hlasovani
+                FROM {APP_PREFIX}{ZMATECNE}
+            );
+            """)
+            self.connection.commit()
+            cursor.close()
+        except Exception as e:
+            logger.exception('Error deleting zmatecne')

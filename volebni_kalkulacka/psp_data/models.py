@@ -231,3 +231,6 @@ class Hist(models.Model):
     zaver_sb_castka = models.CharField(max_length=255, null=True)
     zaver_sb_cislo = models.CharField(max_length=255, null=True)
     poznamka = models.CharField(max_length=255, null=True)
+
+class Zmatecne(models.Model):
+    id_hlasovani = models.IntegerField()

@@ -54,6 +54,10 @@
   border-color: #eed3d7;
   color: #b94a48; }
 
+body {
+  color: #11457E;
+  font-weight: 500; }
+
 .btn-primary {
   background-color: #11457E;
   border-color: #11457E;
@@ -63,6 +67,22 @@
   background-color: white;
   color: #11457E;
   border-radius: 0; }
+
+h1 {
+  font-size: 35px;
+  font-weight: bold;
+  color: black; }
+
+h2 {
+  font-size: 25px;
+  font-weight: 500; }
+
+.main-content {
+  padding-top: 50px;
+  padding-bottom: 50px; }
+
+.container {
+  max-width: 1600px; }
 
 #page {
   min-height: 100vh;
@@ -152,3 +172,96 @@ footer {
     margin-top: 0; }
 
 /*END HOMEPAGE*/
+/*SCHUZE*/
+.schuze .schuze-item {
+  padding-bottom: 20px; }
+
+.schuze ol {
+  list-style: none;
+  counter-reset: li;
+  padding-left: 0; }
+  .schuze ol li {
+    counter-increment: li;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer; }
+    .schuze ol li:before {
+      content: counter(li) ")";
+      color: red;
+      display: inline-block;
+      width: 1em;
+      position: absolute;
+      left: 0;
+      top: 0; }
+    .schuze ol li p {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: start;
+          -ms-flex-align: start;
+              align-items: flex-start; }
+    .schuze ol li p:before {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      content: "\f107";
+      margin-right: 10px;
+      -webkit-transform: rotate(-180deg);
+              transform: rotate(-180deg);
+      -webkit-transition: 0.3s;
+      transition: 0.3s; }
+    .schuze ol li[aria-expanded="false"] p:before {
+      -webkit-transform: rotate(0deg);
+              transform: rotate(0deg); }
+    .schuze ol li div {
+      padding-left: 22px; }
+      .schuze ol li div a {
+        color: grey; }
+        .schuze ol li div a.A {
+          color: #009F5E; }
+        .schuze ol li div a.R {
+          color: #D7141A; }
+        .schuze ol li div a:not(:last-child):after {
+          content: ','; }
+  .schuze ol .opener-wrap {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%; }
+    .schuze ol .opener-wrap hr {
+      position: absolute;
+      width: calc(50%);
+      left: 0;
+      right: 0;
+      top: calc(50% - 1px);
+      margin: 0 auto;
+      z-index: -1;
+      border-top: 1px solid #11457E; }
+    .schuze ol .opener-wrap .opener {
+      border-radius: 50%;
+      display: -webkit-inline-box;
+      display: -ms-inline-flexbox;
+      display: inline-flex;
+      width: 35px;
+      height: 35px;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      background-color: white; }
+      .schuze ol .opener-wrap .opener:before {
+        content: "\f103";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 19px;
+        line-height: 1; }
+    .schuze ol .opener-wrap.open .opener:before {
+      content: "\f102"; }
+  .schuze ol .opener-wrap:not(.open) ~ li {
+    display: none; }
+
+/*END SCHUZE*/

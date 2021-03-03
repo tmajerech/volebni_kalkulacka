@@ -25,6 +25,8 @@
 
 
     <!-- Your stuff: Third-party CSS libraries go here -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.0/css/all.css" crossorigin="anonymous"/>
+
     {% compress css %}
     <!-- This file stores project-specific CSS -->
 
@@ -76,7 +78,7 @@
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'about' %}">About</a>
+                <a class="nav-link" href="{% url 'schuze:schuze_index' %}">Schůze</a>
               </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">

@@ -31,6 +31,7 @@ TYP_AKCE = 'typ_akce'
 TYP_FUNKCE = 'typ_funkce'
 TYP_STAVU = 'typ_stavu'
 TYP_ZAKON = 'typ_zakon'
+ZMATECNE = 'zmatecne'
 
 
 
@@ -63,6 +64,7 @@ TABLE_HEADERS = {
     SCHUZE : ['id_schuze','id_org','schuze','od_schuze','do_schuze','aktualizace','pozvanka'],
     BOD_STAV : ['id_bod_stav','popis'],
     BOD_SCHUZE : ['id_bod','id_schuze','id_tisk','id_typ','bod','uplny_naz','uplny_kon','poznamka','id_bod_stav','pozvanka','rj','pozn2','druh_bodu','id_sd','zkratka'], 
+    ZMATECNE : ['id_hlasovani'],
 }
 
 
@@ -91,6 +93,7 @@ FILE_NAMES = {
     FUNKCE : FUNKCE,
     OMLUVY : OMLUVY,
     PKGPS : PKGPS,
+    ZMATECNE : ZMATECNE,
 }
 
 
