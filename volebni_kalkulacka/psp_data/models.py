@@ -39,7 +39,7 @@ class Funkce(models.Model):
 
 class Organy(models.Model):
     id_organ = models.AutoField(primary_key=True)
-    organ_id_organ = models.ForeignKey('self', models.DO_NOTHING, null=True)
+    organ_id_organ = models.ForeignKey('self', models.DO_NOTHING, null=True, db_column='organ_id_organ')
     id_typ_organu = models.ForeignKey('Typ_Organu', models.DO_NOTHING, db_column='id_typ_organu')
     zkratka = models.CharField(max_length=1000)
     nazev_organu_cz = models.CharField(max_length=2000)
@@ -111,7 +111,7 @@ class Poslanec(models.Model):
 
 class Zarazeni(models.Model):
     id_osoba = models.ForeignKey('Osoby', models.DO_NOTHING, db_column='id_osoba')
-    id_organ = models.ForeignKey('Organy', models.DO_NOTHING, db_column='id_organ')
+    id_of = models.ForeignKey('Organy', models.DO_NOTHING, db_column='id_of', null=True)
     cl_funkce = models.IntegerField()
     od_o = models.CharField(max_length=255)
     do_o = models.CharField(max_length=255, null=True)

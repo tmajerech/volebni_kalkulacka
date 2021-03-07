@@ -16,7 +16,8 @@ urlpatterns = [
     path("users/", include("volebni_kalkulacka.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path("schuze/", include("volebni_kalkulacka.schuze.urls", namespace="schuze"))
+    path("schuze/", include("volebni_kalkulacka.schuze.urls", namespace="schuze")),
+    path("poslanec/", include("volebni_kalkulacka.poslanec.urls", namespace="poslanec"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

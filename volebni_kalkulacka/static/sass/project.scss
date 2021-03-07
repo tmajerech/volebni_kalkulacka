@@ -75,6 +75,10 @@ h2{
   font-size: 25px;
   font-weight: 500;
 }
+h3{
+  font-size: 20px;
+  font-weight: bold;
+}
 
 .main-content{
   padding-top: 50px;
@@ -207,7 +211,7 @@ footer{
 
 
 /*SCHUZE*/
-.schuze{
+.schuze_page{
 
   .schuze-item{
     padding-bottom: 20px;
@@ -330,3 +334,96 @@ footer{
 
 }
 /*END SCHUZE*/
+
+
+
+
+/*POSLANEC*/
+.poslanec_page{
+
+
+  .name-wrap{
+    display: inline-flex;
+    flex-flow: column;
+    padding-left:15px;
+    padding-right: 15px;
+    color: $blue_standard;
+    text-decoration: none;
+  }
+  a:hover{
+    text-decoration: none;
+  }
+
+  .titles{
+    color: $red_standard;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 1;
+    display: block;
+
+    &.before{
+      text-align: left;
+      margin-left: -15px;
+      margin-bottom: 2px;
+    }
+    &.after{
+      text-align: right;
+      margin-right: -15px;
+    }
+  }
+  h3{
+    margin: 0;
+    line-height: 1;
+
+    &:not(.title-before){
+      margin-left: -15px;
+    }
+  }
+}
+
+
+.poslanec_detail{
+
+  .name-wrap{
+    display: inline-flex;
+    flex-flow: column;
+
+    h1{
+      line-height: 1.1;
+      margin: 0;
+
+      &.title-before{
+        padding-left: 25px;
+      }
+    }
+
+    .titles{
+      color: $red_standard;
+      font-size: 13px;
+      display: block;
+      margin: 0;
+      line-height: 1;
+
+      &.after{
+        text-align: right;
+        margin-right: -25px;
+      }
+
+    }
+  }
+
+  p.red{
+    color: $red_standard;
+    font-size: 13px;
+    display: block;
+    margin: 0;
+  }
+
+  .member_of span:not(:last-child):after{
+    content: ',';
+  }
+}
+
+/*END POSLANEC*/
+
+

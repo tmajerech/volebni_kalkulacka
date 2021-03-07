@@ -1,6 +1,7 @@
 from django import template
 from django.templatetags import static
 from config.settings.base import *
+from volebni_kalkulacka.psp_data.helpers import get_current_election_period
 
 register = template.Library()
 
@@ -28,3 +29,10 @@ def do_static(parser, token):
 def support_href():
     return "mailto:info@todo.cz?subject=?Dotaz_na_podporu"
 
+@register.simple_tag
+def poslanec_party(id_osoba, organ_set):
+
+    organ = organ_set.filter(zarazeni__id_osoba=id_osoba).first()
+
+
+    return organ.zkratka

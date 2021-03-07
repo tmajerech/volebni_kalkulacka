@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
+from volebni_kalkulacka.psp_data.helpers import get_current_election_period
 from volebni_kalkulacka.psp_data.models import Schuze, Bod_Schuze, Organy, Hl_Hlasovani
 
 class Schuze_index(generic.ListView):
@@ -14,14 +15,7 @@ class Schuze_index(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        id_org = ''
-        try:
-            #get latest election period id
-            id_org = Organy.objects.filter(zkratka__regex="PSP\d+\d?").latest('id_organ').id_organ
-        
-        except Exception as e:
-            print('error getting last election period')
-            print(e)
+        id_org = get_current_election_period()
 
         schuze_numbers = Schuze.objects.filter(pozvanka=1, id_org=id_org).order_by('schuze').values_list('schuze', flat=True)
         schuze = {}

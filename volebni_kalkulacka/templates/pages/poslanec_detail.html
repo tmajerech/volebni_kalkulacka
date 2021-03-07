@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block bodyclass %}poslanec_detail{% endblock %}
+
+
+{% block content %}
+<div class="name-wrap" >
+    <span class="before titles">{{poslanec_single.id_osoba.pred}}</span>
+    <h1 class="pageTitle {% if poslanec_single.id_osoba.pred != ' ' %}title-before{% endif %}">
+        {{poslanec_single.id_osoba.jmeno}} {{poslanec_single.id_osoba.prijmeni}}
+    </h1>
+    <span class="after titles">{{poslanec_single.id_osoba.za}}</span>
+</div>
+<div class="row">
+    <div class="col-12 rating">
+        starz
+    </div>
+    <div class="col-6 col-md-2">
+    {% if poslanec_single.foto == 1 %}
+        <img 
+        src="http://www.psp.cz/eknih/cdrom/2017ps/eknih/2017ps/poslanci/i{{ poslanec_single.id_osoba.pk }}.jpg" 
+        class="img-fluid"
+        alt="Poslanec profilový obrázek">
+    {% else %}
+        <img 
+        src="{% static 'images/profile_placeholder.jpg' %}" 
+        class="img-fluid default"
+        alt="Poslanec profilový obrázek">
+    {% endif %}
+    </div>
+    <div class="col-6 col-md-3">
+        <p class="red">Strana</p>
+        <p>{{party|default:"nezařaz."}}</p>
+        <p class="red">Kraj</p>
+        <p>{{poslanec_single.id_kraj.nazev_organu_cz}}</p>
+        <p class="red">Web</p>
+        <p>{{poslanec_single.web|default:"-"}}</p>
+    </div>
+    <div class="col-12 col-md-7">
+        <p class="red">Email</p>
+        <p>{{poslanec_single.email}}</p>
+        <p class="red">Kancelář</p>
+        <p>{{poslanec_single.ulice}}<br>{{poslanec_single.obec}} {{poslanec_single.psc}}</p>
+        <p class="red">Členem</p>
+        <p class="member_of" >
+        {% for institution in member_of %}
+            <span>{{institution}}</span>
+        {% endfor %}
+        </p>
+    </div>
+</div>
+<div class="row comments">
+    <h2>Komentáře</h2>
+</div>
+
+{% endblock content %}
