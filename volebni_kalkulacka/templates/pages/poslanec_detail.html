@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 
 {% load static %}
-
+{% load comments %}
 
 {% block bodyclass %}poslanec_detail{% endblock %}
 
 
 {% block content %}
-<div class="name-wrap" >
-    <span class="before titles">{{poslanec_single.id_osoba.pred}}</span>
+<div class="name-wrap mb-4" >
+    <span class="before titles">{{poslanec_single.id_osoba.pred}}&nbsp;</span>
     <h1 class="pageTitle {% if poslanec_single.id_osoba.pred != ' ' %}title-before{% endif %}">
         {{poslanec_single.id_osoba.jmeno}} {{poslanec_single.id_osoba.prijmeni}}
     </h1>
-    <span class="after titles">{{poslanec_single.id_osoba.za}}</span>
+    <span class="after titles">{{poslanec_single.id_osoba.za}}&nbsp;</span>
 </div>
-<div class="row">
-    <div class="col-12 rating">
-        starz
+<div class="row profile mb-5">
+    <div class="col-12 rating mb-3">
+        RATING
     </div>
     <div class="col-6 col-md-2">
     {% if poslanec_single.foto == 1 %}
@@ -52,8 +52,60 @@
         </p>
     </div>
 </div>
+
+<h2>Komentáře</h2>
 <div class="row comments">
-    <h2>Komentáře</h2>
+    <div class="col-12">
+        <div class="mb-3" >
+            <a href="#add-comment" 
+            data-toggle="collapse" 
+            aria-expanded="false" 
+            aria-controls="add-comment"  
+            class="toggle">Přidat komentář</a>
+        </div>
+    </div>
+    <div class="col-12  comments-list ">
+        {% get_comment_list for poslanec_single as comment_list %}
+        {% for comment in comment_list %}
+        <div class="comment">
+            <div class="user-img">
+                <img src="{{comment.user.profile_image.url}}" alt="user profile image" class="img-fluid">
+            </div>
+            <div class="content">
+                <p class="meta">
+                    <span class="username">{{comment.user_name}}</span>
+                    <span class="date">{{comment.submit_date|date:"d.m.Y h:i"}}</span>
+                </p>
+                <p class="text">
+                    {{comment.comment}}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="form-wrap">
+            <div class='collapse' id="add-comment" >
+            {% get_comment_form for poslanec_single as form %}
+            {% if user.is_authenticated %}
+                {% get_comment_form for poslanec_single as form %}
+                <form action="{% comment_form_target %}" method="POST">
+                {% csrf_token %}
+                {{ form.comment }}
+                {{ form.honeypot }}
+                {{ form.content_type }}
+                {{ form.object_pk }}
+                {{ form.timestamp }}
+                {{ form.security_hash }}
+                <input type="hidden" name="next" value="{% url 'poslanec:poslanec_detail' poslanec_single.pk %}" />
+                <div class="btns-wrap">
+                    <button type="submit" name="submit" class="btn btn-primary">Přidat komentář</button>
+                </div>
+                </form>
+            {% else %}
+                <p>Prosíme <a href="{% url 'auth_login' %}">přihlašte se</a> pro možnost přidávat komentáře.</p>
+            {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock content %}

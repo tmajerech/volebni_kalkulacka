@@ -15,6 +15,11 @@ urlpatterns = [
     # User management
     path("users/", include("volebni_kalkulacka.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+
+    #3rd party
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    path('comments/', include('django_comments.urls')),
+
     # Your stuff: custom urls includes go here
     path("schuze/", include("volebni_kalkulacka.schuze.urls", namespace="schuze")),
     path("poslanec/", include("volebni_kalkulacka.poslanec.urls", namespace="poslanec"))

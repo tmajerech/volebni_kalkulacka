@@ -48,7 +48,7 @@ DATABASES = {
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 DATABASES["data_db"]["ATOMIC_REQUESTS"] = True
 
-DATABASE_ROUTERS = ['volebni_kalkulacka.utils.dataRouter.DataRouter']
+#DATABASE_ROUTERS = ['volebni_kalkulacka.utils.dataRouter.DataRouter']
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -78,6 +78,8 @@ THIRD_PARTY_APPS = [
 
     'django_activeurl',
     'django_cleanup.apps.CleanupConfig',
+    'star_ratings',
+    'django_comments',
 ]
 
 LOCAL_APPS = [
@@ -192,7 +194,7 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "volebni_kalkulacka.utils.context_processors.settings_context",
+                "volebni_kalkulacka.utils.context_processors.settings_context"
             ],
         },
     }
@@ -290,3 +292,7 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+
+#https://pypi.org/project/django-star-ratings/
+STAR_RATINGS_ANONYMOUS = True
