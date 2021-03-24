@@ -29,10 +29,3 @@ def do_static(parser, token):
 def support_href():
     return "mailto:info@todo.cz?subject=?Dotaz_na_podporu"
 
-@register.simple_tag
-def poslanec_party(id_osoba, organ_set):
-
-    organ = organ_set.filter(zarazeni__id_osoba=id_osoba).first()
-
-
-    return organ.zkratka

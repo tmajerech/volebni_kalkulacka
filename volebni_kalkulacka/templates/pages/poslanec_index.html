@@ -17,10 +17,10 @@
     <div class="col-12 col-md-6 col-xl-3 mb-4 poslanec">
         <div class="row">
             <div class="col-4 profile-pic">
-                <a href="{% url 'poslanec:poslanec_detail' poslanec_single.pk %}">
+                <a href="{% url 'poslanec:poslanec_detail' poslanec_single.id_poslanec %}">
                 {% if poslanec_single.foto == 1 %}
                     <img 
-                    src="http://www.psp.cz/eknih/cdrom/2017ps/eknih/2017ps/poslanci/i{{ poslanec_single.id_osoba.pk }}.jpg" 
+                    src="http://www.psp.cz/eknih/cdrom/2017ps/eknih/2017ps/poslanci/i{{ poslanec_single.id_osoba }}.jpg" 
                     class="img-fluid"
                     alt="Poslanec profilový obrázek">
                 {% else %}
@@ -32,17 +32,17 @@
                 </a>
             </div>
             <div class="col-8 ">
-                <a href="{% url 'poslanec:poslanec_detail' poslanec_single.pk %}">
+                <a href="{% url 'poslanec:poslanec_detail' poslanec_single.id_poslanec %}">
                     <div class="name-wrap">
-                        <span class="titles before">{{poslanec_single.id_osoba.pred}}&nbsp;</span>
-                        <h3 class="{% if poslanec_single.id_osoba.pred != ' ' %}title-before{% endif %}" >
-                            {{poslanec_single.id_osoba.jmeno}} {{poslanec_single.id_osoba.prijmeni}}</h3>
-                        <span class="titles after">{{poslanec_single.id_osoba.za}}&nbsp;</span>
+                        <span class="titles before">{{poslanec_single.pred}}&nbsp;</span>
+                        <h3 class="{% if poslanec_single.pred != ' ' %}title-before{% endif %}" >
+                            {{poslanec_single.jmeno}} {{poslanec_single.prijmeni}}</h3>
+                        <span class="titles after">{{poslanec_single.za}}&nbsp;</span>
                     </div>
                 </a>
                 <div class="star-rating"></div>
                 <div class="party">
-                    {% poslanec_party poslanec_single.id_osoba.id_osoba parties %}
+                    {{poslanec_single.zkratka}}
                 </div>
             </div>
         </div>

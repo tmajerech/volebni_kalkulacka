@@ -97,7 +97,7 @@ FILE_NAMES = {
 }
 
 
-SELF_REFFERENCED = [ORGANY, ZARAZENI, POSLANEC,]
+SELF_REFFERENCED = [ORGANY, ZARAZENI, POSLANEC,HIST]
 
 PSP_FILES_TO_DOWNLOAD = [
     'https://www.psp.cz/eknih/cdrom/opendata/poslanci.zip',

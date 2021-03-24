@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block bodyclass %}hlasovani_page{% endblock %}
+
+
+{% block content %}
+<div class="mb-5" >
+    <h1 class="pageTitle mb-2">
+        Přehled důležitých hlasování
+    </h1>
+    <p>
+        Níže naleznete všechna podstatná hlasování o návrzích zákonů pro vybrané volební období.<br>
+        Hlasujte u jednotlivých položek a zjistěte nakolik jsou Vaše názory shodné s jednotlivými politiky.
+    </p>
+</div>
+<div class="row align-items-start list hlasovani-list infinite-container">
+    {% for hlasovani_single in hlasovani %}
+    <div class="col-12 col-md-4 mb-4 hlasovani infinite-item" >
+        <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}">{{hlasovani_single.nazev_dlouhy}}</a>
+        <div class="meta">
+            <div class="pro" title="Pro" ><span><i class="fas fa-check"></i></i></span>{{hlasovani_single.pro}}</div>
+            <div class="proti" title="Proti" ><span><i class="fas fa-times"></i></span>{{hlasovani_single.proti}}</div>
+            <div class="zdrzel" title="Zdrzel se" ><span>Z</span>{{hlasovani_single.zdrzel|add:hlasovani_single.nehlasoval}}</div>
+            <span class="divider">/</span>
+            <div class="prihlaseno" title="Přihlášeno" ><span>P</span>{{hlasovani_single.prihlaseno}}</div>
+            <div class="kvorum" title="Kvórum" ><span>Q</span>{{hlasovani_single.kvorum}}</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="pagination-wrap text-center">
+    {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}" class="infinite-more-link d-none">Další strana</a>
+        <div class="spinner-border loading" style="display:none;" role="status" ><span class="sr-only">Loading...</span></div>
+    {% endif %}
+</div>
+
+{% endblock content %}
+
+
+
+{% block inline_javascript %}
+<script type="text/javascript">
+    window.addEventListener('load', function () {
+        $(function () {
+            var infinite = new Waypoint.Infinite({
+                element: $('.infinite-container')[0],
+                onBeforePageLoad: function () {
+                    $('.loading').show();
+                },
+                onAfterPageLoad: function ($items) {
+                    $('.loading').hide();
+                }
+            })
+        })
+    })
+</script>
+{% endblock inline_javascript %}

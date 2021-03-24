@@ -1,6 +1,6 @@
 from django.db import models
 
-#czech attributes are used only to keep consitency with source of the data
+#czech attributes are used only to keep consitency with the source of data
 
 
 class Osoby(models.Model):
@@ -143,6 +143,13 @@ class Hl_Hlasovani(models.Model):
     nazev_dlouhy = models.CharField(max_length=255, null=True)
     nazev_kratky = models.CharField(max_length=255, null=True)
 
+class Hl_Hlasovani_Rating(models.Model):
+    id_hlasovani = models.OneToOneField('Hl_Hlasovani', models.DO_NOTHING, db_column='id_hlasovani', primary_key=True)
+    difference = models.DecimalField(max_digits=5, decimal_places=2, db_column='difference', default=0)
+    user_rating_up = models.IntegerField(default=0)
+    user_rating_down = models.IntegerField(default=0)
+    rating = models.DecimalField(max_digits=5, decimal_places=2, db_column='rating')
+
 class Hl_Poslanec(models.Model):
     id_poslanec = models.ForeignKey('Poslanec', models.DO_NOTHING, db_column='id_poslanec')
     id_hlasovani = models.ForeignKey('Hl_Hlasovani', models.DO_NOTHING, db_column='id_hlasovani')
@@ -219,7 +226,7 @@ class Hist(models.Model):
     #id_tisk = models.ForeignKey('Tisky', models.DO_NOTHING, db_column='id_tisk', null=True)
     id_tisk = models.IntegerField(null=True)
     datum = models.CharField(max_length=255, null=True)
-    id_hlas = models.IntegerField(null=True)
+    id_hlas = models.OneToOneField('Hl_Hlasovani', models.DO_NOTHING, db_column='id_hlas', null=True)
     id_prechod = models.ForeignKey(Prechody, models.DO_NOTHING, db_column='id_prechod', null=True)
     id_bod = models.IntegerField(null=True)
     schuze = models.IntegerField(null=True)

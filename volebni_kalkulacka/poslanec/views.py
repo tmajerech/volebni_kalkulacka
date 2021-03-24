@@ -9,9 +9,7 @@ from django.shortcuts import get_object_or_404
 from volebni_kalkulacka.psp_data.helpers import get_current_election_period
 from volebni_kalkulacka.psp_data.models import Poslanec, Organy
 
-from django import template
-
-register = template.Library()
+from django.db import connection
 
 class Poslanec_index(generic.ListView):
     model = Poslanec
@@ -22,14 +20,37 @@ class Poslanec_index(generic.ListView):
 
         id_org = get_current_election_period()
 
-        poslanec = Poslanec.objects.filter(id_obdobi=id_org).select_related('id_osoba').prefetch_related('id_osoba__zarazeni_set')
-        parties = Organy.objects.filter(
-            organ_id_organ=id_org,
-            id_typ_organu = 1, #1 stands for political party //Typ orgánu, viz typ_organu:id_typ_organu
-            )
+        sql = """
+        SELECT p.id_poslanec, o.zkratka, p.foto, p.id_osoba, os.pred, os.za, os.jmeno, os.prijmeni
+        FROM 
+            psp_data_poslanec AS p 
+            INNER JOIN psp_data_osoby as os
+	        ON p.id_osoba = os.id_osoba
+
+            INNER JOIN psp_data_zarazeni AS z 
+            ON p.id_osoba = z.id_osoba
+
+            INNER JOIN psp_data_organy as o
+            ON z.id_of = o.id_organ
+
+        WHERE 
+            p.id_obdobi = %s
+            and z.cl_funkce = 0
+            and z.do_o IS NULL
+            and o.organ_id_organ = %s
+            and o.id_typ_organu = 1
+        """
+
+        with connection.cursor() as cursor:
+            cursor.execute(sql, [id_org, id_org])
+            columns = [x.name for x in cursor.description]
+
+            poslanec = []
+            for row in cursor.fetchall():
+                row = dict(zip(columns, row))
+                poslanec.append(row)
 
         context['poslanec'] = poslanec
-        context['parties'] = parties
 
         return context
 

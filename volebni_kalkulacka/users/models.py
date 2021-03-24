@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField, ImageField, DateTimeField, BooleanField
+from django.contrib.postgres.fields import JSONField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -14,6 +15,8 @@ class User(AbstractUser):
     profile_image = ImageField(null=True, blank=True)
 
     show_results_publicly = BooleanField(default=False)
+    kalkulacka_answers = JSONField(null=True, blank=True)
+    kalkulacka_results = JSONField(null=True, blank=True)
 
     def get_absolute_url(self):
         """Get url for user's detail view.

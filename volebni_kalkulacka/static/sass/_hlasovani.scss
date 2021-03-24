@@ -1,0 +1,148 @@
+
+/* HLASOVANI */
+.hlasovani_page{
+    .hlasovani .meta{
+        display: flex;
+        opacity: 0.5;
+        
+        >div{
+        display: inline-flex;
+        align-items: center;
+
+        &:not(:last-child){
+            margin-right: 10px;
+        }
+
+        span{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            vertical-align: center;
+            margin-right: 5px;
+        }
+
+        &.pro span{
+            background-color: lightgreen;
+        }
+        &.proti span{
+            background-color: pink;
+        }
+        &.zdrzel span{
+            background-color: lightgrey;
+        }
+        &.nehlasoval span{
+            background-color: darkgray;
+        }
+        }
+
+
+    }
+}
+  
+  /*END HLASOVANI PREHLED*/
+
+
+
+.hlasovani_detail{
+
+    .row{
+        position: relative;
+    }
+
+    .voter{
+        
+        @media (min-width: 768px){
+            position: absolute;
+            width: 300px;
+            right: 0;
+            top: 0;
+        }
+
+
+        button{
+            color: white;
+            line-height: 1;
+            font-weight: 500;
+            opacity: 0.5;
+            transition: 0.3s;
+            width: calc(100% / 3);
+
+            &.active, &:hover{
+                opacity: 1;
+            }
+
+            &.pro{
+                background-color: #047104;
+                border-radius: 5px 0 0 5px;
+            }
+            &.zdrzel{
+                background-color: $blue_standard;
+                border-radius: 0;
+            }
+            &.proti{
+                background-color: #710404;
+                border-radius: 0 5px 5px 0;
+            }
+        }
+
+        &:not(.voted){
+            .cancel-wrap{
+                display: none;
+            }
+        }
+    }
+
+
+
+
+
+    .poslanci-voted{
+        .party{
+            margin-bottom: 50px;
+
+            h3{
+                text-align: center;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .members{
+                display: flex;
+                flex-wrap: wrap;
+    
+                .poslanec{
+                    width: calc(100% / 5);
+                
+                
+                    
+                }
+
+            }
+        }
+
+        .choice.vote-A{
+            background-color: green;
+        }
+        .choice.vote-B,
+        .choice.vote-N{
+            background-color: red;
+        }
+        .choice.vote-C{ //zdrzel
+            background-color: orange;
+        }
+        .choice{
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            background-color: lightgrey;
+            margin-right: 10px;
+        }
+    }
+}
+
+

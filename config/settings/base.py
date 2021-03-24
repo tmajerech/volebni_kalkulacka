@@ -86,7 +86,8 @@ LOCAL_APPS = [
     "volebni_kalkulacka.users.apps.UsersConfig",
     "volebni_kalkulacka.kalkulacka",
     "volebni_kalkulacka.psp_data",
-    "volebni_kalkulacka.schuze"
+    "volebni_kalkulacka.schuze",
+    "volebni_kalkulacka.hlasovani"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

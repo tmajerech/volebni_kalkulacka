@@ -1,154 +1,13 @@
 
 
+@import "_global.scss";
 @import "_account.scss";
+@import "_user.scss";
+@import "_hlasovani.scss";
 
 // project specific CSS goes here
 
-////////////////////////////////
-		//Variables//
-////////////////////////////////
 
-// Alert colors
-
-$white: #fff;
-$mint-green: #d6e9c6;
-$black: #000;
-$pink: #f2dede;
-$dark-pink: #eed3d7;
-$red: #b94a48;
-
-////////////////////////////////
-		//Alerts//
-////////////////////////////////
-
-// bootstrap alert CSS, translated to the django-standard levels of
-// debug, info, success, warning, error
-
-.alert-debug {
-  background-color: $white;
-  border-color: $mint-green;
-  color: $black;
-}
-
-.alert-error {
-  background-color: $pink;
-  border-color: $dark-pink;
-  color: $red;
-}
-
-
-
-
-///////////////////////
-// GLOBAL VARIABLES 
-///////////////////////
-$blue_standard: #11457E;
-$red_standard: #D7141A;
-$black_standard: #202020;
-$green_standard: #009F5E;
-
-body{
-  color: $blue_standard;
-  font-weight: 500;
-}
-
-.btn-primary {
-  background-color: $blue_standard;
-  border-color: $blue_standard;
-  border-radius: 0;
-}
-.btn-secondary {
-  background-color: white;
-  color: $blue_standard;
-  border-radius: 0;
-
-  &:hover{
-
-  }
-}
-h1{
-  font-size: 35px;
-  font-weight: bold;
-  color: black;
-}
-h2{
-  font-size: 25px;
-  font-weight: 500;
-}
-h3{
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.main-content{
-  padding-top: 50px;
-  padding-bottom: 50px; 
-}
-.container{
-  max-width: 1600px;
-}
-
-
-
-#page{
-  min-height: 100vh;
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: column;
-}
-.pageTitle{
-  margin-bottom: 40px;
-}
-
-
-/*HEADER*/
-header{
-  background-color: $blue_standard;
-
-  a{
-    font-weight: 500;
-  }
-
-  .navbar-expand-md{
-
-    @media (min-width: 768px){
-      width: 100%;
-      justify-content: space-between;
-    }
-
-    #navbarSupportedContent{
-      flex-grow: initial;
-      margin-left: auto;
-    }
-
-  }
-}
-
-/*END HEADER*/
-
-
-/*FOOTER*/
-footer{
-  padding: 20px 0;
-  background-color: black;
-  color: white;
-  opacity: 0.5;
-  font-size: 14px;
-  margin-top: auto;
-
-  a{
-    color: white;
-    
-    &:not(:last-child){
-      margin-right: 15px;
-    }
-
-    &:hover{
-      color: lightgrey;
-    }
-  }
-}
-/*END FOOTER*/
 
 
 
@@ -501,5 +360,13 @@ footer{
 }
 
 /*END POSLANEC*/
+
+
+
+
+
+
+
+
 
 

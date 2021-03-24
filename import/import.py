@@ -2,6 +2,8 @@ from Logic.consts import *
 from Logic.DbManager import DbManager
 import sys, os, logging, requests, zipfile, shutil, datetime, io
 from pathlib import Path
+from bs4 import BeautifulSoup
+import requests
 
 # start time counter
 begin_time = datetime.datetime.now()
@@ -30,16 +32,39 @@ logger.info(f"""
 
 def main(argv):
 
-    for file_to_download in PSP_FILES_TO_DOWNLOAD:
-        # Downloads zip
+
+    #scrape links to files
+    url = 'https://www.psp.cz/sqw/hp.sqw?k=1300'
+    download_url = 'https://www.psp.cz'
+    req = requests.get(url)
+    soup = BeautifulSoup(req.content, 'html.parser')
+    download_links = []
+
+    for link in soup.select('#main-content table:first-of-type tr td:first-child a'):
+        download_links.append(str(download_url + link.get('href').replace('..','')))
+
+
+    for link in download_links:
         try:
-            r = requests.get(file_to_download)
+            r = requests.get(link)
             z = zipfile.ZipFile(io.BytesIO(r.content))
             z.extractall(TEMP_PATH)
-            logger.info(f'File {file_to_download} downloaded')
+            logger.info(f'File {link} downloaded')
         except:
             logger.exception('Error downloading zip')
             sys.exit()
+
+
+    # for file_to_download in PSP_FILES_TO_DOWNLOAD:
+    #     # Downloads zip
+    #     try:
+    #         r = requests.get(file_to_download)
+    #         z = zipfile.ZipFile(io.BytesIO(r.content))
+    #         z.extractall(TEMP_PATH)
+    #         logger.info(f'File {file_to_download} downloaded')
+    #     except:
+    #         logger.exception('Error downloading zip')
+    #         sys.exit()
 
     # Initialize DB Manager
     dbmanager = DbManager()
@@ -71,7 +96,14 @@ def main(argv):
 
 
     #remove zmatecne hlasovani
+    logger.info("Removing zmatecne hlasovani")
     dbmanager.removeZmatecneHlasovani()
+    logger.info("Zmatecne hlasovani removed")
+
+    #fill ratings table with calculations
+    logger.info('Calculating hlasovani differences')
+    dbmanager.calculateHlasovaniRatings()
+    logger.info('Hlasovani differences calculated')
 
     # close connection to database
     dbmanager.close_db_connection()

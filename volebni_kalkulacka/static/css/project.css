@@ -1,49 +1,3 @@
-.account .formwrap {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 50px;
-  border-radius: 20px;
-  color: white; }
-  .account .formwrap h1 {
-    text-align: center;
-    color: white;
-    font-size: 35px;
-    font-weight: bold;
-    margin-bottom: 15px; }
-  .account .formwrap label {
-    font-weight: bold; }
-  .account .formwrap input {
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 0;
-    border-radius: 0;
-    color: white; }
-    .account .formwrap input::-webkit-input-placeholder {
-      color: lightgrey; }
-    .account .formwrap input::-moz-placeholder {
-      color: lightgrey; }
-    .account .formwrap input:-ms-input-placeholder {
-      color: lightgrey; }
-    .account .formwrap input::-ms-input-placeholder {
-      color: lightgrey; }
-    .account .formwrap input::placeholder {
-      color: lightgrey; }
-  .account .formwrap .buttons-wrap div:first-child {
-    margin-bottom: 10px; }
-  .account .formwrap .buttons-wrap .btn {
-    padding: 10px 5px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase; }
-  .account .formwrap button {
-    width: 100%; }
-
-.account .meta-wrap {
-  border-top: 1px solid white;
-  margin-top: 15px;
-  padding-top: 10px; }
-  .account .meta-wrap a {
-    color: white;
-    text-decoration: underline; }
-
 .alert-debug {
   background-color: #fff;
   border-color: #d6e9c6;
@@ -103,6 +57,14 @@ h3 {
 .pageTitle {
   margin-bottom: 40px; }
 
+.border-left-primary {
+  border-left: 4px solid #11457E;
+  border-left: 0.25rem solid #11457E; }
+
+.background-primary {
+  background-color: #11457E;
+  color: white; }
+
 /*HEADER*/
 header {
   background-color: #11457E; }
@@ -137,6 +99,184 @@ footer {
       color: lightgrey; }
 
 /*END FOOTER*/
+.loading .loader {
+  display: block; }
+
+.loader {
+  position: absolute;
+  display: none;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(225, 225, 225, 0.7);
+  z-index: 10; }
+  .loader.incol {
+    width: calc(100% - 30px);
+    left: 15px; }
+  .loader .spinner {
+    position: absolute;
+    left: calc(50% - 1rem);
+    top: calc(50% - 1rem); }
+
+.account .formwrap {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  border-radius: 20px;
+  color: white; }
+  .account .formwrap h1 {
+    text-align: center;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 15px; }
+  .account .formwrap label {
+    font-weight: bold; }
+  .account .formwrap input {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 0;
+    border-radius: 0;
+    color: white; }
+    .account .formwrap input::-webkit-input-placeholder {
+      color: lightgrey; }
+    .account .formwrap input::-moz-placeholder {
+      color: lightgrey; }
+    .account .formwrap input:-ms-input-placeholder {
+      color: lightgrey; }
+    .account .formwrap input::-ms-input-placeholder {
+      color: lightgrey; }
+    .account .formwrap input::placeholder {
+      color: lightgrey; }
+  .account .formwrap .buttons-wrap div:first-child {
+    margin-bottom: 10px; }
+  .account .formwrap .buttons-wrap .btn {
+    padding: 10px 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase; }
+  .account .formwrap button {
+    width: 100%; }
+
+.account .meta-wrap {
+  border-top: 1px solid white;
+  margin-top: 15px;
+  padding-top: 10px; }
+  .account .meta-wrap a {
+    color: white;
+    text-decoration: underline; }
+
+.user_detail .kalkulacka {
+  max-width: 900px;
+  margin: auto; }
+
+/* HLASOVANI */
+.hlasovani_page .hlasovani .meta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 0.5; }
+  .hlasovani_page .hlasovani .meta > div {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .hlasovani_page .hlasovani .meta > div:not(:last-child) {
+      margin-right: 10px; }
+    .hlasovani_page .hlasovani .meta > div span {
+      display: -webkit-inline-box;
+      display: -ms-inline-flexbox;
+      display: inline-flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      vertical-align: center;
+      margin-right: 5px; }
+    .hlasovani_page .hlasovani .meta > div.pro span {
+      background-color: lightgreen; }
+    .hlasovani_page .hlasovani .meta > div.proti span {
+      background-color: pink; }
+    .hlasovani_page .hlasovani .meta > div.zdrzel span {
+      background-color: lightgrey; }
+    .hlasovani_page .hlasovani .meta > div.nehlasoval span {
+      background-color: darkgray; }
+
+/*END HLASOVANI PREHLED*/
+.hlasovani_detail .row {
+  position: relative; }
+
+@media (min-width: 768px) {
+  .hlasovani_detail .voter {
+    position: absolute;
+    width: 300px;
+    right: 0;
+    top: 0; } }
+
+.hlasovani_detail .voter button {
+  color: white;
+  line-height: 1;
+  font-weight: 500;
+  opacity: 0.5;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  width: calc(100% / 3); }
+  .hlasovani_detail .voter button.active, .hlasovani_detail .voter button:hover {
+    opacity: 1; }
+  .hlasovani_detail .voter button.pro {
+    background-color: #047104;
+    border-radius: 5px 0 0 5px; }
+  .hlasovani_detail .voter button.zdrzel {
+    background-color: #11457E;
+    border-radius: 0; }
+  .hlasovani_detail .voter button.proti {
+    background-color: #710404;
+    border-radius: 0 5px 5px 0; }
+
+.hlasovani_detail .voter:not(.voted) .cancel-wrap {
+  display: none; }
+
+.hlasovani_detail .poslanci-voted .party {
+  margin-bottom: 50px; }
+  .hlasovani_detail .poslanci-voted .party h3 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px; }
+  .hlasovani_detail .poslanci-voted .party .members {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    .hlasovani_detail .poslanci-voted .party .members .poslanec {
+      width: calc(100% / 5); }
+
+.hlasovani_detail .poslanci-voted .choice.vote-A {
+  background-color: green; }
+
+.hlasovani_detail .poslanci-voted .choice.vote-B,
+.hlasovani_detail .poslanci-voted .choice.vote-N {
+  background-color: red; }
+
+.hlasovani_detail .poslanci-voted .choice.vote-C {
+  background-color: orange; }
+
+.hlasovani_detail .poslanci-voted .choice {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  background-color: lightgrey;
+  margin-right: 10px; }
+
 /*HOMEPAGE*/
 .home #page {
   background-image: url("/static/images/frontpage-bg.jpg");
