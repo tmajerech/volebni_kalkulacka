@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block bodyclass %}schuze_page{% endblock %}
+
+
+{% block content %}
+<div>
+    <h1 class="pageTitle">
+        Přehled schůzí
+    </h1>
+</div>
+<div class="row align-items-start list schuze-list">
+    {% for schuze_number, schuze_data in schuze.items %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4 schuze" >
+            <h2>Schůze #{{schuze_number}}</h2>
+            <ol>
+            {% for hlasovani_nazev, hlasovani_data in schuze_data.items %}
+                {% if forloop.counter == 11 %}
+                    <div class="opener-wrap" onclick="javaScript:$(this).toggleClass('open');" >
+                        <hr>
+                        <div class="opener" ></div>
+                    </div>
+                {% endif %}
+                <li 
+                    class="{% if hlasovani_data %}dropdown{% endif %}" 
+                    aria-expanded="false" 
+                    data-toggle="collapse"
+                    href="#s{{schuze_number}}i{{forloop.counter}}" 
+                >
+                    <p class="mb-0" >{{hlasovani_nazev}}</p>
+                    <div class="collapse" id="s{{schuze_number}}i{{forloop.counter}}">  
+                        {% for hlasovani_cislo, hlasovani_data in hlasovani_data.items %}
+                            <a class="{{hlasovani_data.vysledek}}" href="{{hlasovani_data.id_hlasovani}}" >
+                                {{hlasovani_cislo}}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+            </ol>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

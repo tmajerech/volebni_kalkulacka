@@ -1,0 +1,20 @@
+
+<div class="card border-left-primary shadow h-100 overflow-hidden">
+    <div class="card-header color-white background-primary rounded-0">
+        Poslanci
+    </div>
+    <div class="card-body">
+        {% for row in matching_result %}  
+        <div class="row">
+            <div class="col-9">        
+                <a href="{% url 'poslanec:poslanec_detail' row.id_poslanec %}" class="poslanec">
+                    {{row.jmeno}} {{row.prijmeni}} ({{row.zkratka}})
+                </a>
+            </div>
+            <div class="col-3 text-right">
+                {{row.match_ratio|floatformat:1}}%
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

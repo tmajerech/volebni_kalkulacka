@@ -1,0 +1,133 @@
+
+#Vybere všechny poslance v aktuálním volebním období - 172
+SELECT *
+FROM psp_data_poslanec AS p 
+	INNER JOIN psp_data_zarazeni AS z 
+	ON p.id_osoba = z.id_osoba
+
+	INNER JOIN psp_data_organy as o
+	ON z.id_of = o.id_organ
+
+WHERE p.id_obdobi = 172
+and z.cl_funkce = 0
+and z.do_o IS NULL
+and o.organ_id_organ = 172
+and o.id_typ_organu = 1
+
+
+
+#Všechna rozhodující hlasování
+SELECT * FROM `hl_hlasovani` as hh
+	INNER JOIN `hist` as h
+	ON h.id_hlas = hh.id_hlasovani
+    
+    INNER JOIN `prechody` as p
+    ON h.id_prechod = p.id_prechod
+    
+    INNER JOIN `stavy` as s
+    ON s.id_stav = p.kam
+    
+WHERE hh.id_organ = 172 
+
+
+
+
+#vybere důležitá hlasování která byla natěsno
+SELECT * FROM `hl_hlasovani` as hh
+	INNER JOIN `hist` as h
+	ON h.id_hlas = hh.id_hlasovani
+    
+    INNER JOIN `prechody` as p
+    ON h.id_prechod = p.id_prechod
+    
+    INNER JOIN `stavy` as s
+    ON s.id_stav = p.kam
+    
+WHERE hh.id_organ = 172
+AND (hh.pro BETWEEN ROUND(hh.kvorum*0.9,0) AND ROUND(hh.kvorum*1.1,0));
+
+
+
+#najde poslance k jednomu konkretnimu hl_hlasovani
+SELECT * FROM `hl_poslanec` AS hp 
+	INNER JOIN `poslanec` AS p 
+	ON hp.id_poslanec = p.id_poslanec 
+	
+	LEFT JOIN `osoba_extra` as oe 
+	ON p.id_osoba = oe.id_osoba 
+	
+WHERE hp.id_hlasovani = 67444
+
+
+
+
+--najde na zadane hlasovani vsechny podstatne informace o poslancich 
+SELECT hp.id_poslanec, hp.vysledek, o.zkratka, os.jmeno, os.prijmeni 
+FROM psp_data_hl_poslanec AS hp 
+	INNER JOIN psp_data_poslanec AS p 
+	ON hp.id_poslanec = p.id_poslanec 
+    
+    INNER JOIN psp_data_zarazeni AS z
+    ON p.id_osoba = z.id_osoba
+    
+    INNER JOIN psp_data_organy as o
+    ON z.id_of = o.id_organ
+    
+    INNER JOIN psp_data_osoby as os
+    ON os.id_osoba = p.id_osoba
+    
+WHERE hp.id_hlasovani = 67142 --konkretni jedno hlasovani
+AND z.cl_funkce = 0 --clenstvi
+AND z.do_o IS NULL
+AND o.organ_id_organ = 172 --Aktualni volebni obdobi
+AND o.id_typ_organu = 1 --Klub
+
+
+
+#vraci informace o jednotlivych rozdilnych hlasovanich jednotlivych poslancu
+CREATE TEMPORARY TABLE t1 
+(
+    SELECT id_hlasovani FROM `hl_hlasovani` as hh
+        INNER JOIN `hist` as h
+        ON h.id_hlas = hh.id_hlasovani
+
+        INNER JOIN `prechody` as p
+        ON h.id_prechod = p.id_prechod
+
+        INNER JOIN `stavy` as s
+        ON s.id_stav = p.kam
+
+    WHERE hh.id_organ = 172
+    AND (hh.pro BETWEEN ROUND(hh.kvorum*0.7,0) AND ROUND(hh.kvorum*1.3,0))
+);
+
+CREATE TEMPORARY TABLE t2
+(
+	#najde na zadane hlasovani vsechny podstatne informace o poslancich 
+        SELECT p.id_poslanec, p.id_osoba, o.zkratka  FROM `poslanec` AS p 
+
+        INNER JOIN `zarazeni` AS z
+        ON p.id_osoba = z.id_osoba
+
+        INNER JOIN `organy` as o
+        ON z.id_of = o.id_organ
+
+    
+    WHERE p.id_obdobi = 172
+    AND z.cl_funkce = 0 #clenstvi
+    AND o.organ_id_organ = 172 #Aktualni volebni obdobi
+    AND o.id_typ_organu = 1 #Klub
+);
+
+CREATE TEMPORARY TABLE t3
+(
+    select hp.id_poslanec,hp.id_hlasovani,hp.vysledek from hl_poslanec as hp
+    inner join t1
+    on t1.id_hlasovani = hp.id_hlasovani
+);
+
+SELECT t3.id_hlasovani, t3.id_poslanec, t2.id_osoba vysledek, zkratka from t3
+inner join t2
+on t2.id_poslanec = t3.id_poslanec
+      
+    

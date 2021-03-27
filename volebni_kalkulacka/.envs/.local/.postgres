@@ -1,7 +1,0 @@
-# PostgreSQL
-# ------------------------------------------------------------------------------
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_DB=volebni_kalkulacka
-POSTGRES_USER=vjZtIkTyKgMaZGLVWHVLySsLllRCbGVx
-POSTGRES_PASSWORD=TLNxHxdLmQdHSa8Y1roRkChSL6ySldgGC3LdmT9RNLf3PhEmz2Khncz6b39Pe6kU

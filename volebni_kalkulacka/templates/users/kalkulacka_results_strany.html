@@ -1,0 +1,18 @@
+
+<div class="card border-left-primary shadow h-100 overflow-hidden">
+    <div class="card-header color-white background-primary rounded-0">
+        Strany
+    </div>
+    <div class="card-body">
+    {% for row in matching_result %}
+        <div class="row">
+            <div class="col-9">        
+                {{row.zkratka}}
+            </div>
+            <div class="col-3">
+                {{row.match_ratio|floatformat:1}}%
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>

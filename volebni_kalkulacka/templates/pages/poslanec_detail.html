@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load comments %}
+
+{% block bodyclass %}poslanec_detail{% endblock %}
+
+
+{% block content %}
+<div class="name-wrap mb-4" >
+    <span class="before titles">{{poslanec_single.id_osoba.pred}}&nbsp;</span>
+    <h1 class="pageTitle {% if poslanec_single.id_osoba.pred != ' ' %}title-before{% endif %}">
+        {{poslanec_single.id_osoba.jmeno}} {{poslanec_single.id_osoba.prijmeni}}
+    </h1>
+    <span class="after titles">{{poslanec_single.id_osoba.za}}&nbsp;</span>
+</div>
+<div class="row profile mb-5">
+    <div class="col-12 rating mb-3">
+        RATING
+    </div>
+    <div class="col-6 col-md-2">
+    {% if poslanec_single.foto == 1 %}
+        <img 
+        src="http://www.psp.cz/eknih/cdrom/2017ps/eknih/2017ps/poslanci/i{{ poslanec_single.id_osoba.pk }}.jpg" 
+        class="img-fluid"
+        alt="Poslanec profilový obrázek">
+    {% else %}
+        <img 
+        src="{% static 'images/profile_placeholder.jpg' %}" 
+        class="img-fluid default"
+        alt="Poslanec profilový obrázek">
+    {% endif %}
+    </div>
+    <div class="col-6 col-md-3">
+        <p class="red">Strana</p>
+        <p>{{party|default:"nezařaz."}}</p>
+        <p class="red">Kraj</p>
+        <p>{{poslanec_single.id_kraj.nazev_organu_cz}}</p>
+        <p class="red">Web</p>
+        <p>{{poslanec_single.web|default:"-"}}</p>
+    </div>
+    <div class="col-12 col-md-7">
+        <p class="red">Email</p>
+        <p>{{poslanec_single.email}}</p>
+        <p class="red">Kancelář</p>
+        <p>{{poslanec_single.ulice}}<br>{{poslanec_single.obec}} {{poslanec_single.psc}}</p>
+        <p class="red">Členem</p>
+        <p class="member_of" >
+        {% for institution in member_of %}
+            <span>{{institution}}</span>
+        {% endfor %}
+        </p>
+    </div>
+</div>
+
+<h2>Komentáře</h2>
+<div class="row comments">
+    <div class="col-12">
+        <div class="mb-3" >
+            <a href="#add-comment" 
+            data-toggle="collapse" 
+            aria-expanded="false" 
+            aria-controls="add-comment"  
+            class="toggle">Přidat komentář</a>
+        </div>
+    </div>
+    <div class="col-12  comments-list ">
+        {% get_comment_list for poslanec_single as comment_list %}
+        {% for comment in comment_list %}
+        <div class="comment">
+            <div class="user-img">
+                <img src="{{comment.user.profile_image.url}}" alt="user profile image" class="img-fluid">
+            </div>
+            <div class="content">
+                <p class="meta">
+                    <span class="username">{{comment.user_name}}</span>
+                    <span class="date">{{comment.submit_date|date:"d.m.Y h:i"}}</span>
+                </p>
+                <p class="text">
+                    {{comment.comment}}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="form-wrap">
+            <div class='collapse' id="add-comment" >
+            {% get_comment_form for poslanec_single as form %}
+            {% if user.is_authenticated %}
+                {% get_comment_form for poslanec_single as form %}
+                <form action="{% comment_form_target %}" method="POST">
+                {% csrf_token %}
+                {{ form.comment }}
+                {{ form.honeypot }}
+                {{ form.content_type }}
+                {{ form.object_pk }}
+                {{ form.timestamp }}
+                {{ form.security_hash }}
+                <input type="hidden" name="next" value="{% url 'poslanec:poslanec_detail' poslanec_single.pk %}" />
+                <div class="btns-wrap">
+                    <button type="submit" name="submit" class="btn btn-primary">Přidat komentář</button>
+                </div>
+                </form>
+            {% else %}
+                <p>Prosíme <a href="{% url 'auth_login' %}">přihlašte se</a> pro možnost přidávat komentáře.</p>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

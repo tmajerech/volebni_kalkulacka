@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block bodyclass %}hlasovani_detail{% endblock %}
+
+
+{% block content %}
+<div>
+    <h1 class="pageTitle">
+        {{hlasovani_single.nazev_dlouhy}}     
+    </h1>
+</div>
+<div class="row mb-5">
+    <div class="col-12">
+        <p>            
+            Hlasování č. {{hlasovani_single.cislo}}<br>
+            Schůze {{hlasovani_single.schuze}}<br>
+            {{hlasovani_single.datum}} {{hlasovani_single.cas}}<br>
+        </p>
+        <p>Ano: {{hlasovani_single.pro}}</p>
+        <p>Ne: {{hlasovani_single.proti}}</p>
+        <p>Zdrzel: {{ hlasovani_single.zdrzel|add:hlasovani_single.nehlasoval }}</p>
+        <p>Pritomno: {{hlasovani_single.prihlaseno}}</p>
+        <p>Kvorum: {{hlasovani_single.kvorum}}</p>
+        
+        <p><a href="https://www.psp.cz/sqw/text/tiskt.sqw?O=8&CT={{tisk.ct}}" target="_blank" >Odkaz ke stažení tisku</a></p>
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class="col voter {% if hlasovani_single.pk|stringformat:'i' in request.user.kalkulacka_answers %}voted{% endif %}">
+        <div class="card border-left-primary shadow h-100 overflow-hidden overflow-hidden" >
+            <div class="loader"><div class="spinner-grow spinner" role="status"></div></div>
+            <div class="card-header background-primary rounded-0">
+                Hlasujte v této otázce
+            </div>
+            <div class="card-body">
+                <div class="row g-0">
+                    <button class="btn pro d-block {% if vote == 'A' %}active{% endif %}" onclick="javaScript:saveVote(this, 'A', '{{hlasovani_single.pk}}');" >Pro</button>
+                    <button class="btn zdrzel d-block {% if vote == 'K' %}active{% endif %}" onclick="javaScript:saveVote(this, 'K', '{{hlasovani_single.pk}}');">Zdržet se</button>
+                    <button class="btn proti d-block {% if vote == 'N' %}active{% endif %}" onclick="javaScript:saveVote(this, 'N', '{{hlasovani_single.pk}}');">Proti</button>
+                    <div class="col text-center mt-2 cancel-wrap">
+                        <a href='#' onclick="javaScript:saveVote(this, '', '{{hlasovani_single.pk}}');">Zrušit hlas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+<div class="poslanci-voted">
+    <h2>Hlasování poslanců podle stran</h2>
+{% for party, members in strany.items %}
+    <div class="party"> 
+        <h3>{{party}}</h3>
+        <div class="members">
+        {% for poslanec in members %}
+            <div class="poslanec">
+                <span class="choice vote-{{poslanec.vysledek}}"></span>
+                <a href="{% url 'poslanec:poslanec_detail' poslanec.id_poslanec %}">
+                    {{poslanec.jmeno}} {{poslanec.prijmeni}}
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>   
+{% endfor %}
+</div>
+
+{% endblock content %}
+
+
+{% block inline_javascript %}
+<script type="text/javascript">
+
+function saveVote(button, choice,id_hlasovani){
+
+    $voter = $(button).parents('.voter').first();
+    $voter.addClass('loading');
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "users:kalkulacka_save_vote" %}',
+        data: {
+            id_hlasovani: id_hlasovani,
+            choice: choice,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function(result){
+            $(button).addClass('active').siblings().removeClass('active');
+            $voter.removeClass('loading');
+            if(choice != ''){
+                $voter.addClass('voted');
+            }else{
+                $voter.removeClass('voted');
+                $voter.find('.btn').removeClass('active');
+            }
+        },
+        error: function(result){
+            console.log('error saving users vote');
+            console.log(result);
+            $voter.removeClass('loading');
+        }
+        })
+}
+
+</script>
+{% endblock inline_javascript %}
