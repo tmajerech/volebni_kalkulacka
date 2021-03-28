@@ -1,5 +1,6 @@
-from django.db import connection
-
+import psycopg2
+import psycopg2.extras
+from psycopg2.extras import RealDictCursor
 import pandas as pd
 import os
 import sys
@@ -8,13 +9,16 @@ import logging
 from .consts import *
 import logging
 
+from django.db import connections
+
 logger = logging.getLogger(__name__)
 
 
 class DbManager(object):
 
     def __init__(self):
-        self.connection = connection
+        self.connection = connections['default']
+
 
     def batch_insert_data(self, table_name, data):
         """
@@ -37,12 +41,11 @@ class DbManager(object):
                 values = values + ", %s"
 
             # prepare DB query
-            query = f'INSERT INTO {APP_PREFIX}{table_name}({headers}) VALUES ({values})'
+            query = f'INSERT INTO {APP_PREFIX}{table_name}({headers}) VALUES %s'
 
-            #print(query)
-            #print(data)
-
-            cursor.executemany(query, data)
+            psycopg2.extras.execute_values(
+                cursor, query, data, template=None, page_size=100
+            )
 
             #self refferenced table needs to be treated different
             #reenable triggers
@@ -107,19 +110,14 @@ class DbManager(object):
         Calculates rating for all hlasovani in hist and addes them to hl_hlasovani_rating table
         """
         try:
-            cursor = self.connection.cursor()
+            cursor = self.connection.cursor(cursor_factory=RealDictCursor)
             query=f"""
             SELECT * FROM {APP_PREFIX}{HL_HLASOVANI} as hh
             INNER JOIN {APP_PREFIX}{HIST} as h
             ON h.id_hlas = hh.id_hlasovani
             """
             cursor.execute(query)
-            columns = [x.name for x in cursor.description]
-
-            interesting_hlasovani = []
-            for row in cursor.fetchall():
-                row = dict(zip(columns, row))
-                interesting_hlasovani.append(row)
+            interesting_hlasovani = cursor.fetchall()
 
             data_values = []
             #loop through every hlasovani
@@ -173,9 +171,11 @@ class DbManager(object):
             logger.info('Calculation complete, inserting to DB')
 
             # prepare DB query
-            query = f'INSERT INTO psp_data_hl_hlasovani_rating(id_hlasovani, difference, rating, user_rating_down, user_rating_up) VALUES (%s, %s, %s, %s, %s)'
+            query = f'INSERT INTO psp_data_hl_hlasovani_rating(id_hlasovani, difference, rating, user_rating_down, user_rating_up) VALUES %s'
 
-            cursor.executemany(query, data_values)
+            psycopg2.extras.execute_values(
+                cursor, query, data_values, template=None, page_size=100
+            )
 
 
 
