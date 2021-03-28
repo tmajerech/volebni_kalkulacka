@@ -62,25 +62,28 @@ def runImport():
         logger.info(f"\n\nimporting {tablename}")
         dbmanager.truncateTable(tablename)
         counter = 0
+        total_count = 0
         data_to_insert = []
         filepath = f"{TEMP_PATH}/{filename}{FILE_EXTENSION}"
         filepath = os.path.join(cwd, filepath)
         with open(filepath, 'r', encoding="cp1250", errors='replace') as file:
             for line in file.readlines():
                 counter += 1
+                total_count += 1
                 data_to_insert.append(tuple(x if x != '' else None for x in line.split("|")[
                                         :len(TABLE_HEADERS.get(tablename))]))
                 # split data into pieces
                 if counter == 100000:
                     dbmanager.batch_insert_data(
                         tablename, data_to_insert)
-                    print(f"Files inserted {count}")
+                    print(f"Rows inserted {total_count}")
                     data_to_insert = []
+                    counter= 0
                     
 
         # insert remaining or small batch
         dbmanager.batch_insert_data(tablename, data_to_insert)
-        logger.info(f"Files inserted {count}")
+        logger.info(f"Rows inserted {total_count}")
 
 
     #remove zmatecne hlasovani
@@ -92,9 +95,6 @@ def runImport():
     logger.info('Calculating hlasovani differences')
     dbmanager.calculateHlasovaniRatings()
     logger.info('Hlasovani differences calculated')
-
-    # close connection to database
-    dbmanager.close_db_connection()
 
     # remove tmp files
     try:
