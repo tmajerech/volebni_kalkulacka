@@ -4,7 +4,7 @@
 DJANGO_SETTINGS_MODULE=config.settings.production
 DJANGO_SECRET_KEY=z1RwUFH7LgWgfDW5OEMkWZHyyg2eykkHpdfo1BHlSL9PT6BbXtwM2YYUioaZxib8
 DJANGO_ADMIN_URL=admin
-DJANGO_ALLOWED_HOSTS=['86.49.244.233']
+DJANGO_ALLOWED_HOSTS=['tomasmajerech.cz', 'www.tomasmajerech.cz', '0.0.0.0', '167.99.254.121']
 
 # Security
 # ------------------------------------------------------------------------------
