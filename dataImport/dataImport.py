@@ -1,5 +1,5 @@
-from Logic.consts import *
-from Logic.DbManager import DbManager
+from .Logic.consts import *
+from .Logic.DbManager import DbManager
 import sys, os, logging, requests, zipfile, shutil, datetime, io
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -26,11 +26,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-logger.info(f"""
-\n\n\n==============IMPORT.PY STARTED==============""")
 
+def runImport():
 
-def main(argv):
+    logger.info(f"""
+    \n\n\n==============IMPORT.PY STARTED==============""")
+
 
 
     #scrape links to files
@@ -53,18 +54,6 @@ def main(argv):
         except:
             logger.exception('Error downloading zip')
             sys.exit()
-
-
-    # for file_to_download in PSP_FILES_TO_DOWNLOAD:
-    #     # Downloads zip
-    #     try:
-    #         r = requests.get(file_to_download)
-    #         z = zipfile.ZipFile(io.BytesIO(r.content))
-    #         z.extractall(TEMP_PATH)
-    #         logger.info(f'File {file_to_download} downloaded')
-    #     except:
-    #         logger.exception('Error downloading zip')
-    #         sys.exit()
 
     # Initialize DB Manager
     dbmanager = DbManager()
@@ -118,5 +107,4 @@ def main(argv):
     # print total execution time
     logger.info(f"Execution time: {datetime.datetime.now() - begin_time}")
 
-if __name__ == "__main__":
-    main(sys.argv[1:])
+   

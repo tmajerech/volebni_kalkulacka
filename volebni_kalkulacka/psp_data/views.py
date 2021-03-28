@@ -1,14 +1,12 @@
-# from .forms import *
-# from django.views import generic
-# from bootstrap_modal_forms.generic import (BSModalCreateView,
-#                                            BSModalUpdateView,
-#                                            BSModalDeleteView)
 
-# from django.urls import reverse_lazy
-# from django.urls import reverse
-# from django.http import HttpResponseRedirect
+from django.views import generic
+from django.http import HttpResponse
 
-# from django.contrib import messages
+from dataImport.dataImport import runImport
 
-# from slinky.data_input.models import *
 
+def run_import(request):
+    print('start')
+    runImport()
+    print('end')
+    return HttpResponse('ok')

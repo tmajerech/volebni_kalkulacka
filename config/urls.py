@@ -23,7 +23,9 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("schuze/", include("volebni_kalkulacka.schuze.urls", namespace="schuze")),
     path("poslanec/", include("volebni_kalkulacka.poslanec.urls", namespace="poslanec")),
-    path("hlasovani/", include("volebni_kalkulacka.hlasovani.urls", namespace="hlasovani"))
+    path("hlasovani/", include("volebni_kalkulacka.hlasovani.urls", namespace="hlasovani")),
+    path("psp_data/", include("volebni_kalkulacka.psp_data.urls", namespace="psp_data"))
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

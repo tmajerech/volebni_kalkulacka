@@ -1,12 +1,11 @@
-import psycopg2
-import psycopg2.extras
-from psycopg2.extras import RealDictCursor
+from django.db import connection
+
 import pandas as pd
 import os
 import sys
 from decouple import config
 import logging
-from Logic.consts import *
+from .consts import *
 import logging
 
 logger = logging.getLogger(__name__)
@@ -15,28 +14,7 @@ logger = logging.getLogger(__name__)
 class DbManager(object):
 
     def __init__(self):
-        self.host = config('PG_HOST')
-        self.database = config('PG_DB')
-        self.user = config('PG_USER')
-        self.password = config('PG_PASSWORD')
-        self.connection = self.connect_to_db()
-
-
-    def connect_to_db(self):
-
-        connection = None
-        try:
-            connection = psycopg2.connect(
-                database = self.database,
-                user = self.user,
-                password = self.password,
-                )
-
-        except Exception as e:
-            logger.exception("Error while connecting to DB")
-            sys.exit()
-
-        return connection
+        self.connection = connection
 
     def batch_insert_data(self, table_name, data):
         """
@@ -59,18 +37,18 @@ class DbManager(object):
                 values = values + ", %s"
 
             # prepare DB query
-            query = f'INSERT INTO {APP_PREFIX}{table_name}({headers}) VALUES %s'
+            query = f'INSERT INTO {APP_PREFIX}{table_name}({headers}) VALUES ({values})'
 
-            psycopg2.extras.execute_values(
-                cursor, query, data, template=None, page_size=100
-            )
+            #print(query)
+            #print(data)
+
+            cursor.executemany(query, data)
 
             #self refferenced table needs to be treated different
             #reenable triggers
             if table_name in SELF_REFFERENCED:
                 cursor.execute(f"ALTER TABLE {APP_PREFIX}{table_name} ENABLE TRIGGER ALL;")
 
-            self.connection.commit()   # commit the changes
             
             rowcount = cursor.rowcount
 
@@ -92,7 +70,7 @@ class DbManager(object):
         try:
             cursor = self.connection.cursor()
             cursor.execute(f"TRUNCATE TABLE {APP_PREFIX}{tablename} CASCADE")
-            self.connection.commit()
+
             cursor.close()
         except Exception as e:
             logger.exception("Error truncating table")
@@ -119,7 +97,7 @@ class DbManager(object):
                 FROM {APP_PREFIX}{ZMATECNE}
             );
             """)
-            self.connection.commit()
+
             cursor.close()
         except Exception as e:
             logger.exception('Error deleting zmatecne')
@@ -129,14 +107,19 @@ class DbManager(object):
         Calculates rating for all hlasovani in hist and addes them to hl_hlasovani_rating table
         """
         try:
-            cursor = self.connection.cursor(cursor_factory=RealDictCursor)
+            cursor = self.connection.cursor()
             query=f"""
             SELECT * FROM {APP_PREFIX}{HL_HLASOVANI} as hh
             INNER JOIN {APP_PREFIX}{HIST} as h
             ON h.id_hlas = hh.id_hlasovani
             """
             cursor.execute(query)
-            interesting_hlasovani = cursor.fetchall()
+            columns = [x.name for x in cursor.description]
+
+            interesting_hlasovani = []
+            for row in cursor.fetchall():
+                row = dict(zip(columns, row))
+                interesting_hlasovani.append(row)
 
             data_values = []
             #loop through every hlasovani
@@ -190,13 +173,11 @@ class DbManager(object):
             logger.info('Calculation complete, inserting to DB')
 
             # prepare DB query
-            query = f'INSERT INTO psp_data_hl_hlasovani_rating(id_hlasovani, difference, rating, user_rating_down, user_rating_up) VALUES %s'
+            query = f'INSERT INTO psp_data_hl_hlasovani_rating(id_hlasovani, difference, rating, user_rating_down, user_rating_up) VALUES (%s, %s, %s, %s, %s)'
 
-            psycopg2.extras.execute_values(
-                cursor, query, data_values, template=None, page_size=100
-            )
+            cursor.executemany(query, data_values)
 
-            self.connection.commit()   # commit the changes
+
 
         except Exception as e:
             logger.exception('Error rating hlasovani')
