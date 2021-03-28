@@ -68,6 +68,7 @@ target/
 .venv
 venv/
 ENV/
+.env
 
 # Rope project settings
 .ropeproject
@@ -272,6 +273,9 @@ volebni_kalkulacka/media/
 
 
 .ipython/
-.env
-.envs/*
-!.envs/.local/
+.env
+
+.envs/*
+
+!.envs/.local/
+
