@@ -71,16 +71,15 @@ def runImport():
                 data_to_insert.append(tuple(x if x != '' else None for x in line.split("|")[
                                         :len(TABLE_HEADERS.get(tablename))]))
                 # split data into pieces
-                # if counter == 10:
-                #     count = dbmanager.batch_insert_data(
-                #         tablename, data_to_insert)
-                #     print(f"Files inserted {count}")
-                #     counter = 0
-                #     data_to_insert = []
-                #     break
+                if counter == 100000:
+                    dbmanager.batch_insert_data(
+                        tablename, data_to_insert)
+                    print(f"Files inserted {count}")
+                    data_to_insert = []
+                    
 
         # insert remaining or small batch
-        count = dbmanager.batch_insert_data(tablename, data_to_insert)
+        dbmanager.batch_insert_data(tablename, data_to_insert)
         logger.info(f"Files inserted {count}")
 
 
