@@ -286,6 +286,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_SIGNUP_FORM_CLASS = 'users.forms.SignupForm'
 ACCOUNT_LOGOUT_REDIRECT_URL ="/accounts/login"
+
 # django-compressor
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation

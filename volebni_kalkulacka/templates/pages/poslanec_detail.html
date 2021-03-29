@@ -55,6 +55,7 @@
 
 <h2>Komentáře</h2>
 <div class="row comments">
+    {% if request.user.is_authenticated %}
     <div class="col-12">
         <div class="mb-3" >
             <a href="#add-comment" 
@@ -85,7 +86,6 @@
         <div class="form-wrap">
             <div class='collapse' id="add-comment" >
             {% get_comment_form for poslanec_single as form %}
-            {% if user.is_authenticated %}
                 {% get_comment_form for poslanec_single as form %}
                 <form action="{% comment_form_target %}" method="POST">
                 {% csrf_token %}
@@ -100,12 +100,14 @@
                     <button type="submit" name="submit" class="btn btn-primary">Přidat komentář</button>
                 </div>
                 </form>
-            {% else %}
-                <p>Prosíme <a href="{% url 'auth_login' %}">přihlašte se</a> pro možnost přidávat komentáře.</p>
-            {% endif %}
             </div>
         </div>
     </div>
+    {% else %}
+      <div class="col-12">
+        <p>Prosíme <a href="/accounts/login/">přihlašte se</a> pro možnost přidávat komentáře.</p>
+      </div>
+    {% endif %}
 </div>
 
 {% endblock content %}

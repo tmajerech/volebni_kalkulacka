@@ -74,7 +74,10 @@ class Hlasovani_detail(generic.DetailView):
                     strany[strana] = [row]
 
         context['tisk'] = Tisky.objects.get(pk=hlasovani_single.hist.id_tisk)
-        context['vote'] = self.request.user.kalkulacka_answers.get(str(hlasovani_single.pk))
+
+        #only for logged in users
+        if self.request.user.is_authenticated:
+          context['vote'] = self.request.user.kalkulacka_answers.get(str(hlasovani_single.pk))
         context['strany'] = strany
 
         return context

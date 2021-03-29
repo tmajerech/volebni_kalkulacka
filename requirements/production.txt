@@ -3,6 +3,7 @@
 -r base.txt
 
 gunicorn==20.0.4  # https://github.com/benoitc/gunicorn
+gevent==21.1.2 # https://pypi.org/project/gevent/
 psycopg2==2.8.6  # https://github.com/psycopg/psycopg2
 
 # Django
