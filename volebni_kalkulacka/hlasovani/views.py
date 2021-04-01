@@ -19,7 +19,7 @@ class Hlasovani_index(generic.ListView):
     model = Hl_Hlasovani
     template_name = 'pages/hlasovani_index.html'
     context_object_name = 'hlasovani'
-    paginate_by = 1000
+    paginate_by = 40
 
     def get_queryset(self):
         inner_qs = Hist.objects.all().values_list('id_hlas', flat=True)
@@ -73,7 +73,10 @@ class Hlasovani_detail(generic.DetailView):
                 else:
                     strany[strana] = [row]
 
-        context['tisk'] = Tisky.objects.get(pk=hlasovani_single.hist.id_tisk)
+        try:
+          context['tisk'] = Tisky.objects.get(pk=hlasovani_single.hist.id_tisk)
+        except Exception as e:
+          pass
 
         #only for logged in users
         if self.request.user.is_authenticated:

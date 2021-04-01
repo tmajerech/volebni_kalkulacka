@@ -98,29 +98,45 @@ function runServer(cb) {
   })
 }
 
+// // Browser sync server for live reload
+// function initBrowserSync() {
+//     browserSync.init(
+//       [
+//         `${paths.css}/*.css`,
+//         `${paths.js}/*.js`,
+//         `${paths.templates}/*.html`
+//       ], {
+//         // https://www.browsersync.io/docs/options/#option-proxy
+//         proxy:  {
+//           target: 'django:8000',
+//           proxyReq: [
+//             function(proxyReq, req) {
+//               // Assign proxy "host" header same as current request at Browsersync server
+//               proxyReq.setHeader('Host', req.headers.host)
+//             }
+//           ]
+//         },
+//         // https://www.browsersync.io/docs/options/#option-open
+//         // Disable as it doesn't work from inside a container
+//         open: false
+//       }
+//     )
+// }
+
 // Browser sync server for live reload
+///// TAKEN FROM OLDER GULPFILE
 function initBrowserSync() {
-    browserSync.init(
-      [
-        `${paths.css}/*.css`,
-        `${paths.js}/*.js`,
-        `${paths.templates}/*.html`
-      ], {
-        // https://www.browsersync.io/docs/options/#option-proxy
-        proxy:  {
-          target: 'django:8000',
-          proxyReq: [
-            function(proxyReq, req) {
-              // Assign proxy "host" header same as current request at Browsersync server
-              proxyReq.setHeader('Host', req.headers.host)
-            }
-          ]
-        },
-        // https://www.browsersync.io/docs/options/#option-open
-        // Disable as it doesn't work from inside a container
-        open: false
-      }
-    )
+  browserSync.init(
+    [
+      `${paths.css}/*.css`,
+      `${paths.js}/*.js`,
+      `${paths.templates}/*.html`
+    ], {
+      // https://www.browsersync.io/docs/options/#option-proxy
+      proxy: 'localhost:8000'
+
+    }
+  )
 }
 
 // Watch
@@ -139,7 +155,13 @@ const generateAssets = parallel(
 )
 
 // Set up dev environment
+// const dev = parallel(
+//   initBrowserSync,
+//   watchPaths
+// )
+///////TAKEN FROM OLDER ENV
 const dev = parallel(
+  runServer,
   initBrowserSync,
   watchPaths
 )

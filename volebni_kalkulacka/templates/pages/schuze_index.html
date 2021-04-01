@@ -14,6 +14,7 @@
 </div>
 <div class="row align-items-start list schuze-list">
     {% for schuze_number, schuze_data in schuze.items %}
+        {% if schuze_data|length > 0 %}
         <div class="col-12 col-md-6 col-lg-4 mb-4 schuze" >
             <h2>Schůze #{{schuze_number}}</h2>
             <ol>
@@ -33,7 +34,7 @@
                     <p class="mb-0" >{{hlasovani_nazev}}</p>
                     <div class="collapse" id="s{{schuze_number}}i{{forloop.counter}}">  
                         {% for hlasovani_cislo, hlasovani_data in hlasovani_data.items %}
-                            <a class="{{hlasovani_data.vysledek}}" href="{{hlasovani_data.id_hlasovani}}" >
+                            <a class="{{hlasovani_data.vysledek}}" href="{% url 'hlasovani:hlasovani_detail' hlasovani_data.id_hlasovani %}" >
                                 {{hlasovani_cislo}}</a>
                         {% endfor %}
                     </div>
@@ -41,6 +42,7 @@
             {% endfor %}
             </ol>
         </div>
+        {% endif %}
     {% endfor %}
 </div>
 

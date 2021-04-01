@@ -25,7 +25,11 @@
         <p>Pritomno: {{hlasovani_single.prihlaseno}}</p>
         <p>Kvorum: {{hlasovani_single.kvorum}}</p>
         
+        {% if tisk %}
         <p><a href="https://www.psp.cz/sqw/text/tiskt.sqw?O=8&CT={{tisk.ct}}" target="_blank" >Odkaz ke stažení tisku</a></p>
+        {% endif %}
+        
+        
     </div>
     {% if request.user.is_authenticated %}
     <div class="col voter {% if hlasovani_single.pk|stringformat:'i' in request.user.kalkulacka_answers %}voted{% endif %}">
