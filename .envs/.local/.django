@@ -3,3 +3,4 @@
 #USE_DOCKER=no
 #IPYTHONDIR=/app/.ipython
 
+EMAIL_HOST = localhost
