@@ -2,11 +2,14 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+{% block head_title %}Potvrďte svoji emailovou adresu{% endblock %}
 
 {% block inner %}
-    <h1>{% trans "Verify Your E-mail Address" %}</h1>
+    <h1>Potvrďte svoji emailovou adresu</h1>
 
-    <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
+    <p>Na zadano emailovou adresu Vám byl odeslán potvrzovací email. Ověřte emailovou adresu kliknutím 
+      na odkaz v tomto emailu. Byste ověřovací email neobdrželi do několika minut, prosíme 
+      <a href="mailto:info@votesmart.cz">kontaktujte nás</a>.
+    </p>
 
 {% endblock %}

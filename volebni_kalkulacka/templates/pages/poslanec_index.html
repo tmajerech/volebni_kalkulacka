@@ -14,7 +14,7 @@
 </div>
 <div class="row align-items-start list poslanec-list">
     {% for poslanec_single in poslanec %}
-    <div class="col-12 col-md-6 col-xl-3 mb-4 poslanec">
+    <div class="col-12 col-sm-6 col-lg-4 mb-4 poslanec">
         <div class="row">
             <div class="col-4 profile-pic">
                 <a href="{% url 'poslanec:poslanec_detail' poslanec_single.id_poslanec %}">
@@ -43,6 +43,15 @@
                 <div class="star-rating"></div>
                 <div class="party">
                     {{poslanec_single.zkratka}}
+                </div>
+                <div class="rating">
+                    <div class="stars" title="Celkové hodnocení: {{poslanec_single.rating|floatformat:2}}" >
+                        <div class="star s-5 {% if poslanec_single.rating >= 4.5 %}half{% endif %} {% if poslanec_single.rating >= 5 %}full{% endif %} " data-value='5' ></div>
+                        <div class="star s-4 {% if poslanec_single.rating >= 3.5 %}half{% endif %} {% if poslanec_single.rating >= 4 %}full{% endif %} " data-value='4' ></div>
+                        <div class="star s-3 {% if poslanec_single.rating >= 2.5 %}half{% endif %} {% if poslanec_single.rating >= 3 %}full{% endif %} " data-value='3' ></div>
+                        <div class="star s-2 {% if poslanec_single.rating >= 1.5 %}half{% endif %} {% if poslanec_single.rating >= 2 %}full{% endif %} " data-value='2' ></div>
+                        <div class="star s-1 {% if poslanec_single.rating >= 0.5 %}half{% endif %} {% if poslanec_single.rating >= 1 %}full{% endif %} " data-value='1' ></div>
+                      </div>
                 </div>
             </div>
         </div>

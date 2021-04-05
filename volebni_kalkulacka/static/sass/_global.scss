@@ -1,5 +1,5 @@
 ////////////////////////////////
-		//Variables//
+//Variables//
 ////////////////////////////////
 
 // Alert colors
@@ -12,7 +12,7 @@ $dark-pink: #eed3d7;
 $red: #b94a48;
 
 ////////////////////////////////
-		//Alerts//
+//Alerts//
 ////////////////////////////////
 
 // bootstrap alert CSS, translated to the django-standard levels of
@@ -30,18 +30,15 @@ $red: #b94a48;
   color: $red;
 }
 
-
-
-
 ///////////////////////
-// GLOBAL VARIABLES 
+// GLOBAL VARIABLES
 ///////////////////////
-$blue_standard: #11457E;
-$red_standard: #D7141A;
+$blue_standard: #11457e;
+$red_standard: #d7141a;
 $black_standard: #202020;
-$green_standard: #009F5E;
+$green_standard: #009f5e;
 
-body{
+body {
   color: $blue_standard;
   font-weight: 500;
 }
@@ -55,78 +52,72 @@ body{
   background-color: white;
   color: $blue_standard;
   border-radius: 0;
-
 }
-h1{
+h1 {
   font-size: 35px;
   font-weight: bold;
   color: black;
 }
-h2{
+h2 {
   font-size: 25px;
   font-weight: 500;
 }
-h3{
+h3 {
   font-size: 20px;
   font-weight: bold;
 }
 
-.main-content{
+.main-content {
   padding-top: 50px;
-  padding-bottom: 50px; 
+  padding-bottom: 50px;
 }
-.container{
+.container {
   max-width: 1600px;
 }
 
-
-
-#page{
+#page {
   min-height: 100vh;
   display: flex;
   flex-wrap: wrap;
   flex-flow: column;
 }
-.pageTitle{
+.pageTitle {
   margin-bottom: 40px;
 }
 
 .border-left-primary {
-    border-left: 0.25rem solid $blue_standard;
+  border-left: 0.25rem solid $blue_standard;
 }
 .background-primary {
-    background-color: $blue_standard;
-    color: white;
+  background-color: $blue_standard;
+  color: white;
 }
 
 /*HEADER*/
-header{
+header {
   background-color: $blue_standard;
 
-  a{
+  a {
     font-weight: 500;
   }
 
-  .navbar-expand-md{
-
-    @media (min-width: 768px){
+  .navbar-expand-md {
+    @media (min-width: 768px) {
       width: 100%;
       justify-content: space-between;
     }
 
-    #navbarSupportedContent{
+    #navbarSupportedContent {
       flex-grow: initial;
       margin-left: auto;
     }
-
   }
 }
 
 /*END HEADER*/
 
-
 /*FOOTER*/
-footer{
+footer {
   padding: 20px 0;
   background-color: black;
   color: white;
@@ -134,26 +125,25 @@ footer{
   font-size: 14px;
   margin-top: auto;
 
-  a{
+  a {
     color: white;
-    
-    &:not(:last-child){
+
+    &:not(:last-child) {
       margin-right: 15px;
     }
 
-    &:hover{
+    &:hover {
       color: lightgrey;
     }
   }
 }
 /*END FOOTER*/
 
-
-.loading .loader{
+.loading .loader {
   display: block;
 }
 
-.loader{
+.loader {
   position: absolute;
   display: none;
   left: 0;
@@ -163,14 +153,32 @@ footer{
   background-color: rgba(225, 225, 225, 0.7);
   z-index: 10;
 
-  &.incol{
+  &.incol {
     width: calc(100% - 30px);
     left: 15px;
   }
 
-  .spinner{
+  .spinner {
     position: absolute;
     left: calc(50% - 1rem);
     top: calc(50% - 1rem);
+  }
+}
+
+.hlasovani_detail {
+  .col-12 a {
+    animation: glow alternate infinite 2s;
+  }
+}
+
+@-webkit-keyframes glow {
+  0% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
   }
 }

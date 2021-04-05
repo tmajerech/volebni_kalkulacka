@@ -9,5 +9,5 @@ class UsersConfig(AppConfig):
     def ready(self):
         try:
             import volebni_kalkulacka.users.signals  # noqa F401
-        except ImportError:
+        except ImportError as e:
             pass

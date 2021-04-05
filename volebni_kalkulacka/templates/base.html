@@ -92,20 +92,20 @@
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
+                  <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">Profil</a>
                 </li>
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+                  <a class="nav-link" href="{% url 'account_logout' %}">Odhlásit</a>
                 </li>
               {% else %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+                  <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">Registrovat</a>
                 </li>
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+                  <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">Přihlásit</a>
                 </li>
               {% endif %}
             </ul>
@@ -137,8 +137,8 @@
           <div class="row">
             {% activeurl %}
             <div class="col-12 col-md-6 text-center text-md-left mb-4 mb-md-0">
-              <a href="#">Kontakt</a>
-              <a href="#">O nás</a>
+              <a href="{% url 'about' %}#kontakt">Kontakt</a>
+              <a href="{% url 'about' %}#projekt">O nás</a>
             </div>
             {% endactiveurl %}
             <div class="col-12 col-md-6 text-center text-md-right">

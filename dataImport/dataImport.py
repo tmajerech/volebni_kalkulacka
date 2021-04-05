@@ -1,6 +1,13 @@
 from .Logic.consts import *
 from .Logic.DbManager import DbManager
-import sys, os, logging, requests, zipfile, shutil, datetime, io
+import sys
+import os
+import logging
+import requests
+import zipfile
+import shutil
+import datetime
+import io
 from pathlib import Path
 from bs4 import BeautifulSoup
 import requests
@@ -11,7 +18,7 @@ begin_time = datetime.datetime.now()
 # set up working directory
 cwd = Path(__file__).parent.absolute()
 
-#temporary storage for downloaded files
+# temporary storage for downloaded files
 TEMP_PATH = os.path.join(cwd, 'TMP')
 
 # set up logger
@@ -32,9 +39,7 @@ def runImport():
     logger.info(f"""
     \n\n\n==============IMPORT.PY STARTED==============""")
 
-
-
-    #scrape links to files
+    # scrape links to files
     url = 'https://www.psp.cz/sqw/hp.sqw?k=1300'
     download_url = 'https://www.psp.cz'
     req = requests.get(url)
@@ -42,8 +47,7 @@ def runImport():
     download_links = []
 
     for link in soup.select('#main-content table:first-of-type tr td:first-child a'):
-        download_links.append(str(download_url + link.get('href').replace('..','')))
-
+        download_links.append(str(download_url + link.get('href').replace('..', '')))
 
     for link in download_links:
         try:
@@ -71,30 +75,33 @@ def runImport():
                 counter += 1
                 total_count += 1
                 data_to_insert.append(tuple(x if x != '' else None for x in line.split("|")[
-                                        :len(TABLE_HEADERS.get(tablename))]))
+                    :len(TABLE_HEADERS.get(tablename))]))
                 # split data into pieces
                 if counter == 100000:
                     dbmanager.batch_insert_data(
                         tablename, data_to_insert)
                     print(f"Rows inserted {total_count}")
                     data_to_insert = []
-                    counter= 0
-                    
+                    counter = 0
 
         # insert remaining or small batch
         dbmanager.batch_insert_data(tablename, data_to_insert)
         logger.info(f"Rows inserted {total_count}")
 
-
-    #remove zmatecne hlasovani
+    # remove zmatecne hlasovani
     logger.info("Removing zmatecne hlasovani")
     dbmanager.removeZmatecneHlasovani()
     logger.info("Zmatecne hlasovani removed")
 
-    #fill ratings table with calculations
+    # fill ratings table with calculations
     logger.info('Calculating hlasovani differences')
     dbmanager.calculateHlasovaniRatings()
     logger.info('Hlasovani differences calculated')
+
+    # replace weird characters in hlasovani names
+    logger.info('Replacing weird characters')
+    dbmanager.replaceWeirdCharacters()
+    logger.info('Replace complete')
 
     # remove tmp files
     try:
@@ -105,5 +112,3 @@ def runImport():
 
     # print total execution time
     logger.info(f"Execution time: {datetime.datetime.now() - begin_time}")
-
-   

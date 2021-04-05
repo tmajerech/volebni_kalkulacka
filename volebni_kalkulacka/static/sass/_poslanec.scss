@@ -1,0 +1,69 @@
+
+
+
+
+
+
+.rating .stars{
+    display:inline-flex;
+    flex-direction: row-reverse;
+
+    justify-content: space-between;
+  }
+  .star{
+    width: 28px;
+    text-align: center;
+
+    &::after{
+      content: '\f005';
+      font-family: "Font Awesome 5 Free";
+      font-size: 19px;
+      transition: 0.2s;
+    }
+
+    &.half{
+      &:after{
+        content: '\f5c0';
+        font-weight: bold;
+      }
+    }
+    &.full{
+      &:after{
+        content: '\f005';
+        font-weight: bold;
+      }
+    }
+
+  }
+
+.poslanec_detail{
+    .star{
+        cursor: pointer;
+
+        &:hover::after{
+            content: '\f005'!important;
+            font-weight: bold;
+            color: $red_standard;  
+          }
+          &:hover~.star::after{
+            content: '\f005';
+            font-weight: bold;
+            color: $red_standard;
+          }
+    }
+  
+}
+
+.poslanec_page{
+    .rating .stars{
+        .star{
+            width: 15px;
+            &::after{
+                font-size: 12px;
+            }
+        }
+        
+
+    }
+
+}

@@ -4,6 +4,7 @@
     .hlasovani .meta{
         display: flex;
         opacity: 0.5;
+        flex-wrap: wrap;
         
         >div{
         display: inline-flex;

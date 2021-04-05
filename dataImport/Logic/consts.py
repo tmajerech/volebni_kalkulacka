@@ -107,3 +107,12 @@ PSP_FILES_TO_DOWNLOAD = [
     'https://www.psp.cz/eknih/cdrom/opendata/schuze.zip',
     'https://www.psp.cz/eknih/cdrom/opendata/tisky.zip'
 ]
+
+
+
+weirdChars = [
+    ('ľ', 'ž'),
+    ('ą', 'š'),
+    ('»', 'ť'),
+    ('®', 'Ž'),
+]

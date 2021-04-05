@@ -12,11 +12,26 @@
     <h1 class="pageTitle {% if poslanec_single.id_osoba.pred != ' ' %}title-before{% endif %}">
         {{poslanec_single.id_osoba.jmeno}} {{poslanec_single.id_osoba.prijmeni}}
     </h1>
-    <span class="after titles">{{poslanec_single.id_osoba.za}}&nbsp;</span>
+    <span class="after titles">{{poslanec_single.id_osoba.za}}</span>
 </div>
 <div class="row profile mb-5">
     <div class="col-12 rating mb-3">
-        RATING
+      <div class="stars" title="Celkové hodnocení: {{rating|floatformat:2}}" >
+        <div class="star s-5 {% if rating >= 4.5 %}half{% endif %} {% if rating >= 5 %}full{% endif %} " data-value='5' ></div>
+        <div class="star s-4 {% if rating >= 3.5 %}half{% endif %} {% if rating >= 4 %}full{% endif %} " data-value='4' ></div>
+        <div class="star s-3 {% if rating >= 2.5 %}half{% endif %} {% if rating >= 3 %}full{% endif %} " data-value='3' ></div>
+        <div class="star s-2 {% if rating >= 1.5 %}half{% endif %} {% if rating >= 2 %}full{% endif %} " data-value='2' ></div>
+        <div class="star s-1 {% if rating >= 0.5 %}half{% endif %} {% if rating >= 1 %}full{% endif %} " data-value='1' ></div>
+      </div>
+      {% if user.is_authenticated %}
+      <p class="rated small mb-0" {% if not  user_rated %} style="display:none;" {% endif %} >Vaše hodnocení: <span class="user_rated" >{{user_rated|floatformat}}</span>/5</p>
+      <a href="javaScript:removeRating();" class="remove_rating small" {% if not  user_rated %} style="display:none;" {% endif %} >Zrušit</a>
+      {% else %}
+      <p class="login_required small" style="display:none;" >
+        Hodnocení je umožněno pouze přihlášeným uživatelům. Přihlašte se <a href="/accounts/login">zde</a>.
+      </p>
+      {% endif %}
+
     </div>
     <div class="col-6 col-md-2">
     {% if poslanec_single.foto == 1 %}
@@ -43,7 +58,11 @@
         <p class="red">Email</p>
         <p>{{poslanec_single.email}}</p>
         <p class="red">Kancelář</p>
+        {% if poslanec_single.ulice != None or poslanec_single.obec != None or poslanec_single.psc != None  %}
         <p>{{poslanec_single.ulice}}<br>{{poslanec_single.obec}} {{poslanec_single.psc}}</p>
+        {% else %}
+        <p>-</p>
+        {% endif %}
         <p class="red">Členem</p>
         <p class="member_of" >
         {% for institution in member_of %}
@@ -70,7 +89,8 @@
         {% for comment in comment_list %}
         <div class="comment">
             <div class="user-img">
-                <img src="{{comment.user.profile_image.url}}" alt="user profile image" class="img-fluid">
+                <img src="{% if comment.user.profile_image %}{{comment.user.profile_image.url}}{% endif %}" 
+                alt="user profile image" class="img-fluid">
             </div>
             <div class="content">
                 <p class="meta">
@@ -111,3 +131,112 @@
 </div>
 
 {% endblock content %}
+
+
+
+
+
+{% block inline_javascript %}
+<script type="text/javascript">
+
+  //{% if user.is_authenticated %}
+  $('.star').click(function(){
+    let value = $(this).attr('data-value');
+    updateRating(value);
+  })
+  //{% else %}
+  $('.star').click(function(){
+    $('.login_required').slideDown();
+  })
+  //{% endif %}
+
+
+  /**
+   * Function that saves user rating and updates 
+   */
+  function updateRating(rating){
+    $.ajax({
+      type: 'POST',
+      url: '{% url "poslanec:save_star_rating" %}',
+      dataType: 'JSON',
+      data: {
+        new_rating: rating,
+        id_poslanec:'{{poslanec_single.id_poslanec}}',
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(result){
+        //we need to update data in rating section
+        let user_rated = parseInt(result.user_rated);
+        let avg_rating = parseFloat(result.avg_rating);
+        let $stars = $(".star");
+
+        $stars.each(function(){
+          let rating = $(this).attr('data-value');
+
+          if(rating <= avg_rating){
+            $(this).addClass('full');
+          }else{
+            $(this).removeClass('full');
+          }
+          if(rating-0.5 <= avg_rating){
+            $(this).addClass('half');
+          }else{
+            $(this).removeClass('half');
+          }
+
+          $('.rating .user_rated').text(user_rated);
+          $('.rated').show();
+          $('.remove_rating').show();
+        })
+      },
+      error: function(result){
+        console.log(result);
+      }
+    })
+  }
+
+
+  /**
+   * Function that removes user rating and updates page 
+   */
+   function removeRating(){
+    
+    $.ajax({
+      type: 'POST',
+      url: '{% url "poslanec:remove_star_rating" %}',
+      dataType: 'JSON',
+      data: {
+        id_poslanec:'{{poslanec_single.id_poslanec}}',
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(result){
+        //we need to update data in rating section
+        let user_rated = parseInt(result.user_rated);
+        let avg_rating = parseFloat(result.avg_rating);
+        let $stars = $(".star");
+
+        $stars.each(function(){
+          let rating = $(this).attr('data-value');
+
+          if(rating <= avg_rating){
+            $(this).addClass('full');
+          }else{
+            $(this).removeClass('full');
+          }
+          if(rating-0.5 <= avg_rating){
+            $(this).addClass('half');
+          }else{
+            $(this).removeClass('half');
+          }
+
+          $('.rated').hide();
+          $('.remove_rating').hide();
+        })
+      },
+      error: function(result){
+        console.log(result);
+      }
+    })
+  }
+</script>
+{% endblock inline_javascript %}

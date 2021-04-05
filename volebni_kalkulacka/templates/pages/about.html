@@ -1,1 +1,56 @@
 {% extends "base.html" %}
+
+{% block content %}
+<div class="row mx-auto" style="max-width: 800px;" >
+  <div class="col-12 mb-5">
+    <h1 class="pageTitle mb-2">
+      Jak to funguje
+    </h1>
+    <p>
+      Na této stránce se dozvíte základní informace o Volební kalkulačce, proč vznikla a co všechno umí.
+    </p>
+  </div>
+
+  <div id="projekt" class="col-12 mb-4" >
+    <h2>O projektu</h2>
+    <p>Tento projekt vznikl jako bakalářská práce na Fakultě informačních technologí Vysokého učení technického v Brně.
+      Jeho cílem je umožnit lidem (relativně) jednoduše ověřit nakolik se jejich osobní preference shodují s politiky.
+    </p>
+  </div>
+  
+  <div id="kalkulacka" class="col-12 mb-4" >
+    <h2>Kalkulačka</h2>
+    <p>Pro využití volební kalkulačky je nejprve nutné se <a href="/acconts/signup" >registrovat.</a> Po vytvoření účtu a přihlášení se Vám 
+    následně u některých vybraných hlasování (jejich kompletní seznam naleznete <a href="{% url 'hlasovani:hlasovani_index' %}" >ZDE</a>) zpřístupní možnost
+    hlasovat. Po alespoň 10 hlasováních se Vám v profilu zpřístupní výsledky kalkulačky. Tyto jsou závislé na vaší shodě ve hlasování s jednotlivými poslanci a stranami. 
+    Čím víc hlasování uskutečníte, tím přesnější výsledky dostanete. </p>
+  
+    <p><a href="{% url 'hlasovani:hlasovani_index'%}" class="btn btn-primary">Prohlédnout důležitá hlasování</a></p>
+
+    <p>
+      Pro poslance procenta v kalkulačce značí přímo na kolik jsou Vaše odpovědi v odhlasovaných hlasováních shodné s jejich.<br>
+      U stran je výpočet závislý na každém hlasování poslance v ní a poměrem shod ke všem členům.
+    </p>
+  </div>
+
+  <div id="zdrojdat" class="col-12 mb-4">
+    <h2>Zdroj dat</h2>
+
+    <p>
+      Všechna data získáváme z <a href="https://www.psp.cz/sqw/hp.sqw?akk=6">veřejně dostupných dat poslanecké sněmovny.</a> 
+      Každý den probíhá jejich automatická aktualizace, aby byla zajištěna co největší dostupnost.
+    </p>
+
+  </div>
+
+  <div id="kontakt" class="col-12 mb-4">
+    <h2>Kontakt</h2>
+
+    <p>
+      V případě jakýchkoliv dotazů nás neváhejte kontaktovat na emailové adrese
+      <a href="mailto:info@votesmart.cz">info@votesmart.cz</a>
+    </p>
+  </div>
+  
+</div>
+{% endblock %}

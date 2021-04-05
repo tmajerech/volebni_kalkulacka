@@ -52,12 +52,15 @@ class Hlasovani_detail(generic.DetailView):
             INNER JOIN psp_data_osoby as os
             ON os.id_osoba = p.id_osoba
             
-        WHERE hp.id_hlasovani = %s
+        WHERE 
+            hp.id_hlasovani = %s
             AND z.cl_funkce = 0 --clenstvi
             AND z.do_o IS NULL
             AND o.organ_id_organ = %s --Aktualni volebni obdobi
             AND o.id_typ_organu = 1 --Klub
-        ORDER BY o.zkratka
+
+        ORDER BY 
+            o.zkratka, os.prijmeni
         """
 
         with connection.cursor() as cursor:
@@ -80,7 +83,10 @@ class Hlasovani_detail(generic.DetailView):
 
         #only for logged in users
         if self.request.user.is_authenticated:
-          context['vote'] = self.request.user.kalkulacka_answers.get(str(hlasovani_single.pk))
+          kalkulacka_answers = self.request.user.kalkulacka_answers
+          if kalkulacka_answers:
+            context['vote'] = kalkulacka_answers.get(str(hlasovani_single.pk))
+
         context['strany'] = strany
 
         return context

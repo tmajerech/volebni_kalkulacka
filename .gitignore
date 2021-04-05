@@ -272,7 +272,8 @@ tags
 
 ### Project template
 
-volebni_kalkulacka/media/
+volebni_kalkulacka/media/*
+!volebni_kalkulacka/media/default_profile_pic.png
 
 .pytest_cache/
 
