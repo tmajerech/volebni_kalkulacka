@@ -1,10 +1,9 @@
 from django.db import models
-
 #czech attributes are used only to keep consitency with the source of data
 
 
 class Osoby(models.Model):
-    id_osoba = models.AutoField(primary_key=True)  
+    id_osoba = models.AutoField(db_column='id_osoba', primary_key=True)  
     pred = models.CharField(max_length=255, null=True)
     jmeno = models.CharField(max_length=255, null=True)
     prijmeni = models.CharField(max_length=255, null=True)
@@ -15,7 +14,7 @@ class Osoby(models.Model):
     umrti = models.CharField(max_length=255, null=True)
 
 class Typ_Organu(models.Model):
-    id_typ_org = models.AutoField(primary_key=True)
+    id_typ_org = models.AutoField(db_column='id_typ_org', primary_key=True)
     typ_id_typ_org = models.IntegerField(null=True)
     nazev_typ_org_cz = models.CharField(max_length=255, null=True)
     nazev_typ_org_en = models.CharField(max_length=255, null=True)
@@ -31,7 +30,7 @@ class Typ_Funkce(models.Model):
     typ_funkce_obecny = models.IntegerField(null=True)
 
 class Funkce(models.Model):
-    id_funkce = models.AutoField(primary_key=True)
+    id_funkce = models.AutoField(db_column='id_funkce', primary_key=True)
     id_organ = models.ForeignKey('Organy', models.DO_NOTHING, db_column='id_organ', null=True)
     id_typ_funkce = models.ForeignKey('Typ_Funkce', models.DO_NOTHING, db_column='id_typ_funkce')
     nazev_funkce_cz = models.CharField(max_length=255)
@@ -126,20 +125,20 @@ class Pkgps(models.Model):
 
 class Hl_Hlasovani(models.Model):
     id_hlasovani = models.AutoField(primary_key=True)
-    id_organ = models.ForeignKey('Organy', models.DO_NOTHING, db_column='id_organ')
+    id_organ = models.ForeignKey('Organy', models.DO_NOTHING, db_column='id_organ', null=True)
     schuze = models.IntegerField(null=True)
-    cislo = models.IntegerField()
-    bod = models.IntegerField()
-    datum = models.CharField(max_length=255)
-    cas = models.CharField(max_length=255)
-    pro = models.IntegerField()
-    proti = models.IntegerField()
-    zdrzel = models.IntegerField()
-    nehlasoval = models.IntegerField()
-    prihlaseno = models.IntegerField()
-    kvorum = models.IntegerField()
-    druh_hlasovani = models.CharField(max_length=255)
-    vysledek = models.CharField(max_length=255)
+    cislo = models.IntegerField(null=True)
+    bod = models.IntegerField(null=True)
+    datum = models.CharField(max_length=255, null=True)
+    cas = models.CharField(max_length=255, null=True)
+    pro = models.IntegerField(null=True)
+    proti = models.IntegerField(null=True)
+    zdrzel = models.IntegerField(null=True)
+    nehlasoval = models.IntegerField(null=True)
+    prihlaseno = models.IntegerField(null=True)
+    kvorum = models.IntegerField(null=True)
+    druh_hlasovani = models.CharField(max_length=255, null=True)
+    vysledek = models.CharField(max_length=255, null=True)
     nazev_dlouhy = models.CharField(max_length=255, null=True)
     nazev_kratky = models.CharField(max_length=255, null=True)
 
@@ -160,7 +159,7 @@ class Omluvy(models.Model):
     id_poslanec = models.ForeignKey('Poslanec', models.DO_NOTHING, db_column='id_poslanec')
     den = models.CharField(max_length=255, null=True)
     od = models.CharField(max_length=255, null=True)
-    do = models.CharField(max_length=255, null=True)
+    doo = models.CharField(max_length=255, null=True)
 
 class Druh_Tisku(models.Model):
     id_druh = models.AutoField(primary_key=True)
@@ -169,7 +168,7 @@ class Druh_Tisku(models.Model):
 
 class Typ_Stavu(models.Model):
     id_typ = models.AutoField(primary_key=True)
-    popis_stavu = models.CharField(max_length=255)
+    popis_stavu = models.CharField(max_length=255, null=True)
 
 class Typ_Zakon(models.Model):
     id_navrh = models.AutoField(primary_key=True)

@@ -29,10 +29,7 @@ class DbManager(object):
             with self.connection.cursor() as cursor:
 
                 cursor.execute("BEGIN")
-                # self refferenced table needs to be treated different
-                # disable triggers
-                if table_name in SELF_REFFERENCED:
-                    cursor.execute(f"ALTER TABLE {APP_PREFIX}{table_name} DISABLE TRIGGER ALL;")
+                cursor.execute(f"ALTER TABLE {APP_PREFIX}{table_name} DISABLE TRIGGER ALL;")
 
                 headers = ", ".join(TABLE_HEADERS.get(table_name))
 
@@ -47,10 +44,8 @@ class DbManager(object):
                     cursor, query, data, template=None, page_size=100
                 )
 
-                # self refferenced table needs to be treated different
-                # reenable triggers
-                if table_name in SELF_REFFERENCED:
-                    cursor.execute(f"ALTER TABLE {APP_PREFIX}{table_name} ENABLE TRIGGER ALL;")
+
+                cursor.execute(f"ALTER TABLE {APP_PREFIX}{table_name} ENABLE TRIGGER ALL;")
 
                 cursor.execute("END")
             return
@@ -80,6 +75,18 @@ class DbManager(object):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute(f"""
+                DELETE FROM {APP_PREFIX}hl_hlasovani_rating
+                WHERE id_hlasovani IN(
+                    SELECT id_hlasovani
+                    FROM {APP_PREFIX}{ZMATECNE}
+                );
+
+                DELETE FROM {APP_PREFIX}{HIST}
+                WHERE id_hlas IN(
+                    SELECT id_hlasovani
+                    FROM {APP_PREFIX}{ZMATECNE}
+                );
+
                 DELETE FROM {APP_PREFIX}{HL_POSLANEC}
                 WHERE id_hlasovani IN(
                     SELECT id_hlasovani
@@ -165,7 +172,16 @@ class DbManager(object):
                 logger.info('Calculation complete, inserting to DB')
 
                 # prepare DB query
-                query = f'INSERT INTO psp_data_hl_hlasovani_rating(id_hlasovani, difference, rating, user_rating_down, user_rating_up) VALUES %s'
+                query = f"""
+                INSERT INTO psp_data_hl_hlasovani_rating(id_hlasovani, difference, rating, user_rating_down, user_rating_up) VALUES %s
+                ON CONFLICT (id_hlasovani)
+                DO
+                    UPDATE SET 
+                        difference = EXCLUDED.difference,
+                        rating = EXCLUDED.rating,
+                        user_rating_down = EXCLUDED.user_rating_down,
+                        user_rating_up = EXCLUDED.user_rating_up
+                """
 
                 psycopg2.extras.execute_values(
                     cursor, query, data_values, template=None, page_size=100
@@ -191,3 +207,9 @@ class DbManager(object):
 
         except Exception as e:
             logger.exception('Error replaceWeirdCharacters')
+
+
+    def copyFile(self, table, filepath):
+        f = open(filepath, 'r')
+        with self.connection.cursor() as cursor:
+            cursor.copyFrom(f, table, sep='|')

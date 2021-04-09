@@ -46,8 +46,8 @@ TABLE_HEADERS = {
     POSLANEC : ['id_poslanec', 'id_osoba', 'id_kraj', 'id_kandidatka', 'id_obdobi', 'web', 'ulice', 'obec', 'psc', 
         'email', 'telefon', 'fax', 'psp_telefon', 'facebook', 'foto'],
     TYP_ORGANU : ['id_typ_org', 'typ_id_typ_org', 'nazev_typ_org_cz', 'nazev_typ_org_en', 'typ_org_obecny', 'priorita'],
-    ZARAZENI : ['id_osoba', 'id_of', 'cl_funkce', 'od_o', 'do_o'],
-    OSOBY: ['id_osoba', 'pred', 'prijmeni', 'jmeno', 'za'],
+    ZARAZENI : ['id_osoba', 'id_of', 'cl_funkce', 'od_o', 'do_o', 'od_f', 'do_f'],
+    OSOBY: ['id_osoba', 'pred', 'prijmeni', 'jmeno', 'za', 'narozeni', 'pohlavi', 'zmena', 'umrti'],
     OSOBA_EXTRA : ['id_osoba', 'id_org', 'typ', 'obvod', 'strana', 'id_external'],
     HIST : ['id_hist', 'id_tisk','datum', 'id_hlas', 'id_prechod', 'id_bod', 'schuze', 'usnes_ps', 'orgv_id_posl','ps_id_posl','orgv_p_usn','zaver_publik','zaver_sb_castka','zaver_sb_cislo','poznamka'],
     PRECHODY : ['id_prechod', 'odkud', 'kam', 'id_akce', 'typ_prechodu'],
@@ -55,7 +55,7 @@ TABLE_HEADERS = {
     TYP_FUNKCE : ['id_typ_funkce', 'id_typ_org', 'typ_funkce_cz', 'typ_funkce_en', 'priorita', 'typ_funkce_obecny'],
     FUNKCE : ['id_funkce', 'id_organ', 'id_typ_funkce', 'nazev_funkce_cz', 'priorita'],
     PKGPS : ['id_poslanec', 'adresa', 'sirka', 'delka'],
-    OMLUVY : ['id_organ', 'id_poslanec', 'den', 'od', '"do"'],
+    OMLUVY : ['id_organ', 'id_poslanec', 'den', 'od', 'doo'],
     DRUH_TISKU : ['id_druh', 'druh_t', 'nazev_druh'],
     TYP_ZAKON : ['id_navrh', 'druh_navrhovatele'],
     TYP_STAVU : ['id_typ', 'popis_stavu'],
@@ -116,3 +116,37 @@ weirdChars = [
     ('»', 'ť'),
     ('®', 'Ž'),
 ]
+
+
+
+
+
+
+#initial run basic file import order
+INITIAL_FILE_NAMES = {
+    OSOBY : OSOBY,
+    TYP_ORGANU : TYP_ORGANU,
+    ORGANY : ORGANY,
+    ZARAZENI : ZARAZENI,
+    POSLANEC : POSLANEC,
+    SCHUZE : SCHUZE,
+    OSOBA_EXTRA : OSOBA_EXTRA,
+    BOD_STAV : BOD_STAV,
+    TYP_AKCE : TYP_AKCE,
+    DRUH_TISKU : DRUH_TISKU,
+    TYP_STAVU : TYP_STAVU,
+    STAVY : STAVY,
+    PRECHODY : PRECHODY,
+    TYP_ZAKON : TYP_ZAKON,
+    TISKY : TISKY,
+    BOD_SCHUZE : BOD_SCHUZE,
+    HIST : HIST,
+    TYP_FUNKCE : TYP_FUNKCE,
+    FUNKCE : FUNKCE,
+    OMLUVY : OMLUVY,
+    PKGPS : PKGPS,
+    ZMATECNE : ZMATECNE,
+}
+
+#    HL_HLASOVANI : 'hl2017s',
+#    HL_POSLANEC : 'hl2017h1',
