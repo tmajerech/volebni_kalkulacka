@@ -17,14 +17,14 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     
     #3rd party
-    path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('comments/', include('django_comments.urls')),
 
     # Your stuff: custom urls includes go here
     path("schuze/", include("volebni_kalkulacka.schuze.urls", namespace="schuze")),
     path("poslanec/", include("volebni_kalkulacka.poslanec.urls", namespace="poslanec")),
     path("hlasovani/", include("volebni_kalkulacka.hlasovani.urls", namespace="hlasovani")),
-    path("psp_data/", include("volebni_kalkulacka.psp_data.urls", namespace="psp_data"))
+    path("psp_data/", include("volebni_kalkulacka.psp_data.urls", namespace="psp_data")),
+    path("kalkulacka/", include("volebni_kalkulacka.kalkulacka.urls", namespace="kalkulacka"))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

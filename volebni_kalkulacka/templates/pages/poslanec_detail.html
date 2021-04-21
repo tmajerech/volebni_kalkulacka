@@ -36,7 +36,7 @@
     <div class="col-6 col-md-2">
     {% if poslanec_single.foto == 1 %}
         <img 
-        src="http://www.psp.cz/eknih/cdrom/2017ps/eknih/2017ps/poslanci/i{{ poslanec_single.id_osoba.pk }}.jpg" 
+        src="http://www.psp.cz/eknih/cdrom/{{election_period}}ps/eknih/{{election_period}}ps/poslanci/i{{ poslanec_single.id_osoba.pk }}.jpg" 
         class="img-fluid"
         alt="Poslanec profilový obrázek">
     {% else %}
@@ -53,6 +53,8 @@
         <p>{{poslanec_single.id_kraj.nazev_organu_cz}}</p>
         <p class="red">Web</p>
         <p>{{poslanec_single.web|default:"-"}}</p>
+        <p class="red">Období</p>
+        <p>{{election_period}}</p>
     </div>
     <div class="col-12 col-md-7">
         <p class="red">Email</p>
@@ -84,6 +86,11 @@
             class="toggle">Přidat komentář</a>
         </div>
     </div>
+    {% else %}
+      <div class="col-12">
+        <p>Prosíme <a href="/accounts/login/">přihlašte se</a> pro možnost přidávat komentáře.</p>
+      </div>
+    {% endif %}
     <div class="col-12  comments-list ">
         {% get_comment_list for poslanec_single as comment_list %}
         {% for comment in comment_list %}
@@ -123,13 +130,8 @@
             </div>
         </div>
     </div>
-    {% else %}
-      <div class="col-12">
-        <p>Prosíme <a href="/accounts/login/">přihlašte se</a> pro možnost přidávat komentáře.</p>
-      </div>
-    {% endif %}
-</div>
 
+</div>
 {% endblock content %}
 
 
@@ -161,7 +163,7 @@
       dataType: 'JSON',
       data: {
         new_rating: rating,
-        id_poslanec:'{{poslanec_single.id_poslanec}}',
+        id_osoba:'{{poslanec_single.id_osoba.pk}}',
         csrfmiddlewaretoken: '{{ csrf_token }}'
       },
       success: function(result){
@@ -206,7 +208,7 @@
       url: '{% url "poslanec:remove_star_rating" %}',
       dataType: 'JSON',
       data: {
-        id_poslanec:'{{poslanec_single.id_poslanec}}',
+        id_osoba:'{{poslanec_single.id_osoba.pk}}',
         csrfmiddlewaretoken: '{{ csrf_token }}'
       },
       success: function(result){

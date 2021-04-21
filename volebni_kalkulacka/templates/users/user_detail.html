@@ -36,92 +36,10 @@
   </div>
 
 </div>
-
-  
-<div class="card shadow h-100 kalkulacka">
-  <div class="loader"><div class="spinner-grow spinner" role="status"></div></div>
-  <div class="card-header d-flex justify-content-between align-items-center">
-    Kalkulačka
-    {% if request.user.kalkulacka_answers|length > 10 %}
-    <a href="#" class="actualizeResults btn btn-primary" onclick="javaScript:kalkulackaActualizeResults();" role="button">Aktualizovat výsledky kalkulačky</a>
-    {% endif %}
-  </div>
-  <div class="card-body">
-    <div class="row align-items-start">
-      {% if request.user.kalkulacka_answers|length > 10 %}
-      <div id="poslanci" class="col col-md-6 mb-4 mb-md-0">
-        <div class="loader incol"><div class="spinner-grow spinner" role="status"></div></div>
-        <div class="content"></div>
-      </div>
-      <div id="strany" class="col col-md-6 strany">
-        <div class="loader incol"><div class="spinner-grow spinner" role="status"></div></div>
-        <div class="content"></div>
-      </div>
-      {% else %}
-      <div class="col">
-        <h2>Pro použití kalkulačky je zapotřebí hlasovat alespoň u 10 hlasování.</h2>
-      </div>
-      {% endif %}
-    </div>
-  </div>
-</div>
-  
+ 
 {% endif %}
 
 
 </div>
 {% endblock content %}
 
-
-
-
-{% block inline_javascript %}
-<script type="text/javascript">
-
-function kalkulackaActualizeResults(){
-  $poslanciCol = $("#poslanci");
-  $stranyCol = $("#strany");
-
-  $poslanciCol.addClass("loading");
-  $stranyCol.addClass("loading");
-    
-  $.ajax({
-    type: 'POST',
-    url: '{% url "users:kalkulacka_get_actual_results_poslanci" %}',
-    dataType: 'html',
-    data: {
-      csrfmiddlewaretoken: '{{ csrf_token }}'
-    },
-    success: function(result){
-      $poslanciCol.find('.content').html(result);
-      $poslanciCol.removeClass('loading');
-    },
-    error: function(result){
-      console.log('error saving users vote');
-      console.log(result);
-    }
-  })
-
-  
-  
-  $.ajax({
-    type: 'POST',
-    url: '{% url "users:kalkulacka_get_actual_results_strany" %}',
-    dataType: 'html',
-    data: {
-      csrfmiddlewaretoken: '{{ csrf_token }}'
-    },
-    success: function(result){
-      $stranyCol.find('.content').html(result);
-      $stranyCol.removeClass('loading');
-    },
-    error: function(result){
-      console.log('error saving users vote');
-      console.log(result);
-    }
-  })
-}
-
-
-</script>
-{% endblock inline_javascript %}

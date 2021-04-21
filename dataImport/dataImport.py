@@ -208,9 +208,8 @@ def runInitialImport():
     #     hl_poslanec_filename = os.path.basename(hl_poslanec_filepath)
     #     parseFile(dbmanager, HL_POSLANEC, hl_poslanec_filename)
     
-    files_hl_hlasovani = glob.glob(os.path.join(TEMP_PATH, 'hl[1-2][0-9][0-9][0-9]s.unl'))
-    print(files_hl_hlasovani[0])
-    dbmanager.copyFile(HL_POSLANEC, files_hl_hlasovani[0])
+    # files_hl_hlasovani = glob.glob(os.path.join(TEMP_PATH, 'hl[1-2][0-9][0-9][0-9]s.unl'))
+    # print(files_hl_hlasovani[0])
+    # dbmanager.copyFile(HL_POSLANEC, files_hl_hlasovani[0])
 
 
-# document.querySelectorAll('a:not([href*=hl-])')

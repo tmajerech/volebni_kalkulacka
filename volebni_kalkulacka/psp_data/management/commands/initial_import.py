@@ -5,6 +5,7 @@ import environ
 import psycopg2
 import logging
 import glob
+import datetime
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -25,7 +26,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
-
+        begin_time = datetime.datetime.now()
         dbmanager = DbManager()
         conn = connection
 
@@ -62,7 +63,7 @@ class Command(BaseCommand):
 
             print(filename)
 
-            with open(filepath_formatted, 'r') as ff:
+            with open(filepath_formatted, 'r', encoding="cp1250", errors='replace') as ff:
                 with conn.cursor() as cursor:
                     cursor.execute(f"ALTER TABLE {real_tablename} DISABLE TRIGGER ALL;")
                     cursor.copy_from(ff, real_tablename, sep='|', null="", columns=headers)
@@ -95,7 +96,7 @@ class Command(BaseCommand):
 
             real_tablename = f"{APP_PREFIX}{HL_HLASOVANI}"
 
-            with open(filepath_formatted, 'r') as ff:
+            with open(filepath_formatted, 'r', encoding="cp1250", errors='replace') as ff:
                 with conn.cursor() as cursor:
                     cursor.execute(f"ALTER TABLE {real_tablename} DISABLE TRIGGER ALL;")
                     cursor.copy_from(ff, real_tablename, sep='|', null="", columns=headers)
@@ -128,7 +129,7 @@ class Command(BaseCommand):
 
             real_tablename = f"{APP_PREFIX}{HL_POSLANEC}"
 
-            with open(filepath_formatted, 'r') as ff:
+            with open(filepath_formatted, 'r', encoding="cp1250", errors='replace') as ff:
                 with conn.cursor() as cursor:
                     cursor.execute(f"ALTER TABLE {real_tablename} DISABLE TRIGGER ALL;")
                     cursor.copy_from(ff, real_tablename, sep='|', null="", columns=headers)
@@ -139,7 +140,7 @@ class Command(BaseCommand):
         #hist for some reason needs to be executed separately
         dbmanager.truncateTable(HIST)
         headers = TABLE_HEADERS.get(HIST)
-        with open("./dataImport/TMP/hist.unl_formatted", 'r') as ff:
+        with open("./dataImport/TMP/hist.unl_formatted", 'r', encoding="cp1250", errors='replace') as ff:
             with conn.cursor() as cursor:
                 cursor.execute(f"ALTER TABLE psp_data_hist DISABLE TRIGGER ALL;")
                 cursor.copy_from(ff, "psp_data_hist", sep='|', null="", columns=headers)
@@ -161,3 +162,4 @@ class Command(BaseCommand):
         logger.info('Replacing weird characters')
         dbmanager.replaceWeirdCharacters()
         logger.info('Replace complete')
+        logger.info(f'Total execution time {datetime.datetime.now() - begin_time}')

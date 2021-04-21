@@ -19,7 +19,7 @@
 <div class="row align-items-start list hlasovani-list infinite-container">
     {% for hlasovani_single in hlasovani %}
     <div class="col-12 col-md-4 mb-4 hlasovani infinite-item" >
-        <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}">{{hlasovani_single.nazev_dlouhy}}</a>
+        <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}" class="mb-1" >{{hlasovani_single.nazev_dlouhy}}</a>
         <div class="meta">
             <div class="pro" title="Pro" ><span><i class="fas fa-check"></i></i></span>{{hlasovani_single.pro}}</div>
             <div class="proti" title="Proti" ><span><i class="fas fa-times"></i></span>{{hlasovani_single.proti}}</div>
@@ -28,6 +28,7 @@
             <div class="prihlaseno" title="Přihlášeno" ><span class="divider">/</span><span>P</span>{{hlasovani_single.prihlaseno}}</div>
             <div class="kvorum" title="Kvórum" ><span>Q</span>{{hlasovani_single.kvorum}}</div>
         </div>
+        <p class="small mb-1 date">{{hlasovani_single.datum}}</p>
     </div>
     {% endfor %}
 </div>

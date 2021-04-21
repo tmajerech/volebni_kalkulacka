@@ -31,9 +31,9 @@
         
         
     </div>
-    {% if request.user.is_authenticated %}
-    <div class="col voter {% if hlasovani_single.pk|stringformat:'i' in request.user.kalkulacka_answers %}voted{% endif %}">
-        <div class="card border-left-primary shadow h-100 overflow-hidden overflow-hidden" >
+
+    <div class="col voter {% if vote %}voted{% endif %}">
+        <div class="card flat border-left-primary h-100 overflow-hidden overflow-hidden" >
             <div class="loader"><div class="spinner-grow spinner" role="status"></div></div>
             <div class="card-header background-primary rounded-0">
                 Hlasujte v této otázce
@@ -50,27 +50,29 @@
             </div>
         </div>
     </div>
-    {% endif %}
+
 </div>
 
-
-<div class="poslanci-voted">
-    <h2>Hlasování poslanců podle stran</h2>
-{% for party, members in strany.items %}
-    <div class="party"> 
-        <h3>{{party}}</h3>
-        <div class="members">
-        {% for poslanec in members %}
-            <div class="poslanec">
-                <span class="choice vote-{{poslanec.vysledek}}"></span>
-                <a href="{% url 'poslanec:poslanec_detail' poslanec.id_poslanec %}">
-                    {{poslanec.jmeno}} {{poslanec.prijmeni}}
-                </a>
+<div id="show_hlasovani_poslancu" class="btn btn-primary"  onclick="javaScript:showHlasovaniPoslancu();" >Zobrazit hlasování poslanců</div>
+<div id="hlasovani_poslancu" style="display: none;" >
+    <div class="poslanci-voted">
+        <h2>Hlasování poslanců podle stran</h2>
+    {% for party, members in strany.items %}
+        <div class="party"> 
+            <h3>{{party}}</h3>
+            <div class="members">
+            {% for poslanec in members %}
+                <div class="poslanec">
+                    <span class="choice vote-{{poslanec.vysledek}}"></span>
+                    <a href="{% url 'poslanec:poslanec_detail' poslanec.id_poslanec %}">
+                        {{poslanec.jmeno}} {{poslanec.prijmeni}}
+                    </a>
+                </div>
+            {% endfor %}
             </div>
-        {% endfor %}
-        </div>
-    </div>   
-{% endfor %}
+        </div>   
+    {% endfor %}
+    </div>
 </div>
 
 {% endblock content %}
@@ -79,14 +81,19 @@
 {% block inline_javascript %}
 <script type="text/javascript">
 
+function showHlasovaniPoslancu(){
+    $('#show_hlasovani_poslancu').hide();
+    $('#hlasovani_poslancu').slideDown();
+}
+
 function saveVote(button, choice,id_hlasovani){
 
-    $voter = $(button).parents('.voter').first();
+    let $voter = $(button).parents('.voter').first();
     $voter.addClass('loading');
 
     $.ajax({
         type: 'POST',
-        url: '{% url "users:kalkulacka_save_vote" %}',
+        url: '{% url "kalkulacka:save_vote" %}',
         data: {
             id_hlasovani: id_hlasovani,
             choice: choice,

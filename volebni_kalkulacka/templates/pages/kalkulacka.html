@@ -1,0 +1,100 @@
+{% extends "base.html" %} {% load static %} {% load customtags %} {% block bodyclass %}kalkulacka_page{% endblock %} {% block content %}
+<div class="mb-5">
+  <h1 class="pageTitle mb-2">Kalkulačka</h1>
+  <p>
+    Zde si můžete zobrazit své výsledky. <br />
+    Čím více hlasování máte uskutečněno, tím přesnější vaše výsledky budou.
+    {% if not user.is_authenticated %}<br> <a href="/accounts/login" >Přihlašte se</a> pro načtení Vašich předchozích hlasování.{% endif %}
+  </p>
+</div>
+
+{% if has_votes %}
+<a
+href="#"
+class="actualizeResults btn btn-primary"
+onclick="javaScript:kalkulackaActualizeResults();"
+role="button"
+>Aktualizovat výsledky kalkulačky</a
+>
+{% else %}
+<h3>Pro použití kalkulačky je nutné hlasovat alespoň u jednoho hlasování.</h3>
+{% endif %}
+
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8">
+    <div class="h-100 kalkulacka">
+        <div class="card-body">
+          <div class="row align-items-start">
+            <div id="poslanci" class="col col-md-6 mb-4 mb-md-0">
+              <div class="loader incol">
+                <div class="spinner-grow spinner" role="status"></div>
+              </div>
+              <div class="content"></div>
+            </div>
+            <div id="strany" class="col col-md-6 strany">
+              <div class="loader incol">
+                <div class="spinner-grow spinner" role="status"></div>
+              </div>
+              <div class="content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block inline_javascript %}
+<script type="text/javascript">
+
+function kalkulackaActualizeResults(){
+  $poslanciCol = $("#poslanci");
+  $stranyCol = $("#strany");
+
+  $poslanciCol.addClass("loading");
+  $stranyCol.addClass("loading");
+    
+  $.ajax({
+    type: 'POST',
+    url: '{% url "kalkulacka:get_actual_results_poslanci" %}',
+    dataType: 'html',
+    data: {
+      csrfmiddlewaretoken: '{{ csrf_token }}'
+    },
+    success: function(result){
+      $poslanciCol.find('.content').html(result);
+      $poslanciCol.removeClass('loading');
+    },
+    error: function(result){
+      console.log('error saving users vote');
+      console.log(result);
+    }
+  })
+
+  
+  
+  $.ajax({
+    type: 'POST',
+    url: '{% url "kalkulacka:get_actual_results_strany" %}',
+    dataType: 'html',
+    data: {
+      csrfmiddlewaretoken: '{{ csrf_token }}'
+    },
+    success: function(result){
+      $stranyCol.find('.content').html(result);
+      $stranyCol.removeClass('loading');
+    },
+    error: function(result){
+      console.log('error saving users vote');
+      console.log(result);
+    }
+  })
+}
+
+
+</script>
+{% endblock inline_javascript %}

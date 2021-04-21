@@ -23,13 +23,15 @@ class Poslanec_index(generic.ListView):
 
         id_org = get_current_election_period()
 
+        #get data about poslancecs
+        #always only the current election period
         sql = """
 
         DROP TABLE IF EXISTS t1;
         CREATE TEMPORARY TABLE t1 AS
-            SELECT AVG(rating) AS rating, id_poslanec
+            SELECT AVG(rating) AS rating, id_osoba
             FROM poslanec_ratings
-			  GROUP BY id_poslanec
+			  GROUP BY id_osoba
         ;
 
         SELECT p.id_poslanec, o.zkratka, p.foto, p.id_osoba, os.pred, os.za, os.jmeno, os.prijmeni, t1.rating
@@ -45,7 +47,7 @@ class Poslanec_index(generic.ListView):
             ON z.id_of = o.id_organ
 
             LEFT JOIN t1
-            ON t1.id_poslanec = p.id_poslanec
+            ON t1.id_osoba = os.id_osoba
 
         WHERE 
             p.id_obdobi = %s
@@ -55,7 +57,7 @@ class Poslanec_index(generic.ListView):
             and o.id_typ_organu = 1
 
         ORDER BY 
-            o.zkratka, os.prijmeni
+            os.prijmeni
         """
 
         with connection.cursor() as cursor:
@@ -69,6 +71,9 @@ class Poslanec_index(generic.ListView):
 
         context['poslanec'] = poslanec
 
+        #current election period
+        context['election_period'] = Organy.objects.get(pk=id_org).od_organ.split('.')[-1]
+
         return context
 
 
@@ -79,46 +84,48 @@ class Poslanec_detail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id_org = get_current_election_period()
+        id_org = self.get_object().id_obdobi.pk
         poslanec_single = kwargs.get('object')
-        member_of = Organy.objects.filter(zarazeni__id_osoba=poslanec_single.id_osoba,
-                                          zarazeni__do_o=None).values_list('nazev_organu_cz', flat=True)
+        member_of = Organy.objects.filter(zarazeni__id_osoba=poslanec_single.id_osoba).values_list('nazev_organu_cz', flat=True)
         party = Organy.objects.filter(
             zarazeni__id_osoba=poslanec_single.id_osoba,
-            zarazeni__do_o=None,
             organ_id_organ=id_org,
             id_typ_organu=1,  # 1 stands for political party //Typ orgánu, viz typ_organu:id_typ_organu
-        ).values_list('zkratka', flat=True).first()
-        ratings = Ratings.objects.filter(id_poslanec=poslanec_single.id_poslanec)
+        ).values_list('zkratka', flat=True).last()
+        ratings = Ratings.objects.filter(id_osoba=poslanec_single.id_osoba.pk)
         rating = ratings.aggregate(Avg('rating'))
 
         if self.request.user.is_authenticated:
-            user_rated = Ratings.objects.filter(id_poslanec=poslanec_single.id_poslanec, id_user=self.request.user)
+            user_rated = Ratings.objects.filter(id_osoba=poslanec_single.id_osoba.pk, id_user=self.request.user)
             if user_rated:
                 context['user_rated'] = user_rated.first().rating
 
         context['rating'] = rating['rating__avg']
         context['member_of'] = member_of
         context['party'] = party
+
+        #get starting year for this election period
+        context['election_period'] = Organy.objects.get(pk=id_org).od_organ.split('.')[-1]
         return context
 
 
 @login_required
 def saveStarRating(request):
-    # if not request.is_ajax() or not request.method == 'POST':
-    #   return HttpResponseNotAllowed(['POST'])
+    """
+    Function to save users rating for poslanec
+    Rating needs to be tied to id_osoba because poslanec is new for every election period
+    """
     user = request.user
     new_rating = request.POST.get('new_rating')
-    poslanec_id = request.POST.get('id_poslanec')
-    poslanec = Poslanec.objects.get(pk=poslanec_id)
-    rating = Ratings.objects.filter(id_user=user, id_poslanec=poslanec_id).first()
+    osoba_id = request.POST.get('id_osoba')
+    rating = Ratings.objects.filter(id_user=user, id_osoba=osoba_id).first()
 
     if(rating is None):
-        rating = Ratings(id_user=user, id_poslanec=poslanec_id)
+        rating = Ratings(id_user=user, id_osoba=osoba_id)
     rating.rating = new_rating
     rating.save()
 
-    ratings = Ratings.objects.filter(id_poslanec=poslanec_id)
+    ratings = Ratings.objects.filter(id_osoba=osoba_id)
     avg_rating = ratings.aggregate(Avg('rating'))['rating__avg']
 
     data = {
@@ -131,15 +138,15 @@ def saveStarRating(request):
 
 @login_required
 def removeStarRating(request):
-    # if not request.is_ajax() or not request.method == 'POST':
-    #   return HttpResponseNotAllowed(['POST'])
+    """
+    Function to remove users rating for poslanec
+    """
     user = request.user
-    poslanec_id = request.POST.get('id_poslanec')
-    poslanec = Poslanec.objects.get(pk=poslanec_id)
-    rating = Ratings.objects.filter(id_user=user, id_poslanec=poslanec_id).first()
+    osoba_id = request.POST.get('id_osoba')
+    rating = Ratings.objects.filter(id_user=user, id_osoba=osoba_id).first()
     rating.delete()
 
-    ratings = Ratings.objects.filter(id_poslanec=poslanec_id)
+    ratings = Ratings.objects.filter(id_osoba=osoba_id)
     avg_rating = ratings.aggregate(Avg('rating'))['rating__avg']
 
     data = {

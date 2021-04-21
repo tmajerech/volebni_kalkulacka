@@ -1,10 +1,10 @@
-# from django.urls import path
-# from slinky.data_input.views import *
+from django.urls import path
+from volebni_kalkulacka.kalkulacka.views import *
 
-# app_name = "data_input"
-# urlpatterns = [
-#     path("campaigns", Data_input_campaigns.as_view(), name="data_input_campaigns"),
-#     path("create_campaign", CampaignsCreateView.as_view(), name="create_campaign"),
-#     path("orders", Data_input_orders.as_view(), name="data_input_orders"),
-#     path("create_order", OrdersCreateView.as_view(), name="create_order")
-# ]
+app_name = "kalkulacka"
+urlpatterns = [
+    path("kalkulacka_index", kalkulacka_index, name="kalkulacka_index"),
+    path("save_vote", kalkulackaSaveVote, name="save_vote"),
+    path("get_actual_result_poslanci", kalkulackaGetActualResultsPoslanci, name="get_actual_results_poslanci"),
+    path("get_actual_result_strany", kalkulackaGetActualResultsStrany, name="get_actual_results_strany"),
+]

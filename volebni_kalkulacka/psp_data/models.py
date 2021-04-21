@@ -94,9 +94,9 @@ class Bod_Schuze(models.Model):
 class Poslanec(models.Model):
     id_poslanec = models.AutoField(primary_key=True)
     id_osoba = models.ForeignKey('Osoby', models.DO_NOTHING, db_column="id_osoba")
-    id_kraj = models.ForeignKey('Organy', models.DO_NOTHING, db_column="id_kraj")
-    id_kandidatka = models.ForeignKey(Organy, models.DO_NOTHING, related_name="+", db_column="id_kandidatka")
-    id_obdobi = models.ForeignKey(Organy, models.DO_NOTHING, related_name="+", db_column="id_obdobi")
+    id_kraj = models.ForeignKey('Organy', models.DO_NOTHING, related_name="kraj", db_column="id_kraj")
+    id_kandidatka = models.ForeignKey(Organy, models.DO_NOTHING, related_name="kandidatka", db_column="id_kandidatka")
+    id_obdobi = models.ForeignKey(Organy, models.DO_NOTHING, db_column="id_obdobi")
     web = models.CharField(max_length=255, null=True)
     ulice = models.CharField(max_length=255, null=True)
     obec = models.CharField(max_length=255, null=True)

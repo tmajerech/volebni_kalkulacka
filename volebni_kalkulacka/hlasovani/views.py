@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 from volebni_kalkulacka.psp_data.helpers import get_current_election_period
-from volebni_kalkulacka.psp_data.models import Hl_Hlasovani, Hist, Tisky, Poslanec
+from volebni_kalkulacka.psp_data.models import Hl_Hlasovani, Hist, Tisky, Poslanec, Hl_Hlasovani_Rating
 
 from django.db import connection
 
@@ -22,7 +22,7 @@ class Hlasovani_index(generic.ListView):
     paginate_by = 40
 
     def get_queryset(self):
-        inner_qs = Hist.objects.all().values_list('id_hlas', flat=True)
+        inner_qs = Hl_Hlasovani_Rating.objects.all().values_list('id_hlasovani', flat=True)
         queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by('-hl_hlasovani_rating__rating')
         return queryset
 
@@ -33,11 +33,11 @@ class Hlasovani_detail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id_org = get_current_election_period()
         hlasovani_single = kwargs.get('object')
+        id_org = hlasovani_single.id_organ.pk
         id_hlasovani = hlasovani_single.id_hlasovani
 
-        sql = """
+        sql = f"""
         SELECT o.zkratka, hp.id_poslanec, hp.vysledek,  os.jmeno, os.prijmeni 
         FROM psp_data_hl_poslanec AS hp 
             INNER JOIN psp_data_poslanec AS p 
@@ -53,18 +53,22 @@ class Hlasovani_detail(generic.DetailView):
             ON os.id_osoba = p.id_osoba
             
         WHERE 
-            hp.id_hlasovani = %s
+            hp.id_hlasovani = {id_hlasovani}
             AND z.cl_funkce = 0 --clenstvi
-            AND z.do_o IS NULL
-            AND o.organ_id_organ = %s --Aktualni volebni obdobi
             AND o.id_typ_organu = 1 --Klub
+            AND o.organ_id_organ = {id_org} --id volebniho obdobi
+            AND (
+                TO_DATE(z.do_o, 'YYYY-MM-DD') = TO_DATE(o.do_organ,'DD.MM.YYYY')
+                OR 
+                z.do_o IS null
+                )
 
         ORDER BY 
             o.zkratka, os.prijmeni
         """
 
         with connection.cursor() as cursor:
-            cursor.execute(sql, [id_hlasovani, id_org] )
+            cursor.execute(sql)
             columns = [x.name for x in cursor.description]
 
             strany = {}
@@ -81,11 +85,11 @@ class Hlasovani_detail(generic.DetailView):
         except Exception as e:
           pass
 
-        #only for logged in users
-        if self.request.user.is_authenticated:
-          kalkulacka_answers = self.request.user.kalkulacka_answers
-          if kalkulacka_answers:
-            context['vote'] = kalkulacka_answers.get(str(hlasovani_single.pk))
+        try:
+            kalkulacka_answers = self.request.session.get('kalkulacka_answers')
+            context['vote'] = kalkulacka_answers.get(str(hlasovani_single.id_organ.pk)).get(str(hlasovani_single.pk))
+        except:
+            pass
 
         context['strany'] = strany
 

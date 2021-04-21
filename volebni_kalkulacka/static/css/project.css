@@ -131,6 +131,10 @@ footer {
   100% {
     opacity: 0.7; } }
 
+.card.flat {
+  border-right: 0;
+  border-bottom: 0; }
+
 .account .formwrap {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 50px;
@@ -225,6 +229,9 @@ footer {
     .hlasovani_page .hlasovani .meta > div.nehlasoval span {
       background-color: darkgray; }
 
+.hlasovani_page .date {
+  opacity: 0.5; }
+
 /*END HLASOVANI PREHLED*/
 .hlasovani_detail .row {
   position: relative; }
@@ -290,6 +297,12 @@ footer {
   display: inline-block;
   background-color: lightgrey;
   margin-right: 10px; }
+
+.hlasovani_detail #show_hlasovani_poslancu {
+  display: inline-block;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer; }
 
 .rating .stars {
   display: -webkit-inline-box;

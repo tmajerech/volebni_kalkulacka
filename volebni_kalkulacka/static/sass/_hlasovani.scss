@@ -44,6 +44,10 @@
 
 
     }
+
+    .date{
+        opacity: 0.5;
+    }
 }
   
   /*END HLASOVANI PREHLED*/
@@ -143,6 +147,14 @@
             background-color: lightgrey;
             margin-right: 10px;
         }
+    }
+
+
+    #show_hlasovani_poslancu{
+        display: inline-block;
+        padding: 10px 20px;
+        color: white;
+        cursor: pointer;
     }
 }
 

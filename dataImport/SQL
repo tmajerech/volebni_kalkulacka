@@ -16,15 +16,15 @@ and o.id_typ_organu = 1
 
 
 
-#Všechna rozhodující hlasování
-SELECT * FROM `hl_hlasovani` as hh
-	INNER JOIN `hist` as h
+--Všechna rozhodující hlasování
+SELECT * FROM psp_data_hl_hlasovani as hh
+	INNER JOIN psp_data_hist as h
 	ON h.id_hlas = hh.id_hlasovani
     
-    INNER JOIN `prechody` as p
+    INNER JOIN psp_data_prechody as p
     ON h.id_prechod = p.id_prechod
     
-    INNER JOIN `stavy` as s
+    INNER JOIN psp_data_stavy as s
     ON s.id_stav = p.kam
     
 WHERE hh.id_organ = 172 
@@ -131,3 +131,10 @@ inner join t2
 on t2.id_poslanec = t3.id_poslanec
       
     
+
+
+
+--najde aktualni volebni obdobi
+select * from psp_data_organy 
+where organ_id_organ is null
+and id_typ_organu = 11 --poslanecka snemovna

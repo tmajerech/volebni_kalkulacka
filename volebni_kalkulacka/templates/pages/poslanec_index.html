@@ -20,7 +20,7 @@
                 <a href="{% url 'poslanec:poslanec_detail' poslanec_single.id_poslanec %}">
                 {% if poslanec_single.foto == 1 %}
                     <img 
-                    src="http://www.psp.cz/eknih/cdrom/2017ps/eknih/2017ps/poslanci/i{{ poslanec_single.id_osoba }}.jpg" 
+                    src="http://www.psp.cz/eknih/cdrom/{{election_period}}ps/eknih/{{election_period}}ps/poslanci/i{{ poslanec_single.id_osoba }}.jpg" 
                     class="img-fluid"
                     alt="Poslanec profilový obrázek">
                 {% else %}

@@ -80,7 +80,6 @@ THIRD_PARTY_APPS = [
 
     'django_activeurl',
     'django_cleanup.apps.CleanupConfig',
-    'star_ratings',
     'django_comments',
 ]
 

@@ -25,7 +25,7 @@ class Schuze_index(generic.ListView):
         #this is inefficient
         for schuze_number in schuze_numbers:
             hlasovani_data = Hl_Hlasovani.objects.filter(
-                schuze=schuze_number, nazev_dlouhy__isnull=False, bod__gt=0).exclude(nazev_dlouhy__exact=' ').order_by('bod')
+                schuze=schuze_number, nazev_dlouhy__isnull=False, bod__gt=0, id_organ=id_org).exclude(nazev_dlouhy__exact=' ').order_by('bod')
             hlasovani = {}
 
             for hlasovani_single in hlasovani_data:
