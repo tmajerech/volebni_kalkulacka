@@ -15,11 +15,29 @@
 
 /*HOMEPAGE*/
 .home #page{
-  background-image: url('/static/images/frontpage-bg.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  justify-content: space-between;
+
+  @media screen and (min-width: $bp_md ){
+    background-image: url('/static/images/frontpage-bg.jpg');
+  }
+
+  #content{
+    display: flex;
+    min-height: calc(100vh - 60px);
+    background-image: url('/static/images/frontpage-bg.jpg');
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    justify-content: space-between;
+    padding-bottom: 101px;
+    align-items: flex-start;
+    align-content: flex-start;
+
+    @media screen and (min-width: $bp_md ){
+      align-items: center; 
+      background-image: initial;
+    }
+  }
+
 
   h1{
     font-size: 50px;
@@ -43,6 +61,11 @@
 
   footer{
     margin-top: 0;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    left: 0;
+    width: 100%;
   }
 }
 /*END HOMEPAGE*/

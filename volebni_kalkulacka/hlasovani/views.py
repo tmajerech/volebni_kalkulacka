@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 from volebni_kalkulacka.psp_data.helpers import get_current_election_period
-from volebni_kalkulacka.psp_data.models import Hl_Hlasovani, Hist, Tisky, Poslanec, Hl_Hlasovani_Rating
+from volebni_kalkulacka.psp_data.models import Hl_Hlasovani, Hist, Tisky, Poslanec, Hl_Hlasovani_Rating, Bod_Schuze, Schuze
 
 from django.db import connection
 
@@ -23,7 +23,23 @@ class Hlasovani_index(generic.ListView):
 
     def get_queryset(self):
         inner_qs = Hl_Hlasovani_Rating.objects.all().values_list('id_hlasovani', flat=True)
-        queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by('-hl_hlasovani_rating__rating')
+
+        #get ordering from request
+        orderingPar = self.request.GET.get('sort')
+        if orderingPar == 'rating_asc':
+            ordering = 'hl_hlasovani_rating__rating'
+            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by(ordering)
+        elif orderingPar == 'rating_desc':
+            ordering = '-hl_hlasovani_rating__rating'
+            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by(ordering)
+        elif orderingPar == 'date_asc':
+            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).extra(select={'datum_ex':"TO_DATE(datum,'DD.MM.YYYY')"}, order_by=['datum_ex'] )
+        elif orderingPar == 'date_desc':
+            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).extra(select={'datum_ex':"TO_DATE(datum,'DD.MM.YYYY')"}, order_by=['-datum_ex'] )
+        else:
+            ordering = '-hl_hlasovani_rating__rating'
+            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by(ordering)
+
         return queryset
 
 class Hlasovani_detail(generic.DetailView):
@@ -91,6 +107,13 @@ class Hlasovani_detail(generic.DetailView):
         except:
             pass
 
+        #get full name of Bod Hlasovani
+        print(hlasovani_single.bod)
+        id_schuze = Schuze.objects.filter(schuze=hlasovani_single.schuze, id_org=hlasovani_single.id_organ, pozvanka=None).values_list('id_schuze', flat=True)[0]
+        print(id_schuze)
+        nazev_uplny = Bod_Schuze.objects.filter(id_schuze=id_schuze, bod=hlasovani_single.bod, pozvanka=None).first().uplny_naz
+        context['nazev_uplny'] = nazev_uplny
+        
         context['strany'] = strany
 
         return context

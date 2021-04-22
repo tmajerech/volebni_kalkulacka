@@ -7,10 +7,13 @@
 
 
 {% block content %}
-<div>
-    <h1 class="pageTitle">
+<div class="mb-5 row" >
+    <h1 class="pageTitle col-12 mb-4">
         {{hlasovani_single.nazev_dlouhy}}     
     </h1>
+    <div class="col-md-8" >
+        {{nazev_uplny}}
+    </div>
 </div>
 <div class="row mb-5">
     <div class="col-12">
@@ -53,7 +56,9 @@
 
 </div>
 
-<div id="show_hlasovani_poslancu" class="btn btn-primary"  onclick="javaScript:showHlasovaniPoslancu();" >Zobrazit hlasování poslanců</div>
+<div class="btn-wrap text-center text-md-left">
+    <div id="show_hlasovani_poslancu" class="btn btn-primary"  onclick="javaScript:showHlasovaniPoslancu();" >Zobrazit hlasování poslanců</div>
+</div>
 <div id="hlasovani_poslancu" style="display: none;" >
     <div class="poslanci-voted">
         <h2>Hlasování poslanců podle stran</h2>

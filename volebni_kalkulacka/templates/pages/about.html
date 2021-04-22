@@ -1,35 +1,72 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div class="row mx-auto" style="max-width: 800px;" >
+{% extends "base.html" %} {% block content %}
+<div class="row mx-auto" style="max-width: 800px">
   <div class="col-12 mb-5">
-    <h1 class="pageTitle mb-2">
-      Jak to funguje
-    </h1>
+    <h1 class="pageTitle mb-2">Jak to funguje</h1>
     <p>
-      Na této stránce se dozvíte základní informace o Volební kalkulačce, proč vznikla a co všechno umí.
+      Na této stránce se dozvíte základní informace o Volební kalkulačce, proč
+      vznikla a co všechno umí.
     </p>
   </div>
 
-  <div id="projekt" class="col-12 mb-4" >
+  <div id="projekt" class="col-12 mb-4">
     <h2>O projektu</h2>
-    <p>Tento projekt vznikl jako bakalářská práce na Fakultě informačních technologí Vysokého učení technického v Brně.
-      Jeho cílem je umožnit lidem (relativně) jednoduše ověřit nakolik se jejich osobní preference shodují s politiky.
+    <p>
+      Tento projekt vznikl jako bakalářská práce na Fakultě informačních
+      technologí Vysokého učení technického v Brně. Jeho cílem je umožnit lidem
+      (relativně) jednoduše ověřit nakolik se jejich osobní preference shodují s
+      politiky.
     </p>
   </div>
-  
-  <div id="kalkulacka" class="col-12 mb-4" >
-    <h2>Kalkulačka</h2>
-    <p>Pro využití volební kalkulačky je nejprve nutné se <a href="/accounts/signup" >registrovat.</a> Po vytvoření účtu a přihlášení se Vám 
-    následně u některých vybraných hlasování (jejich kompletní seznam naleznete <a href="{% url 'hlasovani:hlasovani_index' %}" >ZDE</a>) zpřístupní možnost
-    hlasovat. Po alespoň 10 hlasováních se Vám v profilu zpřístupní výsledky kalkulačky. Tyto jsou závislé na vaší shodě ve hlasování s jednotlivými poslanci a stranami. 
-    Čím víc hlasování uskutečníte, tím přesnější výsledky dostanete. </p>
-  
-    <p><a href="{% url 'hlasovani:hlasovani_index'%}" class="btn btn-primary">Prohlédnout důležitá hlasování</a></p>
+
+  <div id="kalkulacka" class="col-12 mb-4">
+    <h2>Jak to funguje</h2>
+    <p>
+      Každé z <a href="{% url 'hlasovani:hlasovani_index' %}">Hlasování</a> v
+      kalkulačce je jedno skutečné hlasování, které proběhlo v Poslanecké
+      Sněmovně. Jako uživatel aplikace máte možnost u každého z nich hlasovat
+      stejně jako poslanci pro jednu z možností "pro", "proti" a "zdržet se". Po
+      odhlasování si můžete v sekci
+      <a href="{% url 'kalkulacka:kalkulacka_index' %}">Kalkulačka</a> zobrazit
+      svoje výsledky, vyjadřující v procentech nakolik jsou Vaše volby shodné s
+      jednotlivými poslanci a stranami. Čím více hlasování, tím přesnější
+      výsledky.
+    </p>
+    <p>
+      POZOR: Pokud plánujete používat kalkulačku častěji, důrazně doporučujeme
+      využít možnosti <a href="/accounts/signup">registrace</a>, aby byly vaše
+      volby bezpečně uloženy v uživatelském účtu a nehrozila jejich ztráta.
+    </p>
+    <p>
+      Je však třeba dávat pozor na to, že ne všechna hlasování mají nějaký
+      podstatný vliv aktuální bod schůze. Někdy je totiž hlasování pouze
+      procedurální, například o vyhlášení přestávky. Proto je zde sekce
+      <a href="{% url 'hlasovani:hlasovani_index' %}">Hlasování</a>, ve které
+      jsme pro Vás vybrali jen ta hlasování za poslední 2 volební období, která
+      reálně ovlivnila další existenci návrhů zákonů. Také jsme je přehledně
+      seřadili od těch nejzajímavějších, která nejvíce rozpoltila členy stran
+      proti sobě.<br />
+      Také u těchto vybraných hlasování najdete odkaz na Sněmovní Tisk. To je
+      stručně řečeno podklad pro hlasování, objasňující o čo se v hlasování
+      vlastně jedná.
+    </p>
 
     <p>
-      Pro poslance procenta v kalkulačce značí přímo na kolik jsou Vaše odpovědi v odhlasovaných hlasováních shodné s jejich.<br>
-      U stran je výpočet závislý na každém hlasování poslance v ní a poměrem shod ke všem členům.
+      <a href="{% url 'hlasovani:hlasovani_index'%}" class="btn btn-primary"
+        >Prohlédnout důležitá hlasování</a
+      >
+    </p>
+
+    <p>
+      Pokud vás zajímá jaká hlasování proběhla v jaké schůzi, neváhejte a
+      navštivte sekci <a href="{% url 'schuze:schuze_index' %}">Schůze</a>, kde
+      je celé aktuální volební období přehledně zobrazeno.
+    </p>
+    <p>
+      Pro doplnění politického přehledu jsme také připravili sekci
+      <a href="{% url 'poslanec:poslanec_index' %}">Poslanci</a>, poskytující
+      jednoduchý přehled o současných tvářích v poslanecké sněmovně. Každý
+      poslanec má vlastní profil, kde po registraci můžete poslanci udělit
+      hodnocení či komentář.
     </p>
   </div>
 
@@ -37,10 +74,13 @@
     <h2>Zdroj dat</h2>
 
     <p>
-      Všechna data získáváme z <a href="https://www.psp.cz/sqw/hp.sqw?akk=6" target="_blank" >veřejně dostupných dat poslanecké sněmovny.</a> 
-      Každý den probíhá jejich automatická aktualizace, aby byla zajištěna co největší dostupnost.
+      Všechna data získáváme z
+      <a href="https://www.psp.cz/sqw/hp.sqw?akk=6" target="_blank"
+        >veřejně dostupných dat poslanecké sněmovny.</a
+      >
+      Každý den probíhá jejich automatická aktualizace, aby byla zajištěna co
+      největší dostupnost.
     </p>
-
   </div>
 
   <div id="kontakt" class="col-12 mb-4">
@@ -51,10 +91,5 @@
       <a href="mailto:info@votesmart.cz">info@votesmart.cz</a>
     </p>
   </div>
-
-
-  OHODNOCENI HLASOVANI
-  MATCHE V KALKULACCE
-  
 </div>
 {% endblock %}

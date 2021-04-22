@@ -1,6 +1,16 @@
 
 /* HLASOVANI */
 .hlasovani_page{
+
+    #page_ordering{
+        border: 1px solid $blue_standard;
+        border-radius: 0;
+        color: $blue_standard;
+        font-weight: 500;
+        height: auto;
+        padding: .6rem 1.5rem;
+    }
+
     .hlasovani .meta{
         display: flex;
         opacity: 0.5;
@@ -61,6 +71,8 @@
     }
 
     .voter{
+        max-width: 350px;
+        margin: auto;
         
         @media (min-width: 768px){
             position: absolute;
@@ -77,6 +89,7 @@
             opacity: 0.5;
             transition: 0.3s;
             width: calc(100% / 3);
+            min-height: 40px;
 
             &.active, &:hover{
                 opacity: 1;
@@ -121,9 +134,14 @@
                 flex-wrap: wrap;
     
                 .poslanec{
-                    width: calc(100% / 5);
+                    width: calc(100% / 2);
                 
-                
+                    @media screen and (min-width: $bp_sm){
+                        width: calc(100% / 3);
+                    }
+                    @media screen and (min-width: $bp_md){
+                        width: calc(100% / 5);
+                    }
                     
                 }
 
@@ -156,6 +174,25 @@
         color: white;
         cursor: pointer;
     }
+
+    
 }
 
 
+
+
+.kalkulacka_page{
+
+    .kalkulacka_results{
+        @media screen and (min-width: $bp_sm ) and (max-width: 756px){
+            .name{
+                width: calc(100% - 75px);
+                flex: initial;
+            }
+            .percents{
+                width: calc(75px);
+                max-width: unset;
+            }
+        }
+    }
+}

@@ -38,6 +38,15 @@ $red_standard: #d7141a;
 $black_standard: #202020;
 $green_standard: #009f5e;
 
+//breakpoints
+$bp_xs: 0;
+$bp_sm: 576px;
+$bp_md: 768px;
+$bp_lg: 992px;
+$bp_xl: 1200px;
+$bp_xxl: 1400px;
+
+
 body {
   color: $blue_standard;
   font-weight: 500;
@@ -57,6 +66,11 @@ h1 {
   font-size: 35px;
   font-weight: bold;
   color: black;
+  text-align: center;
+
+  @media screen and (min-width: $bp_md){
+    text-align: left;
+  }
 }
 h2 {
   font-size: 25px;

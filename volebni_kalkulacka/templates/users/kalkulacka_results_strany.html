@@ -6,8 +6,8 @@
       <h5>Volební období {{period_year}}</h5>
       {% for row in period_ratings %}
       <div class="row">
-        <div class="col-9">{{row.zkratka}}</div>
-        <div class="col-3">{{row.match_ratio|floatformat:1}}%</div>
+        <div class="col-9 name">{{row.zkratka}}</div>
+        <div class="col-3 percents">{{row.match_ratio|floatformat:1}}%</div>
       </div>
       {% endfor %}
     </div>

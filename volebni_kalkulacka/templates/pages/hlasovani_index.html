@@ -7,18 +7,31 @@
 
 
 {% block content %}
-<div class="mb-5" >
-    <h1 class="pageTitle mb-2">
+<div class="mb-4" >
+    <h1 class="pageTitle mb-5">
         Přehled důležitých hlasování
     </h1>
-    <p>
-        Níže naleznete všechna podstatná hlasování o návrzích zákonů pro vybrané volební období.<br>
-        Hlasujte u jednotlivých položek a zjistěte nakolik jsou Vaše názory shodné s jednotlivými politiky.
-    </p>
+    <div class="row justify-content-between align-items-end">
+        <p class="col-md-8 mb-3" >
+            Níže naleznete všechna podstatná hlasování o návrzích zákonů pro vybrané volební období.<br>
+            Hlasujte u jednotlivých položek a zjistěte nakolik jsou Vaše názory shodné s jednotlivými politiky.
+        </p>
+
+        <div  class="ordering-wrap col-md-4 d-inline-block ml-auto ml-md-0" style="max-width: 300px;">
+            <select name="page_ordering" id="page_ordering" class="form-control d-inline-block" onchange="javaScript:changePageOrdering(this);" >
+                <option value="rating_desc" {% if 'rating_desc' == request.GET.sort %}selected{% endif %}>Hodnocení: od největšího</option>
+                <option value="rating_asc"  {% if 'rating_asc' == request.GET.sort %}selected{% endif %}>Hodnocení: od nejmenšího</option>
+                <option value="date_desc"  {% if 'date_desc' == request.GET.sort %}selected{% endif %}>Datum: od nejnovějšího</option>
+                <option value="date_asc"  {% if 'date_asc' == request.GET.sort %}selected{% endif %}>Datum: od nejstaršího</option>
+            </select>
+        </div>
+    </div>
+
 </div>
+
 <div class="row align-items-start list hlasovani-list infinite-container">
     {% for hlasovani_single in hlasovani %}
-    <div class="col-12 col-md-4 mb-4 hlasovani infinite-item" >
+    <div class="col-12 col-sm-6 col-md-4 mb-4 hlasovani infinite-item" >
         <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}" class="mb-1" >{{hlasovani_single.nazev_dlouhy}}</a>
         <div class="meta">
             <div class="pro" title="Pro" ><span><i class="fas fa-check"></i></i></span>{{hlasovani_single.pro}}</div>
@@ -34,7 +47,7 @@
 </div>
 <div class="pagination-wrap text-center">
     {% if page_obj.has_next %}
-        <a href="?page={{page_obj.next_page_number}}" class="infinite-more-link d-none">Další strana</a>
+        <a href="?page={{page_obj.next_page_number}}&sort={{request.GET.sort}}" class="infinite-more-link d-none">Další strana</a>
         <div class="spinner-border loading" style="display:none;" role="status" ><span class="sr-only">Loading...</span></div>
     {% endif %}
 </div>
@@ -58,5 +71,13 @@
             })
         })
     })
+
+
+    function changePageOrdering(element){
+        let $select = $(element);
+        let sort = $select.val();
+        //load page with right ordering
+        window.location.href = `{% url 'hlasovani:hlasovani_index' %}?sort=${sort}`;
+    }
 </script>
 {% endblock inline_javascript %}

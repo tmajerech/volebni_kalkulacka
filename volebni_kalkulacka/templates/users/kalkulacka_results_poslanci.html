@@ -9,12 +9,12 @@
             <h5>Volební období {{period_year}}</h5>
             {% for row in period_ratings %}  
             <div class="row">
-                <div class="col-9">        
+                <div class="col-9 name">        
                     <a href="{% url 'poslanec:poslanec_detail' row.id_poslanec %}" class="poslanec">
                         {{row.jmeno}} {{row.prijmeni}} ({{row.zkratka}})
                     </a>
                 </div>
-                <div class="col-3 text-right">
+                <div class="col-3 text-right percents">
                     {{row.match_ratio|floatformat:1}}%
                 </div>
             </div>
