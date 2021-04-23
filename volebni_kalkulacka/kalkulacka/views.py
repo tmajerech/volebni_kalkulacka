@@ -27,7 +27,6 @@ def kalkulacka_index(request):
     if request.session.get('kalkulacka_answers'):
         for period, items in request.session['kalkulacka_answers'].items():
             if items != {}:
-                print('hasvotes')
                 args['has_votes'] = True
 
      

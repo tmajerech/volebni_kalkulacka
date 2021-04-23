@@ -16,8 +16,14 @@
 /*HOMEPAGE*/
 .home #page{
 
+  position: relative;
+
   @media screen and (min-width: $bp_md ){
     background-image: url('/static/images/frontpage-bg.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-bottom: 0;
   }
 
   #content{
@@ -28,13 +34,14 @@
     background-size: cover;
     background-repeat: no-repeat;
     justify-content: space-between;
-    padding-bottom: 101px;
+    padding-bottom: 151px;
     align-items: flex-start;
     align-content: flex-start;
 
     @media screen and (min-width: $bp_md ){
       align-items: center; 
       background-image: initial;
+      padding-bottom: 101px;
     }
   }
 
@@ -52,8 +59,8 @@
 
   .btn{
     margin-top: 40px;
-    width: 390px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 390px;
     line-height: 63px;
     font-weight: bold;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.7);

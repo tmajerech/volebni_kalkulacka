@@ -19,7 +19,7 @@ certificatesResolvers:
   letsencrypt:
     # https://docs.traefik.io/master/https/acme/#lets-encrypt
     acme:
-      email: "tomas-majerech@example.com"
+      email: "majerech.t@gmail.com"
       caServer: https://acme-staging-v02.api.letsencrypt.org/directory #staging
       storage: /etc/traefik/acme/acme.json
       # https://docs.traefik.io/master/https/acme/#httpchallenge

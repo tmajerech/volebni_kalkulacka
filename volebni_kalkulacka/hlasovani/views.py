@@ -108,9 +108,7 @@ class Hlasovani_detail(generic.DetailView):
             pass
 
         #get full name of Bod Hlasovani
-        print(hlasovani_single.bod)
         id_schuze = Schuze.objects.filter(schuze=hlasovani_single.schuze, id_org=hlasovani_single.id_organ, pozvanka=None).values_list('id_schuze', flat=True)[0]
-        print(id_schuze)
         nazev_uplny = Bod_Schuze.objects.filter(id_schuze=id_schuze, bod=hlasovani_single.bod, pozvanka=None).first().uplny_naz
         context['nazev_uplny'] = nazev_uplny
         

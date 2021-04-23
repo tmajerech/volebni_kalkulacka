@@ -143,6 +143,7 @@ class DbManager(object):
                 data_values = []
                 # loop through every hlasovani
                 for hlasovani in interesting_hlasovani:
+                    print(f'1/{len(interesting_hlasovani)}')
                     # query for all voters votes and parties
                     SQL_Query = pd.read_sql_query(
                     f'''
