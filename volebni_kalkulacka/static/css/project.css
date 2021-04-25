@@ -46,6 +46,10 @@ h3 {
 .container {
   max-width: 1600px; }
 
+.form-control:focus {
+  -webkit-box-shadow: initial !important;
+          box-shadow: initial !important; }
+
 #page {
   min-height: 100vh;
   display: -webkit-box;
@@ -197,7 +201,46 @@ footer {
   font-weight: 500;
   height: auto;
   padding: 9.6px 24px;
-  padding: .6rem 1.5rem; }
+  padding: .6rem 1.5rem;
+  -webkit-box-shadow: initial !important;
+          box-shadow: initial !important; }
+
+.hlasovani_page #filtersToggler {
+  border: 1px solid #11457e;
+  border-radius: 0;
+  border-right: 0;
+  -webkit-box-shadow: initial !important;
+          box-shadow: initial !important; }
+  .hlasovani_page #filtersToggler[aria-expanded="true"] {
+    background-color: #11457e;
+    color: white; }
+  .hlasovani_page #filtersToggler i {
+    vertical-align: middle; }
+
+.hlasovani_page #collapseFilters {
+  text-align: right;
+  width: 100%; }
+  .hlasovani_page #collapseFilters .filters-wrap {
+    display: inline-block; }
+    .hlasovani_page #collapseFilters .filters-wrap form {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
+      .hlasovani_page #collapseFilters .filters-wrap form .form-group {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-flow: column;
+                flex-flow: column; }
+      .hlasovani_page #collapseFilters .filters-wrap form .btns-wrap {
+        width: 100%; }
 
 .hlasovani_page .hlasovani .meta {
   display: -webkit-box;

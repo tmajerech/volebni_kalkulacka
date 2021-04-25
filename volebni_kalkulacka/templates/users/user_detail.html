@@ -20,6 +20,8 @@
     <div class="col-12 col-md-2">
       {% if object.profile_image %}
       <img src="{{object.profile_image.url}}" alt="user profile image" class="img-fluid" >
+      {% else %}
+      <img src="{% static '/images/profile_placeholder.jpg' %}" alt="user profile image" class="img-fluid" >
       {% endif %}
     </div>
   </div>
@@ -30,9 +32,9 @@
 <div class="row mb-5">
 
   <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Upravit profil</a>
-    <a href="/accounts/password/change/" class="btn btn-primary">Změnit heslo</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">Upravit email</a>
+    <a class="btn btn-primary mb-2" href="{% url 'users:update' %}" role="button">Upravit profil</a>
+    <a href="/accounts/password/change/" class="btn btn-primary mb-2">Změnit heslo</a>
+    <a class="btn btn-primary mb-2" href="{% url 'account_email' %}" role="button">Upravit email</a>
     <!-- Your Stuff: Custom user template urls -->
   </div>
 

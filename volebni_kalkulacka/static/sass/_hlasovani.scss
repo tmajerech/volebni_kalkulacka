@@ -9,6 +9,48 @@
         font-weight: 500;
         height: auto;
         padding: .6rem 1.5rem;
+        box-shadow: initial!important;
+    }
+
+    //filters
+    #filtersToggler{
+        border: 1px solid $blue_standard;
+        border-radius: 0;
+        border-right: 0;
+        box-shadow: initial!important;
+
+        &[aria-expanded="true"]{
+            background-color: $blue_standard;
+            color: white;
+        }
+        
+        i{
+            vertical-align: middle;
+        }
+    }
+    #collapseFilters{
+        text-align: right;
+        width: 100%;
+
+        .filters-wrap{
+            display: inline-block;
+
+
+            form{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+
+                .form-group{
+                    display: flex;
+                    flex-flow: column;
+                }
+
+                .btns-wrap{
+                    width: 100%;
+                }
+            }
+        }
     }
 
     .hlasovani .meta{

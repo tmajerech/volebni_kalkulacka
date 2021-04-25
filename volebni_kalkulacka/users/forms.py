@@ -19,8 +19,8 @@ class UserCreationForm(admin_forms.UserCreationForm):
         model = User
 
         error_messages = {
-            "username": {"unique": _("This username has already been taken.")},
-            "email": {"unique": _("This email has already been taken.")}
+            "username": {"unique": _("Tato přezdívka již byla použita.")},
+            "email": {"unique": _("Tento email již byl použit.")}
         }
 
 
@@ -28,7 +28,7 @@ class UserCreationForm(admin_forms.UserCreationForm):
 class SignupForm(forms.Form):
     first_name = forms.CharField(max_length=30, label='Jméno')
     last_name = forms.CharField(max_length=30, label='Příjmení')
-    profile_image = forms.ImageField(label="Profilový obrázek")
+    profile_image = forms.ImageField(label="Profilový obrázek", required=False)
 
     class Meta:
         model = get_user_model()

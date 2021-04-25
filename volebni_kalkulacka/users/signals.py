@@ -2,7 +2,14 @@ from django_comments.signals import comment_will_be_posted
 from django.dispatch import receiver
 from django.core.mail import send_mail
 
-# https://cs.wiktionary.org/wiki/Kategorie:Vulg%C3%A1rn%C3%AD_v%C3%BDrazy/%C4%8De%C5%A1tina
+
+# /***************************************************************************************
+# *    Title: Kategorie:Vulgární výrazy/čeština
+# *    Author: Soubor autorů Wiktionary
+# *    Date: 25.4.2021
+# *    Availability: https://cs.wiktionary.org/wiki/Kategorie:Vulg%C3%A1rn%C3%AD_v%C3%BDrazy/%C4%8De%C5%A1tina
+# *
+# ***************************************************************************************/
 badwords = [
     'akcizák',
     'ambažúra',
@@ -209,6 +216,6 @@ def function(sender, comment, request, **kwargs):
                 f'{comment}',
                 'comments@votesmart.com',
                 ['admins@votesmart.com'],
-                fail_silently=False,
+                fail_silently=True,
             )
 

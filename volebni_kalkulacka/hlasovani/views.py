@@ -1,17 +1,19 @@
 from .forms import *
-from django.views import generic
 
+from django import template
 from django.urls import reverse_lazy
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views import generic
 from django.shortcuts import get_object_or_404
+from django.contrib.postgres.search import SearchVector
+from django.db import connection
 
 from volebni_kalkulacka.psp_data.helpers import get_current_election_period
 from volebni_kalkulacka.psp_data.models import Hl_Hlasovani, Hist, Tisky, Poslanec, Hl_Hlasovani_Rating, Bod_Schuze, Schuze
 
-from django.db import connection
 
-from django import template
+from datetime import datetime
 
 register = template.Library()
 
@@ -24,21 +26,31 @@ class Hlasovani_index(generic.ListView):
     def get_queryset(self):
         inner_qs = Hl_Hlasovani_Rating.objects.all().values_list('id_hlasovani', flat=True)
 
-        #get ordering from request
+        #get ordering and filters from request
         orderingPar = self.request.GET.get('sort')
+        filterName = self.request.GET.get('filterName')
+        
+        queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs)
+        if filterName:
+            queryset = queryset.annotate(search=SearchVector('nazev_dlouhy')).filter(search__icontains=filterName)
+
+        if self.request.GET.get('filterDate'):
+            filterDate = self.request.GET.get('filterDate')
+            queryset = queryset.filter(datum=filterDate)
+
         if orderingPar == 'rating_asc':
             ordering = 'hl_hlasovani_rating__rating'
-            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by(ordering)
+            queryset = queryset.order_by(ordering)
         elif orderingPar == 'rating_desc':
             ordering = '-hl_hlasovani_rating__rating'
-            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by(ordering)
+            queryset = queryset.order_by(ordering)
         elif orderingPar == 'date_asc':
-            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).extra(select={'datum_ex':"TO_DATE(datum,'DD.MM.YYYY')"}, order_by=['datum_ex'] )
+            queryset = queryset.extra(select={'datum_ex':"TO_DATE(datum,'DD.MM.YYYY')"}, order_by=['datum_ex'] )
         elif orderingPar == 'date_desc':
-            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).extra(select={'datum_ex':"TO_DATE(datum,'DD.MM.YYYY')"}, order_by=['-datum_ex'] )
+            queryset = queryset.extra(select={'datum_ex':"TO_DATE(datum,'DD.MM.YYYY')"}, order_by=['-datum_ex'] )
         else:
             ordering = '-hl_hlasovani_rating__rating'
-            queryset = Hl_Hlasovani.objects.filter(id_hlasovani__in=inner_qs).order_by(ordering)
+            queryset = queryset.order_by(ordering)
 
         return queryset
 

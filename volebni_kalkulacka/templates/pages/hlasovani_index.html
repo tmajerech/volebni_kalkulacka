@@ -7,23 +7,57 @@
 
 
 {% block content %}
-<div class="mb-4" >
+<div class="mb-4">
     <h1 class="pageTitle mb-5">
         Přehled důležitých hlasování
     </h1>
     <div class="row justify-content-between align-items-end">
-        <p class="col-md-8 mb-3 mb-md-0" >
+        <p class="col-md-8 mb-3 mb-md-0">
             Níže naleznete všechna podstatná hlasování o návrzích zákonů pro vybrané volební období.<br>
             Hlasujte u jednotlivých položek a zjistěte nakolik jsou Vaše názory shodné s jednotlivými politiky.
         </p>
 
-        <div  class="ordering-wrap col-md-4 d-inline-block ml-auto ml-md-0" style="max-width: 300px;">
-            <select name="page_ordering" id="page_ordering" class="form-control d-inline-block" onchange="javaScript:changePageOrdering(this);" >
-                <option value="rating_desc" {% if 'rating_desc' == request.GET.sort %}selected{% endif %}>Hodnocení: od největšího</option>
-                <option value="rating_asc"  {% if 'rating_asc' == request.GET.sort %}selected{% endif %}>Hodnocení: od nejmenšího</option>
-                <option value="date_desc"  {% if 'date_desc' == request.GET.sort %}selected{% endif %}>Datum: od nejnovějšího</option>
-                <option value="date_asc"  {% if 'date_asc' == request.GET.sort %}selected{% endif %}>Datum: od nejstaršího</option>
+        <div class="ordering-wrap col-md-4 d-inline-flex ml-auto ml-md-0" style="max-width: 330px;">
+            <a href="#collapseFilters" data-toggle="collapse" class="btn collapseToggle" role="button"
+                id="filtersToggler"
+                aria-expanded="{% if request.GET.filterName is not None or request.GET.filterDate is not None %}true{% else %}false{% endif %}"
+                aria-controls="collapseFilters"
+                title="Filtrace">
+                <i class="fas fa-filter"></i>
+            </a>
+            <select name="page_ordering" id="page_ordering" class="form-control d-inline-block"
+                onchange="javaScript:changePageOrdering(this);">
+                <option value="rating_desc" {% if 'rating_desc' == request.GET.sort %}selected{% endif %}>Hodnocení: od
+                    největšího</option>
+                <option value="rating_asc" {% if 'rating_asc' == request.GET.sort %}selected{% endif %}>Hodnocení: od
+                    nejmenšího</option>
+                <option value="date_desc" {% if 'date_desc' == request.GET.sort %}selected{% endif %}>Datum: od
+                    nejnovějšího</option>
+                <option value="date_asc" {% if 'date_asc' == request.GET.sort %}selected{% endif %}>Datum: od nejstaršího
+                </option>
             </select>
+        </div>
+
+        <div class="filters collapse col-12 {% if request.GET.filterName is not None or request.GET.filterDate is not None %}show{% endif %}" 
+        id="collapseFilters"
+        >
+            <div class="filters-wrap pt-3 ">
+                <form onsubmit=''>
+                    <div class="form-group">
+                        <label for="filterName">Vyhledat podle názvu</label>
+                        <input type="text" class="form-control" placeholder="Hledat název" minlength="2" value="{{request.GET.filterName}}" name="filterName" id='filterName' />
+                    </div>
+                    <div class="form-group ml-3">
+                        <label for="filterDate">Vyhledat podle data</label>
+                        <input type="text" class="form-control" placeholder="Datum hlasování" value="{{request.GET.filterDate}}" name="filterDate" id='filterDate' />
+                    </div>
+                    <input type="hidden" name="sort" value="{{request.GET.sort}}" />
+                    <div class="btns-wrap">
+                        <a href="javaScript:resetFilter();" class="btn btn-secondary">Reset</a>
+                        <button class="btn btn-primary" type="submit">Vyhledat</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -31,24 +65,34 @@
 
 <div class="row align-items-start list hlasovani-list infinite-container">
     {% for hlasovani_single in hlasovani %}
-    <div class="col-12 col-sm-6 col-md-4 mb-4 hlasovani infinite-item" >
-        <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}" class="mb-1" >{{hlasovani_single.nazev_dlouhy}}</a>
+    <div class="col-12 col-sm-6 col-md-4 mb-4 hlasovani infinite-item">
+        <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}"
+            class="mb-1">{{hlasovani_single.nazev_dlouhy}}</a>
         <div class="meta">
-            <div class="pro" title="Pro" ><span><i class="fas fa-check"></i></i></span>{{hlasovani_single.pro}}</div>
-            <div class="proti" title="Proti" ><span><i class="fas fa-times"></i></span>{{hlasovani_single.proti}}</div>
-            <div class="zdrzel" title="Zdrzel se" ><span>Z</span>{{hlasovani_single.zdrzel|add:hlasovani_single.nehlasoval}}</div>
-            
-            <div class="prihlaseno" title="Přihlášeno" ><span class="divider">/</span><span>P</span>{{hlasovani_single.prihlaseno}}</div>
-            <div class="kvorum" title="Kvórum" ><span>Q</span>{{hlasovani_single.kvorum}}</div>
+            <div class="pro" title="Pro"><span><i class="fas fa-check"></i></i></span>{{hlasovani_single.pro}}</div>
+            <div class="proti" title="Proti"><span><i class="fas fa-times"></i></span>{{hlasovani_single.proti}}</div>
+            <div class="zdrzel" title="Zdrzel se">
+                <span>Z</span>{{hlasovani_single.zdrzel|add:hlasovani_single.nehlasoval}}</div>
+
+            <div class="prihlaseno" title="Přihlášeno"><span
+                    class="divider">/</span><span>P</span>{{hlasovani_single.prihlaseno}}</div>
+            <div class="kvorum" title="Kvórum"><span>Q</span>{{hlasovani_single.kvorum}}</div>
         </div>
         <p class="small mb-1 date">{{hlasovani_single.datum}}</p>
+    </div>
+    {% empty %}
+    <div class="col-12 mt-4">
+        <h3>Nebyla nalezena žádná významná klasování odpovídající Vašemu vyhledávání.</h3>
+        <p>Možná hledaná hlasování nebyla rozhodující a tudíž nejsou v této stránce zahrnuta. Zjistěte více v <a href="{% url 'about' %}">návodu ke kalkulačce</a>.</p>
     </div>
     {% endfor %}
 </div>
 <div class="pagination-wrap text-center">
     {% if page_obj.has_next %}
-        <a href="?page={{page_obj.next_page_number}}&sort={{request.GET.sort}}" class="infinite-more-link d-none">Další strana</a>
-        <div class="spinner-border loading" style="display:none;" role="status" ><span class="sr-only">Loading...</span></div>
+    <a href="?page={{page_obj.next_page_number}}&sort={{request.GET.sort}}&filterName={{request.GET.filterName}}&filterDate={{request.GET.filterDate}}" class="infinite-more-link d-none">Další
+        strana</a>
+    <div class="spinner-border loading" style="display:none;" role="status"><span class="sr-only">Loading...</span>
+    </div>
     {% endif %}
 </div>
 
@@ -71,13 +115,23 @@
             })
         })
     })
+    
+    $('#filterDate').attr('autocomplete', 'off').datepicker({
+        dateFormat: 'dd.mm.yy',
+        regional: 'cs'
+    });
 
+    function resetFilter() {
+        window.location.href = `{% url 'hlasovani:hlasovani_index' %}?sort={{request.GET.sort}}`
+    }
 
-    function changePageOrdering(element){
+    function changePageOrdering(element) {
         let $select = $(element);
         let sort = $select.val();
+        let filterName = $('#filterName').val();
+        let filterDate = $('#filterDate').val();
         //load page with right ordering
-        window.location.href = `{% url 'hlasovani:hlasovani_index' %}?sort=${sort}`;
+        window.location.href = `{% url 'hlasovani:hlasovani_index' %}?sort=${sort}&filterName=${filterName}&filterDate=${filterDate}`;
     }
 </script>
 {% endblock inline_javascript %}

@@ -1,9 +1,10 @@
 {% extends "base.html" %} {% load static %} {% load customtags %} {% block bodyclass %}kalkulacka_page{% endblock %} {% block content %}
 <div class="mb-5">
   <h1 class="pageTitle mb-2">Kalkulačka</h1>
-  <p>
-    Zde si můžete zobrazit své výsledky. <br />
-    Čím více hlasování máte uskutečněno, tím přesnější vaše výsledky budou.
+  <p style="max-width: 800px;" >
+    Zde si můžete zobrazit své výsledky. <br /> 
+    Procenta udávají nakolik jsou Vaše volby shodné s jednotlivými poslanci a stranami v jednotlivých volebních obdobích.
+    Čím více hlasování máte uskutečněno, tím přesnější vaše výsledky budou. 
     {% if not user.is_authenticated %}<br> <a href="/accounts/login" >Přihlašte se</a> pro načtení Vašich předchozích hlasování.{% endif %}
   </p>
 </div>

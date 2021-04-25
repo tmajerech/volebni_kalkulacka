@@ -14,7 +14,7 @@ class User(AbstractUser):
     email = CharField("Email", max_length=255)
     first_name = CharField("Firstname", blank=True, max_length=255)
     last_name = CharField("Surname", blank=True, max_length=255)
-    profile_image = ImageField(null=True, blank=True, default='default_profile_pic.png')
+    profile_image = ImageField(null=True, blank=True)
 
     show_results_publicly = BooleanField(default=False)
     kalkulacka_answers = JSONField(null=True, blank=True)
