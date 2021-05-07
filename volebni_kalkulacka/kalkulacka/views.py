@@ -94,13 +94,16 @@ def kalkulackaGetActualResultsPoslanci(request):
             CREATE TEMP TABLE t1 AS   
                 SELECT count(*) AS matches, id_poslanec 
                 FROM psp_data_hl_poslanec
-                WHERE (id_hlasovani, REPLACE(REPLACE(vysledek, 'B', 'N'),'C', 'K')) IN %s
+                WHERE (id_hlasovani, REPLACE(REPLACE(vysledek, 'B', 'N'),'C', 'K')) 
+                    IN %s
                 GROUP BY id_poslanec 
                 ORDER BY matches DESC;
             
             DROP TABLE IF EXISTS t2;
             CREATE TEMP TABLE t2 AS 
-                SELECT DISTINCT ON (p.id_poslanec) (cast(t1.matches as decimal(7,2))/%s)*100 AS match_ratio, t1.id_poslanec, o.zkratka, 
+                SELECT DISTINCT ON (p.id_poslanec) 
+                    (cast(t1.matches as decimal(7,2))/%s)*100 AS match_ratio, 
+                    t1.id_poslanec, o.zkratka, 
                     os.pred, os.jmeno, os.prijmeni, os.za
                 FROM t1
                     INNER JOIN psp_data_poslanec AS p
@@ -165,8 +168,8 @@ def kalkulackaGetActualResultsStrany(request):
         --get last last party for each member
         DROP TABLE IF EXISTS osoby_zarazeni;
         CREATE TEMP TABLE osoby_zarazeni AS
-            SELECT 
-                DISTINCT ON (os.id_osoba) os.id_osoba,o.zkratka, z.od_o, z.do_o, o.od_organ
+            SELECT DISTINCT ON (os.id_osoba) 
+                os.id_osoba, o.zkratka, z.od_o, z.do_o, o.od_organ
             FROM 
                 psp_data_osoby AS os
                 INNER JOIN psp_data_zarazeni AS z 
@@ -210,7 +213,8 @@ def kalkulackaGetActualResultsStrany(request):
                 BY oz.zkratka;
 
         SELECT 
-            ((CAST(tP2.party_total_matches as decimal(7,2))/{answers_count})/tP1.members_count)*100 AS match_ratio, tP1.zkratka 
+            ((CAST(tP2.party_total_matches as decimal(7,2))/{answers_count})
+            /tP1.members_count)*100 AS match_ratio, tP1.zkratka 
         FROM tP2
             INNER JOIN tP1
             ON tP1.zkratka = tP2.zkratka

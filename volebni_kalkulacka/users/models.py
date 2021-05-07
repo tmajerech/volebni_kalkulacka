@@ -32,6 +32,9 @@ class User(AbstractUser):
     def get_hlasovani_ids(self):
         answered_ids = []
         KA = self.kalkulacka_answers
+        if not KA:
+            return []
+            
         for year, answers in KA.items():
             for answer_id, choice in answers.items():
                 answered_ids.append(answer_id)
