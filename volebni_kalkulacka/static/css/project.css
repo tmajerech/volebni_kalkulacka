@@ -242,6 +242,9 @@ footer {
       .hlasovani_page #collapseFilters .filters-wrap form .btns-wrap {
         width: 100%; }
 
+.hlasovani_page .hlasovani.voted .hlasovani_link {
+  color: #11457e; }
+
 .hlasovani_page .hlasovani .meta {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -305,22 +308,40 @@ footer {
     color: white;
     line-height: 1;
     font-weight: 500;
-    opacity: 0.5;
     -webkit-transition: 0.3s;
     transition: 0.3s;
     width: calc(100% / 3);
-    min-height: 40px; }
-    .hlasovani_detail .voter button.active, .hlasovani_detail .voter button:hover {
-      opacity: 1; }
+    min-height: 40px;
+    -webkit-box-shadow: 0 !important;
+            box-shadow: 0 !important; }
+    .hlasovani_detail .voter button.active {
+      opacity: 1;
+      color: white !important; }
+    .hlasovani_detail .voter button:focus {
+      -webkit-box-shadow: initial !important;
+              box-shadow: initial !important; }
     .hlasovani_detail .voter button.pro {
-      background-color: #047104;
-      border-radius: 5px 0 0 5px; }
+      border: 2px solid #047104;
+      border-right-width: 1px;
+      border-radius: 5px 0 0 5px;
+      color: #047104; }
+      .hlasovani_detail .voter button.pro.active {
+        background-color: #047104; }
     .hlasovani_detail .voter button.zdrzel {
-      background-color: #11457e;
-      border-radius: 0; }
+      border: 2px solid #11457e;
+      border-radius: 0;
+      border-left-width: 1px;
+      border-right-width: 1px;
+      color: #11457e; }
+      .hlasovani_detail .voter button.zdrzel.active {
+        background-color: #11457e; }
     .hlasovani_detail .voter button.proti {
-      background-color: #710404;
-      border-radius: 0 5px 5px 0; }
+      border: 2px solid #b9080d;
+      border-left-width: 1px;
+      border-radius: 0 5px 5px 0;
+      color: #b9080d; }
+      .hlasovani_detail .voter button.proti.active {
+        background-color: #b9080d; }
   .hlasovani_detail .voter:not(.voted) .cancel-wrap {
     display: none; }
 
@@ -706,3 +727,5 @@ footer {
     display: none; }
 
 /*END SCHUZE*/
+.kalkulacka_results span.party_name {
+  font-size: 75%; }

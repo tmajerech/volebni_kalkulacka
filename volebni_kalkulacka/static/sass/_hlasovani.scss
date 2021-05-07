@@ -53,6 +53,12 @@
         }
     }
 
+    .hlasovani.voted{
+        .hlasovani_link{
+            color: $blue_standard;
+        }
+    }
+
     .hlasovani .meta{
         display: flex;
         opacity: 0.5;
@@ -128,26 +134,53 @@
             color: white;
             line-height: 1;
             font-weight: 500;
-            opacity: 0.5;
+            //opacity: 0.5;
             transition: 0.3s;
             width: calc(100% / 3);
             min-height: 40px;
+            box-shadow: 0!important;
 
-            &.active, &:hover{
+            &.active{
                 opacity: 1;
+                color: white!important;
+            }
+            &:focus{
+                box-shadow: initial !important;
             }
 
             &.pro{
-                background-color: #047104;
+                border: 2px solid #047104;
+                border-right-width: 1px;
                 border-radius: 5px 0 0 5px;
+                color: #047104;
+
+                &.active{
+                    //border-bottom: 4px solid #004600;
+                    background-color: #047104;
+                }
             }
             &.zdrzel{
-                background-color: $blue_standard;
+                border: 2px solid $blue_standard;
                 border-radius: 0;
+                border-left-width: 1px;
+                border-right-width: 1px;
+                color: $blue_standard;
+
+                &.active{
+                    //border-bottom: 4px solid #001a35;
+                    background-color: $blue_standard;
+                }
             }
             &.proti{
-                background-color: #710404;
+                border: 2px solid #b9080d;
+                border-left-width: 1px;
                 border-radius: 0 5px 5px 0;
+                color: #b9080d;
+
+                &.active{
+                    //border-bottom: 4px solid #310000;
+                    background-color: #b9080d;
+                }
             }
         }
 

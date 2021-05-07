@@ -29,6 +29,15 @@ class User(AbstractUser):
         """
         return reverse("users:detail", kwargs={"username": self.username})
 
+    def get_hlasovani_ids(self):
+        answered_ids = []
+        KA = self.kalkulacka_answers
+        for year, answers in KA.items():
+            for answer_id, choice in answers.items():
+                answered_ids.append(answer_id)
+
+        return answered_ids
+
 
 @receiver(user_logged_in, dispatch_uid="unique")
 def user_logged_in_(request, user, **kwargs):

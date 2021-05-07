@@ -27,10 +27,10 @@
             </a>
             <select name="page_ordering" id="page_ordering" class="form-control d-inline-block"
                 onchange="javaScript:changePageOrdering(this);">
-                <option value="rating_desc" {% if 'rating_desc' == request.GET.sort %}selected{% endif %}>Hodnocení: od
-                    největšího</option>
-                <option value="rating_asc" {% if 'rating_asc' == request.GET.sort %}selected{% endif %}>Hodnocení: od
-                    nejmenšího</option>
+                <option value="rating_desc" {% if 'rating_desc' == request.GET.sort %}selected{% endif %}>Důležitost: od
+                    nejvyšší</option>
+                <option value="rating_asc" {% if 'rating_asc' == request.GET.sort %}selected{% endif %}>Důležitost: od
+                    nejnižší</option>
                 <option value="date_desc" {% if 'date_desc' == request.GET.sort %}selected{% endif %}>Datum: od
                     nejnovějšího</option>
                 <option value="date_asc" {% if 'date_asc' == request.GET.sort %}selected{% endif %}>Datum: od nejstaršího
@@ -65,9 +65,18 @@
 
 <div class="row align-items-start list hlasovani-list infinite-container">
     {% for hlasovani_single in hlasovani %}
-    <div class="col-12 col-sm-6 col-md-4 mb-4 hlasovani infinite-item">
+    <div 
+    class="col-12 col-sm-6 col-md-4 mb-4 
+    hlasovani infinite-item
+    {% if hlasovani_single.pk|stringformat:'i' in answered_ids %}
+    voted
+    {% endif %}
+    "
+    >
         <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}"
-            class="mb-1">{{hlasovani_single.nazev_dlouhy}}</a>
+            class="mb-1 hlasovani_link">
+            {{hlasovani_single.nazev_dlouhy}}
+        </a>
         <div class="meta">
             <div class="pro" title="Pro"><span><i class="fas fa-check"></i></i></span>{{hlasovani_single.pro}}</div>
             <div class="proti" title="Proti"><span><i class="fas fa-times"></i></span>{{hlasovani_single.proti}}</div>

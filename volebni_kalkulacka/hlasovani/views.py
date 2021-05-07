@@ -23,6 +23,21 @@ class Hlasovani_index(generic.ListView):
     context_object_name = 'hlasovani'
     paginate_by = 40
 
+    def get_context_data(self):
+        context = super(Hlasovani_index, self).get_context_data()
+        
+        answered_ids = []
+        
+        KA = self.request.session.get('kalkulacka_answers')
+        if KA:
+            for year, answers in KA.items():
+                for answer_id, choice in answers.items():
+                    #print(answer_id)
+                    answered_ids.append(answer_id)
+
+            context['answered_ids']= answered_ids             
+        return context
+
     def get_queryset(self):
         inner_qs = Hl_Hlasovani_Rating.objects.all().values_list('id_hlasovani', flat=True)
 
@@ -66,7 +81,7 @@ class Hlasovani_detail(generic.DetailView):
         id_hlasovani = hlasovani_single.id_hlasovani
 
         sql = f"""
-        SELECT o.zkratka, hp.id_poslanec, hp.vysledek,  os.jmeno, os.prijmeni 
+        SELECT DISTINCT ON (p.id_poslanec) o.zkratka, hp.id_poslanec, hp.vysledek,  os.jmeno, os.prijmeni 
         FROM psp_data_hl_poslanec AS hp 
             INNER JOIN psp_data_poslanec AS p 
             ON hp.id_poslanec = p.id_poslanec 
@@ -85,14 +100,9 @@ class Hlasovani_detail(generic.DetailView):
             AND z.cl_funkce = 0 --clenstvi
             AND o.id_typ_organu = 1 --Klub
             AND o.organ_id_organ = {id_org} --id volebniho obdobi
-            AND (
-                TO_DATE(z.do_o, 'YYYY-MM-DD') = TO_DATE(o.do_organ,'DD.MM.YYYY')
-                OR 
-                z.do_o IS null
-                )
 
         ORDER BY 
-            o.zkratka, os.prijmeni
+            p.id_poslanec, TO_DATE(z.od_o, 'YYYY-MM-DD') ASC, o.zkratka, os.prijmeni
         """
 
         with connection.cursor() as cursor:

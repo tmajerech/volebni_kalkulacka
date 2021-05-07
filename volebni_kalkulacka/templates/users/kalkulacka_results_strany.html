@@ -1,3 +1,5 @@
+{% load customtags %}
+
 <div class="card flat border-left-primary h-100 overflow-hidden">
   <div class="card-header color-white background-primary rounded-0">Strany</div>
   <div class="card-body d-flex flex-column">
@@ -6,7 +8,7 @@
       <h5>Volební období {{period_year}}</h5>
       {% for row in period_ratings %}
       <div class="row">
-        <div class="col-9 name">{{row.zkratka}}</div>
+        <div class="col-9 name"  >{{row.zkratka}}</div>
         <div class="col-3 percents">{{row.match_ratio|floatformat:1}}%</div>
       </div>
       {% endfor %}

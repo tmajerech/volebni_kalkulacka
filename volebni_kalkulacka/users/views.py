@@ -23,6 +23,17 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     slug_field = "username"
     slug_url_kwarg = "username"
 
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data()
+        hlasovani_ids = self.object.get_hlasovani_ids()
+
+        hlasovani = []
+        for hlasovani_id in hlasovani_ids:
+            hlasovani.append(Hl_Hlasovani.objects.get(pk=hlasovani_id))
+
+        context['hlasovani'] = hlasovani
+        return context
+
 
 user_detail_view = UserDetailView.as_view()
 

@@ -1,4 +1,6 @@
 
+{% load customtags %}
+
 <div class="card flat border-left-primary h-100 overflow-hidden">
     <div class="card-header color-white background-primary rounded-0">
         Poslanci
@@ -9,9 +11,9 @@
             <h5>Volební období {{period_year}}</h5>
             {% for row in period_ratings %}  
             <div class="row">
-                <div class="col-9 name">        
+                <div class="col-9 name">  
                     <a href="{% url 'poslanec:poslanec_detail' row.id_poslanec %}" class="poslanec">
-                        {{row.jmeno}} {{row.prijmeni}} ({{row.zkratka}})
+                        {{row.jmeno}} {{row.prijmeni}} <span style="color:black">(</span><span class="party_name" style="color:{{row.zkratka|partycolor}}" >{{row.zkratka}}</span><span style="color:black">)</span>
                     </a>
                 </div>
                 <div class="col-3 text-right percents">

@@ -28,3 +28,19 @@ def do_static(parser, token):
 def support_href():
     return "mailto:info@todo.cz?subject=?Dotaz_na_podporu"
 
+@register.filter(name='partycolor')
+def partycolor(party):
+    colors = {
+        'ANO':'#111e6c', 
+        'ODS':'#034ea2',
+        'Piráti':'#000000',
+        'SPD':'#1074bc',
+        'ČSSD':'#ec5800',
+        'KSČM':'#bf0202',
+        'KDU-ČSL':'#d8b600',
+        'TOP 09':'#993366',
+        'TOP09-S':'#993366',
+        'STAN':'#7ec192',
+    }
+    return colors.get(party)
+

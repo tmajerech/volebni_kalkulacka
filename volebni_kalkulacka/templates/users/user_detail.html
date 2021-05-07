@@ -39,6 +39,28 @@
   </div>
 
 </div>
+
+
+<div class="row">
+  <div class="col-12">
+    <h3>
+      Seznam Vašich hlasování
+    </h3>
+  </div>
+  <div class="col-12">
+  {% for hlasovani_single in hlasovani %}
+    <p class="mb-1" >
+      <a href="{% url 'hlasovani:hlasovani_detail' hlasovani_single.pk %}">
+        {{hlasovani_single.nazev_dlouhy}}
+      </a>
+    </p>
+  {% empty %}
+    Zatím jste neuskutečnil/a žádné hlasování.
+  {% endfor %}
+  </div>
+
+
+</div>
  
 {% endif %}
 
