@@ -41,7 +41,7 @@
         alt="Poslanec profilový obrázek">
     {% else %}
         <img 
-        src="/media/default_profile_pic.png" 
+        src="{% static 'images/profile_placeholder.jpg' %}" 
         class="img-fluid default"
         alt="Poslanec profilový obrázek">
     {% endif %}
@@ -96,7 +96,7 @@
         {% for comment in comment_list %}
         <div class="comment">
             <div class="user-img">
-                <img src="{% if comment.user.profile_image %}{{comment.user.profile_image.url}}{% else %}/media/default_profile_pic.png{% endif %}" 
+                <img src="{% if comment.user.profile_image %}{{comment.user.profile_image.url}}{% else %}{% static '/images/profile_placeholder.jpg' %}{% endif %}" 
                 alt="user profile image" class="img-fluid">
             </div>
             <div class="content">

@@ -21,7 +21,7 @@
       {% if object.profile_image %}
       <img src="{{object.profile_image.url}}" alt="user profile image" class="img-fluid" >
       {% else %}
-      <img src="/media/default_profile_pic.png" alt="user profile image" class="img-fluid" >
+      <img src="{% static '/images/profile_placeholder.jpg' %}" alt="user profile image" class="img-fluid" >
       {% endif %}
     </div>
   </div>
