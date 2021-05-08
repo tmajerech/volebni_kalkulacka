@@ -20,7 +20,7 @@
         <div class="ordering-wrap col-md-4 d-inline-flex ml-auto ml-md-0" style="max-width: 330px;">
             <a href="#collapseFilters" data-toggle="collapse" class="btn collapseToggle" role="button"
                 id="filtersToggler"
-                aria-expanded="{% if request.GET.filterName is not None or request.GET.filterDate is not None %}true{% else %}false{% endif %}"
+                aria-expanded="{% if request.GET.filterName or request.GET.filterDate %}true{% else %}false{% endif %}"
                 aria-controls="collapseFilters"
                 title="Filtrace">
                 <i class="fas fa-filter"></i>
@@ -38,7 +38,7 @@
             </select>
         </div>
 
-        <div class="filters collapse col-12 {% if request.GET.filterName is not None or request.GET.filterDate is not None %}show{% endif %}" 
+        <div class="filters collapse col-12 {% if request.GET.filterName or request.GET.filterDate %}show{% endif %}" 
         id="collapseFilters"
         >
             <div class="filters-wrap pt-3 ">
